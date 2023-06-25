@@ -1,7 +1,7 @@
-package com.example.demo2;
+package com.example.demo2.controller;
 
+import com.example.demo2.entity.OfficerTimeSheet;
 import javafx.animation.TranslateTransition;
-import javafx.application.Application;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -10,12 +10,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.shape.Polygon;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
-import java.util.Date;
 import java.util.ResourceBundle;
 
 public class GDOfficerXemTongQuanController implements Initializable {
