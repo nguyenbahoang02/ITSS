@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.Double?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Polygon?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.GDOfficerController">
+   <children>
+      <AnchorPane layoutY="34.0" prefHeight="50.0" prefWidth="1280.0">
+         <children>
+            <Label alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="5.0" prefHeight="40.0" prefWidth="140.0" style="-fx-border-style: solid;" text="Logo" textAlignment="CENTER">
+               <font>
+                  <Font size="25.0" />
+               </font>
+            </Label>
+            <Button layoutX="1124.0" layoutY="5.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="115.0" style="-fx-border-style: solid;" text="Log out" />
+         </children>
+      </AnchorPane>
+      <Line endX="1114.199951171875" layoutX="123.0" layoutY="85.0" startX="-100.0" />
+      <AnchorPane layoutX="23.0" layoutY="85.0" prefHeight="634.0" prefWidth="1215.0">
+         <children>
+            <TableView fx:id="table" layoutX="275.0" layoutY="149.0" prefHeight="448.0" prefWidth="925.0">
+              <columns>
+                <TableColumn fx:id="dateCol" prefWidth="185.0" />
+                <TableColumn fx:id="morningCol" prefWidth="185.0" text="Sáng" />
+                  <TableColumn fx:id="afternoonCol" prefWidth="185.0" text="Chiều" />
+                  <TableColumn fx:id="lateHoursCol" prefWidth="185.0" text="Số giờ đi muộn" />
+                  <TableColumn fx:id="soonHoursCol" prefWidth="185.0" text="Số giờ về sớm" />
+              </columns>
+            </TableView>
+            <Label layoutX="46.0" layoutY="14.0" prefHeight="63.0" prefWidth="290.0" text="Báo cáo chấm công">
+               <font>
+                  <Font name="System Bold" size="25.0" />
+               </font>
+            </Label>
+            <Button layoutX="1085.0" layoutY="57.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="115.0" style="-fx-border-style: solid;" text="Gửi request" />
+            <ChoiceBox fx:id="choiceBoxMonth" layoutX="275.0" layoutY="97.0" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: white; -fx-border-style: solid;" />
+            <AnchorPane fx:id="sidebar" layoutX="14.0" layoutY="97.0" prefHeight="503.0" prefWidth="231.0" style="-fx-border-style: solid; -fx-background-color: white;">
+               <children>
+                  <Circle fill="DODGERBLUE" layoutX="116.0" layoutY="77.0" radius="48.0" stroke="BLACK" strokeType="INSIDE" />
+                  <Text layoutX="20.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nguyễn Văn A" textAlignment="CENTER" wrappingWidth="180.79999847412137">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="16.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhân viên văn phòng" textAlignment="CENTER" wrappingWidth="200.80000305175787">
+                     <font>
+                        <Font size="14.0" />
+                     </font>
+                  </Text>
+                  <ImageView fx:id="menuIcon" fitHeight="35.0" fitWidth="35.0" layoutX="192.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@imgs/menu-icon.png" />
+                     </image>
+                  </ImageView>
+               </children>
+            </AnchorPane>
+            <ImageView fx:id="menuIcon2" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@imgs/menu-icon.png" />
+               </image>
+            </ImageView>
+            <ChoiceBox fx:id="choiceBoxYear" layoutX="406.0" layoutY="97.0" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: white; -fx-border-style: solid;" />
+            <Polygon fx:id="rightTriangle" fill="WHITE" layoutX="625.0" layoutY="127.0" rotate="90.0" scaleX="0.35" scaleY="0.35" scaleZ="0.35" stroke="BLACK" strokeType="INSIDE" strokeWidth="4.0">
+              <points>
+                <Double fx:value="-50.0" />
+                <Double fx:value="40.0" />
+                <Double fx:value="50.0" />
+                <Double fx:value="40.0" />
+                <Double fx:value="0.0" />
+                <Double fx:value="-60.0" />
+              </points>
+            </Polygon>
+            <Polygon fx:id="leftTriangle" fill="WHITE" layoutX="571.0" layoutY="127.0" rotate="-90.0" scaleX="0.35" scaleY="0.35" scaleZ="0.35" stroke="BLACK" strokeType="INSIDE" strokeWidth="4.0">
+               <points>
+                  <Double fx:value="-50.0" />
+                  <Double fx:value="40.0" />
+                  <Double fx:value="50.0" />
+                  <Double fx:value="40.0" />
+                  <Double fx:value="0.0" />
+                  <Double fx:value="-60.0" />
+               </points>
+            </Polygon>
+         </children>
+      </AnchorPane>
+      <Label fx:id="closeApp" alignment="CENTER" layoutX="1253.0" layoutY="1.0" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: white;" text="X" textAlignment="CENTER" />
+   </children>
+</AnchorPane>
