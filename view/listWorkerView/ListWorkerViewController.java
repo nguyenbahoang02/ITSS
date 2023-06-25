@@ -1,22 +1,18 @@
-package view.listOfficerView;
+package view.listWorkerView;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
 import javafx.beans.property.ReadOnlyObjectWrapper;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
@@ -25,13 +21,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import view.Officer;
-import view.listOfficerDetailView.ListOfficerDetailViewController;
+import view.Employee;
+import view.workerDetailView.WorkerDetailViewController;
 
-public class ListOfficerViewController implements Initializable{
+public class ListWorkerViewController implements Initializable{
 	private Stage stage;
-	private ObservableList<Officer> data = FXCollections.observableArrayList(); 
-	private Officer unitLeader = new Officer("Nguyễn Bá Hoàng", "20204976");
+	private ObservableList<Employee> data = FXCollections.observableArrayList(); 
+	private Employee unitLeader = new Employee("Nguyễn Bá Hoàng", "20204976", "VN03");
 
     @FXML
     private Circle avatar_circle;
@@ -43,16 +39,16 @@ public class ListOfficerViewController implements Initializable{
     private Text unitLeaderName;
     
     @FXML
-    private TableView<Officer> table;
+    private TableView<Employee> table;
     
     @FXML
-    private TableColumn<Officer, String> idCol;
+    private TableColumn<Employee, String> idCol;
 
     @FXML
-    private TableColumn<Officer, Integer> indexCol;
+    private TableColumn<Employee, Integer> indexCol;
 
     @FXML
-    private TableColumn<Officer, String> nameCol;
+    private TableColumn<Employee, String> nameCol;
 
     @FXML
     private VBox menu;
@@ -60,7 +56,7 @@ public class ListOfficerViewController implements Initializable{
     @FXML
     private VBox infoVbox;
     
-	public ListOfficerViewController(Stage stage) {
+	public ListWorkerViewController(Stage stage) {
 		super();
 		this.stage = stage;
 	}
@@ -76,15 +72,15 @@ public class ListOfficerViewController implements Initializable{
 				+ "-fx-border-style: dotted;"
 				+ "-fx-border-width: 0 0 1 0;"
 				+ "-fx-alignment: center");
-		data.add(new Officer("Nguyễn Bá Hoàng", "20204976"));
-		data.add(new Officer("Nguyễn Bá Hoàng", "20204975"));
-		data.add(new Officer("Nguyễn Bá Hoàng", "20204974"));
-		data.add(new Officer("Nguyễn Bá Hoàng", "20204973"));
-		data.add(new Officer("Nguyễn Bá Hoàng", "20204972"));
-		data.add(new Officer("Nguyễn Bá Hoàng", "20204971"));
+		data.add(new Employee("Nguyễn Bá Hoàng", "20204976", "VN03"));
+		data.add(new Employee("Nguyễn Bá Hoàng", "20204975", "VN03"));
+		data.add(new Employee("Nguyễn Bá Hoàng", "20204974", "VN03"));
+		data.add(new Employee("Nguyễn Bá Hoàng", "20204973", "VN03"));
+		data.add(new Employee("Nguyễn Bá Hoàng", "20204972", "VN03"));
+		data.add(new Employee("Nguyễn Bá Hoàng", "20204971", "VN03"));
 		indexCol.setCellValueFactory(cellData -> new ReadOnlyObjectWrapper<>(table.getItems().indexOf(cellData.getValue()) + 1));
-		idCol.setCellValueFactory(new PropertyValueFactory<Officer, String>("id"));
-		nameCol.setCellValueFactory(new PropertyValueFactory<Officer, String>("name"));
+		idCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
+		nameCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("name"));
 		table.setItems(data);
 		table.setStyle(":focused{    -fx-background-color: transparent;\r\n"
 				+ "    -fx-background-insets: 0;\r\n"
@@ -97,14 +93,15 @@ public class ListOfficerViewController implements Initializable{
 				+ "    -fx-faint-focus-color: transparent;}");
 		table.setOnMouseClicked(event -> {
 			if(event.getButton() == MouseButton.PRIMARY && event.getClickCount()==2) {
-				Officer selectedItem = table.getSelectionModel().getSelectedItem();
+				Employee selectedItem = table.getSelectionModel().getSelectedItem();
 				if(selectedItem!=null) {
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/listOfficerDetailView/ListOfficerDetailView.fxml"));
-					loader.setController(new ListOfficerDetailViewController(selectedItem));
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/workerDetailView/WorkerDetailView.fxml"));
+					loader.setController(new WorkerDetailViewController(selectedItem,stage));
 					Parent root;
 					try {
 						root = loader.load();
 						Scene scene = new Scene(root);
+						scene.getStylesheets().add(getClass().getResource("/view/workerDetailView/WorkerDetailView.css").toExternalForm());
 						stage.setScene(scene);
 					} catch (IOException e) {
 						e.printStackTrace();

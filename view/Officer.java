@@ -1,23 +1,19 @@
 package view;
 
-public class Officer {
-	private String name;
-	private String id;
-	public Officer(String name, String id) {
-		this.name = name;
-		this.id = id;
+public class Officer extends Employee{
+	
+	private OfficerWorksDetail officerWorksDetail = new OfficerWorksDetail();
+	
+	public Officer(String name, String id, String unitId) {
+		super(name, id, unitId);
 	}
-	public String getName() {
-		return name;
+
+	public OfficerWorksDetail getOfficerWorksDetail() {
+		return officerWorksDetail;
 	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getId() {
-		return id;
-	}
-	public void setId(String id) {
-		this.id = id;
+
+	public void setOfficerWorksDetail(OfficerWorksDetail officerWorksDetail) {
+		this.officerWorksDetail = officerWorksDetail;
 	}
 	
 }
