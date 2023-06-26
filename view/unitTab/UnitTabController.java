@@ -24,7 +24,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import view.API;
-import view.Employee;
 import view.Officer;
 import view.Unit;
 import view.detailTab.DetailTabController;
@@ -32,13 +31,14 @@ import view.editTab.EditTabController;
 import view.exportTab.ExportTabController;
 import view.homePage.HomePageController;
 import view.importTab.ImportTabController;
+import view.listUnitTab.ListUnitTabController;
 import view.overviewTab.OverviewTabController;
-import view.workerDetailView.WorkerDetailViewController;
 
 public class UnitTabController implements Initializable{
 	private String userName = "Nguyễn Bá Hoàng";
 	private Stage stage;
 	private Officer user;
+	private Unit unit;
 	
     @FXML
     private Text homePage;
@@ -142,8 +142,8 @@ public class UnitTabController implements Initializable{
 			}
     	});
     	unitTab.setOnMouseClicked(event ->{
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/unitTab/UnitTab.fxml"));
-    		loader.setController(new UnitTabController(stage));
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/listUnitTab/ListUnitTab.fxml"));
+    		loader.setController(new ListUnitTabController(stage));
     		Parent root;
 			try {
 				root = loader.load();
@@ -191,11 +191,11 @@ public class UnitTabController implements Initializable{
     	});
     }
     
-    public UnitTabController(Stage stage) {
+    public UnitTabController(Stage stage, Unit unit) {
     	this.stage=stage;
-    	this.user=API.USER;
+    	this.user=API.GET_USER();
+    	this.unit=unit;
     }
-    
     
     public void setSearchFunction() {
     	searchField.textProperty().addListener(new ChangeListener<String>() {
@@ -205,7 +205,7 @@ public class UnitTabController implements Initializable{
 				if(text.length()!=0) {
 					if(text.charAt(0)!= ' ') {
 						ObservableList<Officer> list = FXCollections.observableArrayList();
-						for (Officer officer : API.UNIT.getOfficers()) {
+						for (Officer officer : unit.getOfficers()) {
 							if(officer.getName().toUpperCase().contains(text.toUpperCase())||officer.getId().toUpperCase().contains(text.toUpperCase())) {
 								list.add(officer);
 							}
@@ -213,7 +213,7 @@ public class UnitTabController implements Initializable{
 						table.setItems(list);
 						
 					}else searchField.setText("");
-				}else setDataToTable(API.UNIT.getOfficers());
+				}else setDataToTable(unit.getOfficers());
 				
 			}
     		
@@ -224,8 +224,8 @@ public class UnitTabController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		userSettings.setText(userName);
 		setTabSwitchinFunction();
-		unitId.setText(API.UNIT.getId());
-		setDataToTable(API.UNIT.getOfficers());
+		unitId.setText(unit.getId());
+		setDataToTable(unit.getOfficers());
 		setSearchFunction();
 		
 	}

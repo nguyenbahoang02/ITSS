@@ -4,6 +4,8 @@ import java.io.Reader;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -216,8 +218,7 @@ public class OfficerWorksDetail {
 				list.add(officerTimesheet1);
 			}
 		}
-		
-		return list;
+		return sortTimesheets(list);
 	}
 	
 	public ArrayList<OfficerTimesheet> getTimesheetByYear(String time){
@@ -229,7 +230,7 @@ public class OfficerWorksDetail {
 			}
 		}
 		
-		return list;
+		return sortTimesheets(list);
 	}
 	
 	public ArrayList<OfficerTimesheet> getTimesheetByQuarter(String time){
@@ -244,7 +245,32 @@ public class OfficerWorksDetail {
 			}
 		}
 		
-		return list;
+		return sortTimesheets(list);
+	}
+	
+	private ArrayList<OfficerTimesheet> sortTimesheets(ArrayList<OfficerTimesheet> officerTimesheets){
+		Collections.sort(officerTimesheets, new Comparator<OfficerTimesheet>() {
+
+			@Override
+			public int compare(OfficerTimesheet o1, OfficerTimesheet o2) {
+				int o1Day = Integer.parseInt(o1.getDate().split("/")[0]);
+				int o1Month = Integer.parseInt(o1.getDate().split("/")[1]);
+				int o1Year = Integer.parseInt(o1.getDate().split("/")[2]);
+				int o2Day = Integer.parseInt(o2.getDate().split("/")[0]);
+				int o2Month = Integer.parseInt(o2.getDate().split("/")[1]);
+				int o2Year = Integer.parseInt(o2.getDate().split("/")[2]);
+				if(o1Year>o2Year) return 1;
+				else if(o1Year<o2Year) return -1;
+				else {
+					if(o1Month>o2Month) return 1;
+					else if(o1Month<o2Month) return -1;
+					else return o1Day>o2Day ? 1 : -1;
+				}
+			}
+			
+		});
+		
+		return officerTimesheets;
 	}
 }
 

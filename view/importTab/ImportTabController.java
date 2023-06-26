@@ -41,6 +41,7 @@ import view.detailTab.DetailTabController;
 import view.editTab.EditTabController;
 import view.exportTab.ExportTabController;
 import view.homePage.HomePageController;
+import view.listUnitTab.ListUnitTabController;
 import view.overviewTab.OverviewTabController;
 import view.unitTab.UnitTabController;
 
@@ -48,7 +49,6 @@ public class ImportTabController implements Initializable{
 	private String userName = "Nguyễn Bá Hoàng";
 	private Stage stage;
 	private Officer user;
-	private Unit unit;
 	
     @FXML
     private Text homePage;
@@ -148,7 +148,7 @@ public class ImportTabController implements Initializable{
     	        notification.showAndWait();
     		}else {
     			try {
-    				if(!API.UNIT.importData(readExcel(selectedFile.getAbsolutePath()))) {
+    				if(!API.IMPORT_DATA(readExcel(selectedFile.getAbsolutePath()))) {
     					Alert notification = new Alert(Alert.AlertType.INFORMATION);
     	    	        notification.initStyle(StageStyle.DECORATED);
     	    	        notification.setHeaderText(null);
@@ -206,8 +206,8 @@ public class ImportTabController implements Initializable{
 			}
     	});
     	unitTab.setOnMouseClicked(event ->{
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/unitTab/UnitTab.fxml"));
-    		loader.setController(new UnitTabController(stage));
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/listUnitTab/ListUnitTab.fxml"));
+    		loader.setController(new ListUnitTabController(stage));
     		Parent root;
 			try {
 				root = loader.load();
@@ -257,7 +257,7 @@ public class ImportTabController implements Initializable{
     
     public ImportTabController(Stage stage) {
     	this.stage=stage;
-    	this.user=API.USER;
+    	this.user=API.GET_USER();
     }
     
 	@Override

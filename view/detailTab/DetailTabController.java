@@ -27,6 +27,7 @@ import view.editTab.EditTabController;
 import view.exportTab.ExportTabController;
 import view.homePage.HomePageController;
 import view.importTab.ImportTabController;
+import view.listUnitTab.ListUnitTabController;
 import view.overviewTab.OverviewTabController;
 import view.unitTab.UnitTabController;
 
@@ -86,6 +87,27 @@ public class DetailTabController implements Initializable{
     
     @FXML
     private TableColumn<OfficerTimesheet, String> earlyCol= new TableColumn<OfficerTimesheet, String>();;
+    
+    @FXML
+    void exportClicked(MouseEvent event) {
+    	ArrayList<OfficerTimesheet> exportData = new ArrayList<>();
+    	exportData.addAll(table.getItems());
+    	ExportTabController.EXPORT(exportData,stage,user.getId());
+    }
+    
+    @FXML
+    void backClicked(MouseEvent event) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/overviewTab/OverviewTab.fxml"));
+		loader.setController(new OverviewTabController(stage,user));
+		Parent root;
+		try {
+			root = loader.load();
+			Scene scene = new Scene(root);
+    		stage.setScene(scene);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
     
     @FXML
     void nextClicked(MouseEvent event) {
@@ -208,8 +230,8 @@ public class DetailTabController implements Initializable{
 			}
     	});
     	unitTab.setOnMouseClicked(event ->{
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/unitTab/UnitTab.fxml"));
-    		loader.setController(new UnitTabController(stage));
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/listUnitTab/ListUnitTab.fxml"));
+    		loader.setController(new ListUnitTabController(stage));
     		Parent root;
 			try {
 				root = loader.load();
@@ -272,7 +294,7 @@ public class DetailTabController implements Initializable{
     
     public DetailTabController(Stage stage) {
     	this.stage=stage;
-    	this.user=API.USER;
+    	this.user=API.GET_USER();
     	time="06/2023";
     }
     
@@ -289,7 +311,13 @@ public class DetailTabController implements Initializable{
 		currentTime.setText(time);
 		officerName.setText("Tên: " + user.getName());
 		officerId.setText("Id: " + user.getId());
-    	setDataToTable(user.getOfficerWorksDetail().getTimesheetByMonth(this.currentTime.getText()));
+		if(currentTime.getText().length()==4) {
+			setDataToTable(user.getOfficerWorksDetail().getTimesheetByYear(this.currentTime.getText()));
+		}else if(currentTime.getText().length()==7) {
+			setDataToTable(user.getOfficerWorksDetail().getTimesheetByMonth(this.currentTime.getText()));
+		}else setDataToTable(user.getOfficerWorksDetail().getTimesheetByQuarter(this.currentTime.getText()));
+			
+		
 	}
     
 }

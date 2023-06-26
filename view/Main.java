@@ -6,21 +6,15 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import view.homePage.HomePageController;
-import view.listWorkerView.ListWorkerViewController;
 
 public class Main extends Application {
 
 	@Override
 	public void start(Stage stage) throws Exception {
-//		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/listWorkerView/ListWorkerView.fxml"));
-//		loader.setController(new ListWorkerViewController(stage));
-    	Unit unit = new Unit("VN-03");
-    	unit.getEmployees();
-    	unit.getEmployeesWorksData();
-    	Officer user = new Officer("Nguyễn Bá Hoàng", "20204976","VN03");
+    	Officer user = new Officer("Nguyễn Bá Hoàng", "20204976","1");
     	user.getOfficerWorksDetail().getDataFromFile();
-    	API.USER = user;
-    	API.UNIT=unit;
+    	API.SET_USER(user);
+    	API.CREATE_UNIT();
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/homePage/HomePage.fxml"));
 		loader.setController(new HomePageController(stage));
 		Parent root = loader.load();

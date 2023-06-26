@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 public class Unit {
+	private String name;
 	private String id;
 	private ArrayList<Officer> officers = new ArrayList<>();
 	public String getId() {
@@ -28,9 +29,20 @@ public class Unit {
 		this.id = id;
 	}
 	
-	public void getEmployees() {
+	public Unit(String name, String id) {
+		super();
+		this.name = name;
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public void getEmployees(String path) {
 		try {
-			Reader reader = Files.newBufferedReader(Paths.get("src\\view\\employees.json"));
+			Reader reader = Files.newBufferedReader(Paths.get(path));
 			List<Officer> list = new Gson().fromJson(reader,
 					new TypeToken<List<Officer>>() {
 					}.getType());

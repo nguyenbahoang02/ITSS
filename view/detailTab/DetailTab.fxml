@@ -79,6 +79,12 @@
                   </Text>
                </children>
             </HBox>
+            <Button layoutX="33.0" layoutY="41.0" mnemonicParsing="false" onMouseClicked="#backClicked" text="Quay lại" />
+            <Button layoutX="870.0" layoutY="572.0" mnemonicParsing="false" onMouseClicked="#exportClicked" text="Export file excel">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Button>
          </children></AnchorPane>
    </children>
 </AnchorPane>

@@ -20,6 +20,7 @@ import view.detailTab.DetailTabController;
 import view.editTab.EditTabController;
 import view.exportTab.ExportTabController;
 import view.importTab.ImportTabController;
+import view.listUnitTab.ListUnitTabController;
 import view.overviewTab.OverviewTabController;
 import view.unitTab.UnitTabController;
 
@@ -105,8 +106,8 @@ public class HomePageController implements Initializable{
 			}
     	});
     	unitTab.setOnMouseClicked(event ->{
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/unitTab/UnitTab.fxml"));
-    		loader.setController(new UnitTabController(stage));
+    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/listUnitTab/ListUnitTab.fxml"));
+    		loader.setController(new ListUnitTabController(stage));
     		Parent root;
 			try {
 				root = loader.load();
@@ -156,7 +157,7 @@ public class HomePageController implements Initializable{
     
     public HomePageController(Stage stage) {
     	this.stage=stage;
-    	this.user=API.USER;
+    	this.user=API.GET_USER();
     }
     
     public void setUserInfo() {
