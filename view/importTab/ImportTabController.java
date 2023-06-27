@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
-import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,6 +27,8 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
@@ -36,14 +37,11 @@ import javafx.stage.StageStyle;
 import view.API;
 import view.Officer;
 import view.OfficerTimesheet;
-import view.Unit;
 import view.detailTab.DetailTabController;
-import view.editTab.EditTabController;
 import view.exportTab.ExportTabController;
 import view.homePage.HomePageController;
 import view.listUnitTab.ListUnitTabController;
 import view.overviewTab.OverviewTabController;
-import view.unitTab.UnitTabController;
 
 public class ImportTabController implements Initializable{
 	private String userName = "Nguyễn Bá Hoàng";
@@ -61,15 +59,15 @@ public class ImportTabController implements Initializable{
 
     @FXML
     private Button unitTab;
-    
-    @FXML
-    private Button editTab;
 
     @FXML
     private Button importTab;
     
     @FXML
     private Button exportTab;
+    
+    @FXML
+    private ImageView fortmatImg;
 
     @FXML
     private MenuButton userSettings;
@@ -217,18 +215,6 @@ public class ImportTabController implements Initializable{
 				e.printStackTrace();
 			}
     	});
-    	editTab.setOnMouseClicked(event ->{
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/editTab/EditTab.fxml"));
-    		loader.setController(new EditTabController(stage));
-    		Parent root;
-			try {
-				root = loader.load();
-				Scene scene = new Scene(root);
-	    		stage.setScene(scene);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-    	});
     	importTab.setOnMouseClicked(event ->{
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/importTab/ImportTab.fxml"));
     		loader.setController(new ImportTabController(stage));
@@ -264,6 +250,7 @@ public class ImportTabController implements Initializable{
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		userSettings.setText(userName);
 		setTabSwitchinFunction();
+		fortmatImg.setImage(new Image("/view/importTab/importFormat.PNG"));
 		
 	}
 	

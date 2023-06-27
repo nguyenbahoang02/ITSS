@@ -6,7 +6,7 @@ public class OfficerTimesheet {
 	private String morning;
 	private String afternoon;
 	private String lateHours;
-	private String soonHours;
+	private String earlyHours;
 	private String startTime;
 	private String endTime;
 	public String getDate() {
@@ -34,10 +34,10 @@ public class OfficerTimesheet {
 		this.lateHours = lateHours;
 	}
 	public String getSoonHours() {
-		return soonHours;
+		return earlyHours;
 	}
 	public void setSoonHours(String soonHours) {
-		this.soonHours = soonHours;
+		this.earlyHours = soonHours;
 	}
 	public String getStartTime() {
 		return startTime;

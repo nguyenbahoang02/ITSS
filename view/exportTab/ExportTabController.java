@@ -48,7 +48,6 @@ import view.Officer;
 import view.OfficerTimesheet;
 import view.Unit;
 import view.detailTab.DetailTabController;
-import view.editTab.EditTabController;
 import view.homePage.HomePageController;
 import view.importTab.ImportTabController;
 import view.listUnitTab.ListUnitTabController;
@@ -72,9 +71,6 @@ public class ExportTabController implements Initializable{
 
     @FXML
     private Button unitTab;
-    
-    @FXML
-    private Button editTab;
 
     @FXML
     private Button importTab;
@@ -173,18 +169,6 @@ public class ExportTabController implements Initializable{
 				e.printStackTrace();
 			}
     	});
-    	editTab.setOnMouseClicked(event ->{
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/editTab/EditTab.fxml"));
-    		loader.setController(new EditTabController(stage));
-    		Parent root;
-			try {
-				root = loader.load();
-				Scene scene = new Scene(root);
-	    		stage.setScene(scene);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-    	});
     	importTab.setOnMouseClicked(event ->{
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/importTab/ImportTab.fxml"));
     		loader.setController(new ImportTabController(stage));
@@ -268,9 +252,8 @@ public class ExportTabController implements Initializable{
     	        notification.initStyle(StageStyle.DECORATED);
     	        notification.setHeaderText(null);
     	        notification.setContentText("Không được bỏ trống");
-    	        
-    	        Stage stage1 = (Stage) notification.getDialogPane().getScene().getWindow();
-    	        stage1.setAlwaysOnTop(true);
+    	        notification.showAndWait();
+
             }
     	}
     	
@@ -299,6 +282,12 @@ public class ExportTabController implements Initializable{
  
         try {
 			CREATE_OUTPUT_FILE(workbook, excelFilePath);
+			Alert notification = new Alert(Alert.AlertType.INFORMATION);
+	        notification.initStyle(StageStyle.DECORATED);
+	        notification.setHeaderText(null);
+	        notification.setContentText("Export thành công");
+	        notification.showAndWait();
+
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

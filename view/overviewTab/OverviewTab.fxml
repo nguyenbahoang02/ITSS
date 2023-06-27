@@ -30,7 +30,6 @@
             <Button fx:id="detailTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Xem chi tiết chấm công" />
             <Button fx:id="overviewTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Xem tổng quan chấm công" />
             <Button fx:id="unitTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Xem chấm công đơn vị" />
-            <Button fx:id="editTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Tùy chỉnh ca chấm công" />
             <Button fx:id="importTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Import dữ liệu" />
             <Button fx:id="exportTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Export dữ liệu" />
          </children>

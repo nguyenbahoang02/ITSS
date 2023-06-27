@@ -5,6 +5,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,14 +18,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import view.API;
 import view.Officer;
 import view.OfficerTimesheet;
-import view.editTab.EditTabController;
+import view.Unit;
+import view.editScreen.EditScreenController;
 import view.exportTab.ExportTabController;
 import view.homePage.HomePageController;
 import view.importTab.ImportTabController;
@@ -54,9 +59,6 @@ public class DetailTabController implements Initializable{
 
     @FXML
     private Button unitTab;
-    
-    @FXML
-    private Button editTab;
 
     @FXML
     private Button importTab;
@@ -67,6 +69,9 @@ public class DetailTabController implements Initializable{
     @FXML
     private MenuButton userSettings;
 
+    @FXML
+    private TextField searchField;
+    
     @FXML
     private Text currentTime = new Text();
     
@@ -241,18 +246,6 @@ public class DetailTabController implements Initializable{
 				e.printStackTrace();
 			}
     	});
-    	editTab.setOnMouseClicked(event ->{
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/editTab/EditTab.fxml"));
-    		loader.setController(new EditTabController(stage));
-    		Parent root;
-			try {
-				root = loader.load();
-				Scene scene = new Scene(root);
-	    		stage.setScene(scene);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-    	});
     	importTab.setOnMouseClicked(event ->{
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/importTab/ImportTab.fxml"));
     		loader.setController(new ImportTabController(stage));
@@ -279,6 +272,32 @@ public class DetailTabController implements Initializable{
     	});
     }
     
+    public void setSearchFunction() {
+    	searchField.textProperty().addListener(new ChangeListener<String>() {
+			@Override
+			public void changed(ObservableValue<? extends String> arg0, String arg1, String text) {
+				if(text.length()!=0) {
+					if(text.charAt(0)!= ' ') {
+						ObservableList<OfficerTimesheet> list = FXCollections.observableArrayList();
+						for (OfficerTimesheet officerTimesheet : table.getItems()) {
+							if(officerTimesheet.getDate().contains(searchField.getText())) {
+								list.add(officerTimesheet);
+							}
+						}
+						table.setItems(list);
+						
+					}else searchField.setText("");
+				}else if(currentTime.getText().length()==4) {
+					setDataToTable(user.getOfficerWorksDetail().getTimesheetByYear(currentTime.getText()));
+				}else if(currentTime.getText().length()==7) {
+					setDataToTable(user.getOfficerWorksDetail().getTimesheetByMonth(currentTime.getText()));
+				}else setDataToTable(user.getOfficerWorksDetail().getTimesheetByQuarter(currentTime.getText()));
+				
+			}
+    		
+		});
+    }
+    
     public void setDataToTable(ArrayList<OfficerTimesheet> data) {
     	ObservableList<OfficerTimesheet> list = FXCollections.observableArrayList();
     	list.addAll(data);
@@ -290,6 +309,23 @@ public class DetailTabController implements Initializable{
         earlyCol.setCellValueFactory(new PropertyValueFactory<OfficerTimesheet, String>("soonHours"));
         
     	table.setItems(list);
+    	table.setOnMouseClicked(event -> {
+			if(event.getButton() == MouseButton.PRIMARY && event.getClickCount()==2) {
+				OfficerTimesheet selectedItem = table.getSelectionModel().getSelectedItem();
+				if(selectedItem!=null) {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/editScreen/EditScreen.fxml"));
+					loader.setController(new EditScreenController(stage,selectedItem,user,currentTime.getText()));
+					Parent root;
+					try {
+						root = loader.load();
+						Scene scene = new Scene(root);
+						stage.setScene(scene);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
     }
     
     public DetailTabController(Stage stage) {
@@ -316,7 +352,7 @@ public class DetailTabController implements Initializable{
 		}else if(currentTime.getText().length()==7) {
 			setDataToTable(user.getOfficerWorksDetail().getTimesheetByMonth(this.currentTime.getText()));
 		}else setDataToTable(user.getOfficerWorksDetail().getTimesheetByQuarter(this.currentTime.getText()));
-			
+		setSearchFunction();	
 		
 	}
     

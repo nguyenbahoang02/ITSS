@@ -17,7 +17,6 @@ import view.API;
 import view.Employee;
 import view.Officer;
 import view.detailTab.DetailTabController;
-import view.editTab.EditTabController;
 import view.exportTab.ExportTabController;
 import view.importTab.ImportTabController;
 import view.listUnitTab.ListUnitTabController;
@@ -40,9 +39,6 @@ public class HomePageController implements Initializable{
 
     @FXML
     private Button unitTab;
-    
-    @FXML
-    private Button editTab;
 
     @FXML
     private Button importTab;
@@ -108,18 +104,6 @@ public class HomePageController implements Initializable{
     	unitTab.setOnMouseClicked(event ->{
     		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/listUnitTab/ListUnitTab.fxml"));
     		loader.setController(new ListUnitTabController(stage));
-    		Parent root;
-			try {
-				root = loader.load();
-				Scene scene = new Scene(root);
-	    		stage.setScene(scene);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-    	});
-    	editTab.setOnMouseClicked(event ->{
-    		FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/editTab/EditTab.fxml"));
-    		loader.setController(new EditTabController(stage));
     		Parent root;
 			try {
 				root = loader.load();

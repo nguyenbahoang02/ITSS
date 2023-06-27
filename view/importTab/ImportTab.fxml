@@ -3,6 +3,7 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.MenuButton?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Line?>
@@ -28,7 +29,6 @@
             <Button fx:id="detailTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Xem chi tiết chấm công" />
             <Button fx:id="overviewTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Xem tổng quan chấm công" />
             <Button fx:id="unitTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Xem chấm công đơn vị" />
-            <Button fx:id="editTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Tùy chỉnh ca chấm công" />
             <Button fx:id="importTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Import dữ liệu" />
             <Button fx:id="exportTab" mnemonicParsing="false" prefHeight="60.0" prefWidth="200.0" text="Export dữ liệu" />
          </children>
@@ -38,5 +38,11 @@
             <Font size="14.0" />
          </font>
       </Button>
+      <ImageView fx:id="fortmatImg" fitHeight="377.0" fitWidth="733.0" layoutX="274.0" layoutY="187.0" pickOnBounds="true" preserveRatio="true" />
+      <Text layoutX="274.0" layoutY="144.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Hãy import file excel dưới định đạng sau đây">
+         <font>
+            <Font size="24.0" />
+         </font>
+      </Text>
    </children>
 </AnchorPane>
