@@ -15,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.controller.GDOfficerController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1" fx:controller="com.example.demo2.officer.GDOfficerController">
    <children>
       <AnchorPane layoutY="34.0" prefHeight="50.0" prefWidth="1280.0">
          <children>
@@ -61,14 +61,14 @@
                   </Text>
                   <ImageView fx:id="menuIcon" fitHeight="35.0" fitWidth="35.0" layoutX="192.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                      <image>
-                        <Image url="@imgs/menu-icon.png" />
+                        <Image url="@../imgs/menu-icon.png" />
                      </image>
                   </ImageView>
                </children>
             </AnchorPane>
             <ImageView fx:id="menuIcon2" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" visible="false">
                <image>
-                  <Image url="@imgs/menu-icon.png" />
+                  <Image url="@../imgs/menu-icon.png" />
                </image>
             </ImageView>
             <ChoiceBox fx:id="choiceBoxYear" layoutX="406.0" layoutY="97.0" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: white; -fx-border-style: solid;" />
@@ -92,8 +92,44 @@
                   <Double fx:value="-60.0" />
                </points>
             </Polygon>
+            <Button layoutX="941.0" layoutY="57.0" mnemonicParsing="false" onAction="#switchToMonthView" prefHeight="40.0" prefWidth="115.0" style="-fx-border-style: solid;" text="Xem tổng quan" />
          </children>
       </AnchorPane>
       <Label fx:id="closeApp" alignment="CENTER" layoutX="1253.0" layoutY="1.0" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: white;" text="X" textAlignment="CENTER" />
+      <AnchorPane fx:id="clonePage" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" visible="false" />
+      <AnchorPane fx:id="popup" layoutX="512.0" layoutY="252.0" prefHeight="216.0" prefWidth="256.0" style="-fx-background-color: white; -fx-border-style: solid;" visible="false">
+         <children>
+            <Label fx:id="dateLabelPopup" layoutX="14.0" layoutY="14.0" prefHeight="26.0" prefWidth="134.0" text="08/05/2023">
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <Label layoutX="23.0" layoutY="60.0" prefHeight="20.0" prefWidth="106.0" text="Bắt đầu:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="23.0" layoutY="160.0" prefHeight="20.0" prefWidth="106.0" text="Số giờ về sớm:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="23.0" layoutY="89.0" prefHeight="20.0" prefWidth="106.0" text="Kết thúc:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label layoutX="23.0" layoutY="124.0" prefHeight="20.0" prefWidth="106.0" text="Số giờ đi muộn:">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            <Label fx:id="startTimeLabel" layoutX="157.0" layoutY="62.0" prefHeight="18.0" prefWidth="74.0" text="8:00" />
+            <Label fx:id="endTimeLabel" layoutX="157.0" layoutY="90.0" prefHeight="18.0" prefWidth="74.0" text="18:00" />
+            <Label fx:id="lateHoursLabel" layoutX="157.0" layoutY="125.0" prefHeight="18.0" prefWidth="74.0" text="0.5" />
+            <Label fx:id="soonHoursLabel" layoutX="157.0" layoutY="161.0" prefHeight="18.0" prefWidth="74.0" text="3.5" />
+            <Label fx:id="closePopup" layoutX="238.0" layoutY="5.0" text="X" />
+         </children>
+      </AnchorPane>
    </children>
 </AnchorPane>

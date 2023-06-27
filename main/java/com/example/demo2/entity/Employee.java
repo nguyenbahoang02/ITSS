@@ -1,4 +1,6 @@
 package com.example.demo2.entity;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class Employee {
     private int id;
@@ -33,5 +35,10 @@ public class Employee {
 
     public void setUnitId(String unitId) {
         this.unitId = unitId;
+    }
+    @Override
+    public String toString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
     }
 }

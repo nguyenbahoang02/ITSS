@@ -1,5 +1,5 @@
 .table-row-cell{
-    -fx-pref-height: 56px;
+    -fx-pref-height: 34,462px;
     -fx-font-size: 14px;
 }
 
@@ -8,7 +8,7 @@
 }
 
 .table-view .table-column{
-    -fx-pref-height: 56px;
+    -fx-pref-height: 34,462px;
 }
 
 .table-view .scroll-bar * {
@@ -31,12 +31,6 @@
 }
 
 .button:hover{
-    -fx-background-color: #1e90ff;
-    -fx-border-color: #1fbdff;
-    -fx-text-fill: white;
-}
-
-.button:focused{
     -fx-background-color: #1e90ff;
     -fx-border-color: #1fbdff;
     -fx-text-fill: white;

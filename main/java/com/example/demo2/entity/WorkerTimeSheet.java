@@ -1,5 +1,8 @@
 package com.example.demo2.entity;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class WorkerTimeSheet {
     private int workerId;
     private String date;
@@ -53,5 +56,11 @@ public class WorkerTimeSheet {
 
     public void setWorkHoursShift3(double workHoursShift3) {
         this.workHoursShift3 = workHoursShift3;
+    }
+
+    @Override
+    public String toString() {
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+        return gson.toJson(this);
     }
 }

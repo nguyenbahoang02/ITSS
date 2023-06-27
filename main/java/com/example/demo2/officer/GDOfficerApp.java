@@ -1,4 +1,4 @@
-package com.example.demo2;
+package com.example.demo2.officer;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -17,9 +17,8 @@ public class GDOfficerApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("GD-Officer.fxml"));
-        primaryStage.initStyle(StageStyle.UNDECORATED);
-        String css = this.getClass().getResource("GD-Officer.css").toExternalForm();
+        Parent root = FXMLLoader.load(getClass().getResource("GD-OfficerXemTongQuan.fxml"));
+        String css = this.getClass().getResource("GD-OfficerXemTongQuan.css").toExternalForm();
         root.getStylesheets().add(css);
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();

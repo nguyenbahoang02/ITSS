@@ -14,7 +14,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.controller.GDOfficerXemTongQuanController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.officer.GDOfficerXemTongQuanController">
     <children>
         <AnchorPane layoutY="34.0" prefHeight="50.0" prefWidth="1280.0">
             <children>
@@ -33,17 +33,17 @@
                <children>
                       <ChoiceBox fx:id="choiceBoxYear" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: white; -fx-border-style: solid;" />
                   <ButtonBar layoutX="363.0" prefHeight="40.0" prefWidth="200.0" />
-                  <Button layoutX="590.0" layoutY="2.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" text="Tháng" />
-                  <Button layoutX="842.0" layoutY="2.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" text="Tùy chọn" />
-                  <Button layoutX="758.0" layoutY="2.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" text="Năm" />
-                  <Button layoutX="674.0" layoutY="2.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="83.0" text="Qúy" />
+                  <Button layoutX="590.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToMonthView" prefHeight="35.0" prefWidth="83.0" text="Tháng" />
+                  <Button layoutX="842.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToCustomView" prefHeight="35.0" prefWidth="83.0" text="Tùy chọn" />
+                  <Button layoutX="758.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToYearView" prefHeight="35.0" prefWidth="83.0" text="Năm" />
+                  <Button layoutX="674.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToQuarterView" prefHeight="35.0" prefWidth="83.0" text="Qúy" />
                </children>
             </AnchorPane>
                 <TableView fx:id="table" layoutX="275.0" layoutY="149.0" prefHeight="448.0" prefWidth="925.0">
                     <columns>
                         <TableColumn fx:id="monthCol" prefWidth="308.33" text="Tháng" />
-                        <TableColumn fx:id="workHoursCol" prefWidth="308.33" text="Tổng số giờ làm việc" />
-                        <TableColumn fx:id="overtimeCol" prefWidth="308.33" text="Tổng số giờ tăng ca" />
+                        <TableColumn fx:id="shiftCount" prefWidth="308.33" text="Tổng số ca làm việc" />
+                        <TableColumn fx:id="lateSoonHours" prefWidth="308.33" text="Tổng số giờ đi muộn, về sớm" />
                     </columns>
                 </TableView>
                 <Label layoutX="46.0" layoutY="14.0" prefHeight="63.0" prefWidth="290.0" text="Báo cáo chấm công">
@@ -67,14 +67,14 @@
                         </Text>
                         <ImageView fx:id="menuIcon" fitHeight="35.0" fitWidth="35.0" layoutX="192.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@imgs/menu-icon.png" />
+                                <Image url="@../imgs/menu-icon.png" />
                             </image>
                         </ImageView>
                     </children>
                 </AnchorPane>
                 <ImageView fx:id="menuIcon2" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" visible="false">
                     <image>
-                        <Image url="@imgs/menu-icon.png" />
+                        <Image url="@../imgs/menu-icon.png" />
                     </image>
                 </ImageView>
             </children>
