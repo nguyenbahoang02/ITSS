@@ -2,7 +2,7 @@ package com.example.demo2.entity;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class Employee {
+public class Employee implements Comparable<Employee> {
     private int id;
     private String name;
     private String unitId;
@@ -40,5 +40,9 @@ public class Employee {
     public String toString() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(this);
+    }
+    @Override
+    public int compareTo(Employee other) {
+        return Integer.compare(this.id, other.id);
     }
 }

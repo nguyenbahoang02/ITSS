@@ -9,13 +9,14 @@
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.shape.Line?>
 <?import javafx.scene.shape.Polygon?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1" fx:controller="com.example.demo2.officer.GDOfficerController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.officer.GDOfficerController">
    <children>
       <AnchorPane layoutY="34.0" prefHeight="50.0" prefWidth="1280.0">
          <children>
@@ -64,6 +65,21 @@
                         <Image url="@../imgs/menu-icon.png" />
                      </image>
                   </ImageView>
+                  <VBox fx:id="unitLeaderVbox" alignment="CENTER" layoutX="2.0" layoutY="252.0" prefHeight="200.0" prefWidth="231.0" visible="false">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#switchToCurrentView" prefHeight="38.0" prefWidth="231.0" text="Chấm công cá nhân" />
+                        <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="231.0" text="Yêu cầu sửa chấm công" />
+                        <Button mnemonicParsing="false" onAction="#switchToListEmployeeView" prefHeight="38.0" prefWidth="231.0" text="Chấm công đơn vi" />
+                     </children>
+                  </VBox>
+                  <Line endX="130.0" layoutX="102.0" layoutY="232.0" startX="-100.0" style="-fx-stroke-dash-array: 3;" />
+                  <VBox fx:id="managerVbox" alignment="CENTER" layoutX="2.0" layoutY="252.0" prefHeight="200.0" prefWidth="231.0" visible="false">
+                     <children>
+                        <Button mnemonicParsing="false" onAction="#switchToCurrentView" prefHeight="38.0" prefWidth="231.0" text="Chấm công cá nhân" />
+                        <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="231.0" text="Chấm công doanh nghiệp" />
+                        <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="231.0" text="Sửa thông tin chấm công" />
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
             <ImageView fx:id="menuIcon2" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" visible="false">
@@ -124,10 +140,22 @@
                   <Font size="14.0" />
                </font>
             </Label>
-            <Label fx:id="startTimeLabel" layoutX="157.0" layoutY="62.0" prefHeight="18.0" prefWidth="74.0" text="8:00" />
-            <Label fx:id="endTimeLabel" layoutX="157.0" layoutY="90.0" prefHeight="18.0" prefWidth="74.0" text="18:00" />
-            <Label fx:id="lateHoursLabel" layoutX="157.0" layoutY="125.0" prefHeight="18.0" prefWidth="74.0" text="0.5" />
-            <Label fx:id="soonHoursLabel" layoutX="157.0" layoutY="161.0" prefHeight="18.0" prefWidth="74.0" text="3.5" />
+            <Label fx:id="startTimeLabel" layoutX="157.0" layoutY="60.0" prefHeight="18.0" prefWidth="74.0" text="8:00">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="endTimeLabel" layoutX="157.0" layoutY="89.0" prefHeight="18.0" prefWidth="74.0" text="18:00">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="lateHoursLabel" layoutX="157.0" layoutY="124.0" prefHeight="18.0" prefWidth="74.0" text="0.5">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
+            <Label fx:id="soonHoursLabel" layoutX="157.0" layoutY="160.0" prefHeight="18.0" prefWidth="74.0" text="3.5">
+               <font>
+                  <Font size="14.0" />
+               </font></Label>
             <Label fx:id="closePopup" layoutX="238.0" layoutY="5.0" text="X" />
          </children>
       </AnchorPane>

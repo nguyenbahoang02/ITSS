@@ -17,10 +17,7 @@ public class GDOfficerXemTQApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("GD-OfficerXemTongQuanQuy.fxml"));
-//        primaryStage.initStyle(StageStyle.UNDECORATED);
-        String css = this.getClass().getResource("GD-OfficerXemTongQuan.css").toExternalForm();
-        root.getStylesheets().add(css);
+        Parent root = FXMLLoader.load(getClass().getResource("login-view.fxml"));
         primaryStage.setScene(new Scene(root, 1280, 720));
         primaryStage.show();
     }

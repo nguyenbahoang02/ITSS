@@ -1,8 +1,10 @@
 package com.example.demo2.officer;
 
 import com.example.demo2.configure.RangeTimeView;
-import com.example.demo2.entity.OfficerTimeSheet;
-import com.example.demo2.entity.OfficerTimeSheetQuarter;
+import com.example.demo2.configure.UserIdCurrent;
+import com.example.demo2.configure.UserIdTable;
+import com.example.demo2.configure.configureController.CurrentUser;
+import com.example.demo2.entity.*;
 import com.google.gson.reflect.TypeToken;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
@@ -20,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.shape.Polygon;
 import javafx.stage.Stage;
 import javafx.util.Duration;
@@ -70,6 +73,8 @@ public class GDOfficerController implements Initializable {
     @FXML private Label soonHoursLabel;
     @FXML private AnchorPane popup;
     @FXML private Label closePopup;
+    @FXML private VBox unitLeaderVbox;
+    @FXML private VBox managerVbox;
 
     private Stage stage;
     private Scene scene;
@@ -86,17 +91,38 @@ public class GDOfficerController implements Initializable {
             Reader reader = Files.newBufferedReader(Paths.get("src\\main\\java\\com\\example\\demo2\\fileJSON\\officerTimeSheet.json"));
             List<OfficerTimeSheet> officerTimeSheetList = new Gson().fromJson(reader, new TypeToken<List<OfficerTimeSheet>>() {
             }.getType());
+            List<OfficerTimeSheet> officerTimeSheetListFilter = new ArrayList<>();
+            for (OfficerTimeSheet oneDay : officerTimeSheetList){
+                if (oneDay.getOfficerId() == UserIdTable.getUserId()){
+                    officerTimeSheetListFilter.add(oneDay);
+                }
+            }
             reader.close();
-            return officerTimeSheetList;
+            return officerTimeSheetListFilter;
 
         } catch (Exception ex) {
             ex.printStackTrace();
         }
         return null;
     }
+    private void switchUrl(String url, ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource(url + ".fxml"));
+        String css = this.getClass().getResource(url + ".css").toExternalForm();
+        root.getStylesheets().add(css);
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if (CurrentUser.getCurrentEmployee() instanceof Manager){
+            managerVbox.setVisible(true);
+        }
+        else if(CurrentUser.getCurrentEmployee() instanceof UnitLeaderOfficer || CurrentUser.getCurrentEmployee() instanceof UnitLeaderWorker) {
+            unitLeaderVbox.setVisible(true);
+        }
         closeApp.setOnMouseClicked(event -> {
             System.exit(0);
         });
@@ -181,12 +207,12 @@ public class GDOfficerController implements Initializable {
                             soonHoursLabel.setText("" + oneDay.getSoonHours());
 
                             clonePage.setVisible(true);
-                            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.5),clonePage);
+                            FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.2),clonePage);
                             fadeTransition.setFromValue(0);
                             fadeTransition.setToValue(0.15);
                             fadeTransition.play();
                             popup.setVisible(true);
-                            FadeTransition fadeTransition1 = new FadeTransition(Duration.seconds(0.5),popup);
+                            FadeTransition fadeTransition1 = new FadeTransition(Duration.seconds(0.2),popup);
                             fadeTransition1.setFromValue(0);
                             fadeTransition1.setToValue(1);
                             fadeTransition1.play();
@@ -241,12 +267,16 @@ public class GDOfficerController implements Initializable {
     }
 
     public void switchToMonthView(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("GD-OfficerXemTongQuan.fxml"));
-        String css = this.getClass().getResource("GD-OfficerXemTongQuan.css").toExternalForm();
-        root.getStylesheets().add(css);
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        String url = "GD-OfficerXemTongQuan";
+        switchUrl(url, event);
+    }
+    public void switchToListEmployeeView(ActionEvent event) throws IOException {
+        String url = "/com/example/demo2/unitLeader/GD-ListEmployeeOfUnit";
+        switchUrl(url, event);
+    }
+    public void switchToCurrentView(ActionEvent event) throws IOException {
+        UserIdTable.setUserId(UserIdCurrent.getUserId());
+        String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
+        switchUrl(url, event);
     }
 }

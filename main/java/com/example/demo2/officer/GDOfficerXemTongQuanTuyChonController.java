@@ -1,9 +1,10 @@
 package com.example.demo2.officer;
 
 import com.example.demo2.configure.RangeTimeView;
-import com.example.demo2.entity.OfficerTimeSheet;
-import com.example.demo2.entity.OfficerTimeSheetCustom;
-import com.example.demo2.entity.OfficerTimeSheetQuarter;
+import com.example.demo2.configure.UserIdCurrent;
+import com.example.demo2.configure.UserIdTable;
+import com.example.demo2.configure.configureController.CurrentUser;
+import com.example.demo2.entity.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import javafx.animation.TranslateTransition;
@@ -21,6 +22,7 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -57,6 +59,8 @@ public class GDOfficerXemTongQuanTuyChonController implements Initializable {
     private ImageView menuIcon2;
     @FXML
     private AnchorPane sidebar;
+    @FXML private VBox unitLeaderVbox;
+    @FXML private VBox managerVbox;
     private Stage stage;
     private Scene scene;
     private  String[] month = {"tháng 1","tháng 2", "tháng 3", "tháng 4", "tháng 5", "tháng 6", "tháng 7", "tháng 8", "tháng 9", "tháng 10", "tháng 11", "tháng 12"};
@@ -71,8 +75,14 @@ public class GDOfficerXemTongQuanTuyChonController implements Initializable {
             Reader reader = Files.newBufferedReader(Paths.get("src\\main\\java\\com\\example\\demo2\\fileJSON\\officerTimeSheet.json"));
             List<OfficerTimeSheet> officerTimeSheetList = new Gson().fromJson(reader, new TypeToken<List<OfficerTimeSheet>>() {
             }.getType());
+            List<OfficerTimeSheet> officerTimeSheetListFilter = new ArrayList<>();
+            for (OfficerTimeSheet oneDay : officerTimeSheetList){
+                if (oneDay.getOfficerId() == UserIdTable.getUserId()){
+                    officerTimeSheetListFilter.add(oneDay);
+                }
+            }
             reader.close();
-            return officerTimeSheetList;
+            return officerTimeSheetListFilter;
 
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -109,8 +119,23 @@ public class GDOfficerXemTongQuanTuyChonController implements Initializable {
             return -1;
         }
     }
+    private void switchUrl(String url, ActionEvent event) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource(url + ".fxml"));
+        String css = this.getClass().getResource(url + ".css").toExternalForm();
+        root.getStylesheets().add(css);
+        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+        scene = new Scene(root);
+        stage.setScene(scene);
+        stage.show();
+    }
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        if (CurrentUser.getCurrentEmployee() instanceof Manager){
+            managerVbox.setVisible(true);
+        }
+        else if(CurrentUser.getCurrentEmployee() instanceof UnitLeaderOfficer || CurrentUser.getCurrentEmployee() instanceof UnitLeaderWorker) {
+            unitLeaderVbox.setVisible(true);
+        }
         closeApp.setOnMouseClicked(event -> {
             System.exit(0);
         });
@@ -191,7 +216,6 @@ public class GDOfficerXemTongQuanTuyChonController implements Initializable {
             return row;
         });
     }
-
     private void animationSidebar(double translateXSidebar, double translateXItem, double tableColumnWidth) {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.5), sidebar);
         TranslateTransition translateTransitionTable = new TranslateTransition(Duration.seconds(0.5), table);
@@ -209,40 +233,29 @@ public class GDOfficerXemTongQuanTuyChonController implements Initializable {
     }
 
     public void switchToMonthView(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("GD-OfficerXemTongQuan.fxml"));
-        String css = this.getClass().getResource("GD-OfficerXemTongQuan.css").toExternalForm();
-        root.getStylesheets().add(css);
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        String url = "GD-OfficerXemTongQuan";
+        switchUrl(url, event);
     }
     public void switchToQuarterView(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("GD-OfficerXemTongQuanQuy.fxml"));
-        String css = this.getClass().getResource("GD-OfficerXemTongQuanQuy.css").toExternalForm();
-        root.getStylesheets().add(css);
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        String url = "GD-OfficerXemTongQuanQuy";
+        switchUrl(url, event);
     }
     public void switchToYearView(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("GD-OfficerXemTongQuanNam.fxml"));
-        String css = this.getClass().getResource("GD-OfficerXemTongQuanNam.css").toExternalForm();
-        root.getStylesheets().add(css);
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        String url = "GD-OfficerXemTongQuanNam";
+        switchUrl(url, event);
     }
 
     public void switchToCustomView(ActionEvent event) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("GD-OfficerXemTongQuanTuyChon.fxml"));
-        String css = this.getClass().getResource("GD-OfficerXemTongQuanTuyChon.css").toExternalForm();
-        root.getStylesheets().add(css);
-        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-        scene = new Scene(root);
-        stage.setScene(scene);
-        stage.show();
+        String url = "GD-OfficerXemTongQuanTuyChon";
+        switchUrl(url, event);
+    }
+    public void switchToListEmployeeView(ActionEvent event) throws IOException {
+        String url = "/com/example/demo2/unitLeader/GD-ListEmployeeOfUnit";
+        switchUrl(url, event);
+    }
+    public void switchToCurrentView(ActionEvent event) throws IOException {
+        UserIdTable.setUserId(UserIdCurrent.getUserId());
+        String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
+        switchUrl(url, event);
     }
 }

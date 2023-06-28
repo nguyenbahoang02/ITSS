@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 
 public class Unit {
     private String name;
-    String id;
+    private String id;
 
     public Unit(String name, String id) {
         this.name = name;

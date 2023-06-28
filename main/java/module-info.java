@@ -10,4 +10,5 @@ module com.example.demo2 {
     exports com.example.demo2.entity;
     exports com.example.demo2.officer;
     opens com.example.demo2.officer to javafx.fxml;
+    opens com.example.demo2.unitLeader to javafx.fxml;
 }

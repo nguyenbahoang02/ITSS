@@ -17,7 +17,7 @@ public class GDOfficerApp extends Application {
 
     @Override
     public void start(Stage primaryStage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("GD-OfficerXemTongQuan.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("GD-ListEmployee.fxml"));
         String css = this.getClass().getResource("GD-OfficerXemTongQuan.css").toExternalForm();
         root.getStylesheets().add(css);
         primaryStage.setScene(new Scene(root, 1280, 720));
