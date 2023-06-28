@@ -77,6 +77,21 @@ public class UnitTabController implements Initializable{
     private TextField searchField;
     
     @FXML
+    private Text shiftCount;
+    
+    @FXML
+    private Text numberOfEmployee;
+    
+    @FXML
+    private Text lateHours;
+    
+    @FXML
+    private Text earlyHours;
+    
+    @FXML
+    private Text currentTime;
+    
+    @FXML
     void backClicked(MouseEvent event) {
     	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/listUnitTab/ListUnitTab.fxml"));
 		loader.setController(new ListUnitTabController(stage));
@@ -88,6 +103,132 @@ public class UnitTabController implements Initializable{
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+    }
+    
+    @FXML
+    void nextClicked(MouseEvent event) {
+    	if(currentTime.getText().length()==7) {
+    		int month = Integer.parseInt(currentTime.getText().split("/")[0]);
+    		int year = Integer.parseInt(currentTime.getText().split("/")[1]);
+    		if(month==12) {
+    			year++;
+    			month=1;
+    		}else month+=1;
+    		
+    		if(month>=10) currentTime.setText(month + "/" + year);
+    		else currentTime.setText("0" + month + "/" + year);
+    		setInfoMonth();
+    	}
+    	else if(currentTime.getText().length()==4) {
+    		int year = Integer.parseInt(currentTime.getText());
+    		year++;
+    		currentTime.setText("" + year);
+    		setInfoYear();
+    	}
+    	else if(currentTime.getText().length()==10) {
+    		int quy = Integer.parseInt(currentTime.getText().split(" ")[1]);
+    		int year = Integer.parseInt(currentTime.getText().split(" ")[2]);
+    		if(quy==4) {
+    			quy = 1;
+    			year++;
+    		}else quy++;
+    		currentTime.setText("Quý " + quy + " " + year);
+    		setInfoQuarter();
+    	}
+    }
+
+    @FXML
+    void prevClicked(MouseEvent event) {
+    	if(currentTime.getText().length()==7) {
+    		int month = Integer.parseInt(currentTime.getText().split("/")[0]);
+    		int year = Integer.parseInt(currentTime.getText().split("/")[1]);
+    		if(month==1) {
+    			year--;
+    			month=12;
+    		}else {
+    			month-=1;
+    		}
+    		if(month>=10) currentTime.setText(month + "/" + year);
+    		else currentTime.setText("0" + month + "/" + year);
+    		setInfoMonth();
+    	}
+    	else if(currentTime.getText().length()==4) {
+    		int year = Integer.parseInt(currentTime.getText());
+    		year--;
+    		currentTime.setText("" + year);
+    		setInfoYear();
+    	}
+    	else if(currentTime.getText().length()==10) {
+    		int quy = Integer.parseInt(currentTime.getText().split(" ")[1]);
+    		int year = Integer.parseInt(currentTime.getText().split(" ")[2]);
+    		if(quy==1) {
+    			quy = 4;
+    			year--;
+    		}else quy--;
+    		currentTime.setText("Quý " + quy + " " + year);
+    		setInfoQuarter();
+    	}
+    }
+    
+    @FXML
+    void monthClicked(MouseEvent event) {
+    	currentTime.setText("06/2023");
+    	setInfoMonth();
+    }
+
+    @FXML
+    void quarterClicked(MouseEvent event) {
+    	currentTime.setText("Quý 2 2023");
+    	setInfoQuarter();
+    	
+    }
+
+    @FXML
+    void yearClicked(MouseEvent event) {  	
+    	currentTime.setText("2023");
+    	setInfoYear();
+    }
+    
+    private void setInfoMonth() {
+    	int shift=0;
+    	float late=0f;
+    	float early=0f;
+    	for (Officer officer : unit.getOfficers()) {
+			shift+=Integer.parseInt(officer.getOfficerWorksDetail().getTotalShiftByMonth(currentTime.getText()));
+			late+=Float.parseFloat(officer.getOfficerWorksDetail().getLateHoursByMonth(currentTime.getText()));
+			early+=Float.parseFloat(officer.getOfficerWorksDetail().getEarlyHoursByMonth(currentTime.getText()));
+		}
+    	shiftCount.setText("Tổng số buổi đi làm: " + shift);
+    	lateHours.setText("Tổng số giờ đi muộn: " + late);
+    	earlyHours.setText("Tổng số giờ về sớm: " + early);
+    }
+    
+    private void setInfoYear() {
+    	int shift=0;
+    	float late=0f;
+    	float early=0f;
+    	for (Officer officer : unit.getOfficers()) {
+			shift+=Integer.parseInt(officer.getOfficerWorksDetail().getTotalShiftByYear(currentTime.getText()));
+			late+=Float.parseFloat(officer.getOfficerWorksDetail().getLateHoursByYear(currentTime.getText()));
+			early+=Float.parseFloat(officer.getOfficerWorksDetail().getLateHoursByYear(currentTime.getText()));
+		}
+    	shiftCount.setText("Tổng số buổi đi làm: " + shift);
+    	lateHours.setText("Tổng số giờ đi muộn: " + late);
+    	earlyHours.setText("Tổng số giờ về sớm: " + early);
+    }
+    
+    private void setInfoQuarter() {
+    	int shift=0;
+    	float late=0f;
+    	float early=0f;
+    	for (Officer officer : unit.getOfficers()) {
+			shift+=Integer.parseInt(officer.getOfficerWorksDetail().getTotalShiftByQuarter(currentTime.getText()));
+			late+=Float.parseFloat(officer.getOfficerWorksDetail().getLateHoursByQuarter(currentTime.getText()));
+			early+=Float.parseFloat(officer.getOfficerWorksDetail().getEarlyHoursByQuarter(currentTime.getText()));
+		}
+    	shiftCount.setText("Tổng số buổi đi làm: " + shift);
+    	lateHours.setText("Tổng số giờ đi muộn: " + late);
+    	earlyHours.setText("Tổng số giờ về sớm: " + early);
     }
     
     public void setDataToTable(ArrayList<Officer> officers) {
@@ -226,7 +367,8 @@ public class UnitTabController implements Initializable{
 		unitId.setText(unit.getId());
 		setDataToTable(unit.getOfficers());
 		setSearchFunction();
-		
+		numberOfEmployee.setText("Số nhân viên: " + unit.getOfficers().size());
+		monthClicked(null);
 	}
     
 }

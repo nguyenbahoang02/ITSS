@@ -95,7 +95,7 @@ public class ExportTabController implements Initializable{
     private TableColumn<Officer, String> unitIdCol;
     
     @FXML
-    private TextField searchField;
+    private TextField searchField;   
     
     @FXML
     void exportClicked(MouseEvent event) {

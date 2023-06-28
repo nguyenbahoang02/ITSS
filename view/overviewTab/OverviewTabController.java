@@ -138,19 +138,19 @@ public class OverviewTabController implements Initializable{
     	}
     }
     
-    public void setInfoMonth() {
+    private void setInfoMonth() {
     	totalShift.setText("Tổng số buổi đi làm: " + user.getOfficerWorksDetail().getTotalShiftByMonth(currentTime.getText()));
     	lateHours.setText("Tổng số giờ đi muộn: " + user.getOfficerWorksDetail().getLateHoursByMonth(currentTime.getText()));
     	earlyHours.setText("Tổng số giờ về sớm: " + user.getOfficerWorksDetail().getEarlyHoursByMonth(currentTime.getText()));
     }
     
-    public void setInfoYear() {
+    private void setInfoYear() {
     	totalShift.setText("Tổng số buổi đi làm: " + user.getOfficerWorksDetail().getTotalShiftByYear(currentTime.getText()));
     	lateHours.setText("Tổng số giờ đi muộn: " + user.getOfficerWorksDetail().getLateHoursByYear(currentTime.getText()));
     	earlyHours.setText("Tổng số giờ về sớm: " + user.getOfficerWorksDetail().getEarlyHoursByYear(currentTime.getText()));
     }
     
-    public void setInfoQuarter() {
+    private void setInfoQuarter() {
     	totalShift.setText("Tổng số buổi đi làm: " + user.getOfficerWorksDetail().getTotalShiftByQuarter(currentTime.getText()));
     	lateHours.setText("Tổng số giờ đi muộn: " + user.getOfficerWorksDetail().getLateHoursByQuarter(currentTime.getText()));
     	earlyHours.setText("Tổng số giờ về sớm: " + user.getOfficerWorksDetail().getEarlyHoursByQuarter(currentTime.getText()));
