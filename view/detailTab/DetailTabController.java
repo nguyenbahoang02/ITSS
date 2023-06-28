@@ -26,7 +26,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import view.API;
 import view.Officer;
-import view.OfficerTimesheet;
+import view.AttendanceRecord;
 import view.Unit;
 import view.editScreen.EditScreenController;
 import view.exportTab.ExportTabController;
@@ -76,26 +76,26 @@ public class DetailTabController implements Initializable{
     private Text currentTime = new Text();
     
     @FXML 
-    private TableView<OfficerTimesheet> table = new TableView<>();
+    private TableView<AttendanceRecord> table = new TableView<>();
     
     @FXML
-    private TableColumn<OfficerTimesheet, String> dayCol = new TableColumn<OfficerTimesheet, String>();
+    private TableColumn<AttendanceRecord, String> dayCol = new TableColumn<AttendanceRecord, String>();
     
     @FXML
-    private TableColumn<OfficerTimesheet, String> morningCol= new TableColumn<OfficerTimesheet, String>();;
+    private TableColumn<AttendanceRecord, String> morningCol= new TableColumn<AttendanceRecord, String>();;
     
     @FXML
-    private TableColumn<OfficerTimesheet, String> afternoonCol= new TableColumn<OfficerTimesheet, String>();;
+    private TableColumn<AttendanceRecord, String> afternoonCol= new TableColumn<AttendanceRecord, String>();;
     
     @FXML
-    private TableColumn<OfficerTimesheet, String> lateCol= new TableColumn<OfficerTimesheet, String>();;
+    private TableColumn<AttendanceRecord, String> lateCol= new TableColumn<AttendanceRecord, String>();;
     
     @FXML
-    private TableColumn<OfficerTimesheet, String> earlyCol= new TableColumn<OfficerTimesheet, String>();;
+    private TableColumn<AttendanceRecord, String> earlyCol= new TableColumn<AttendanceRecord, String>();;
     
     @FXML
     void exportClicked(MouseEvent event) {
-    	ArrayList<OfficerTimesheet> exportData = new ArrayList<>();
+    	ArrayList<AttendanceRecord> exportData = new ArrayList<>();
     	exportData.addAll(table.getItems());
     	ExportTabController.EXPORT(exportData,stage,user.getId());
     }
@@ -278,10 +278,10 @@ public class DetailTabController implements Initializable{
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String text) {
 				if(text.length()!=0) {
 					if(text.charAt(0)!= ' ') {
-						ObservableList<OfficerTimesheet> list = FXCollections.observableArrayList();
-						for (OfficerTimesheet officerTimesheet : table.getItems()) {
-							if(officerTimesheet.getDate().contains(searchField.getText())) {
-								list.add(officerTimesheet);
+						ObservableList<AttendanceRecord> list = FXCollections.observableArrayList();
+						for (AttendanceRecord attendanceRecord : table.getItems()) {
+							if(attendanceRecord.getDate().contains(searchField.getText())) {
+								list.add(attendanceRecord);
 							}
 						}
 						table.setItems(list);
@@ -298,20 +298,20 @@ public class DetailTabController implements Initializable{
 		});
     }
     
-    public void setDataToTable(ArrayList<OfficerTimesheet> data) {
-    	ObservableList<OfficerTimesheet> list = FXCollections.observableArrayList();
+    public void setDataToTable(ArrayList<AttendanceRecord> data) {
+    	ObservableList<AttendanceRecord> list = FXCollections.observableArrayList();
     	list.addAll(data);
     	
-    	dayCol.setCellValueFactory(new PropertyValueFactory<OfficerTimesheet, String>("date"));
-    	morningCol.setCellValueFactory(new PropertyValueFactory<OfficerTimesheet, String>("morning"));
-    	afternoonCol.setCellValueFactory(new PropertyValueFactory<OfficerTimesheet, String>("afternoon"));
-    	lateCol.setCellValueFactory(new PropertyValueFactory<OfficerTimesheet, String>("lateHours"));
-        earlyCol.setCellValueFactory(new PropertyValueFactory<OfficerTimesheet, String>("soonHours"));
+    	dayCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("date"));
+    	morningCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("morning"));
+    	afternoonCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("afternoon"));
+    	lateCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("lateHours"));
+        earlyCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("soonHours"));
         
     	table.setItems(list);
     	table.setOnMouseClicked(event -> {
 			if(event.getButton() == MouseButton.PRIMARY && event.getClickCount()==2) {
-				OfficerTimesheet selectedItem = table.getSelectionModel().getSelectedItem();
+				AttendanceRecord selectedItem = table.getSelectionModel().getSelectedItem();
 				if(selectedItem!=null) {
 					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/editScreen/EditScreen.fxml"));
 					loader.setController(new EditScreenController(stage,selectedItem,user,currentTime.getText()));

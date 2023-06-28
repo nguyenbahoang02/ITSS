@@ -36,7 +36,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import view.API;
 import view.Officer;
-import view.OfficerTimesheet;
+import view.AttendanceRecord;
 import view.detailTab.DetailTabController;
 import view.exportTab.ExportTabController;
 import view.homePage.HomePageController;
@@ -72,8 +72,8 @@ public class ImportTabController implements Initializable{
     @FXML
     private MenuButton userSettings;
     
-    public static ArrayList<OfficerTimesheet> readExcel(String excelFilePath) throws IOException{
-    	ArrayList<OfficerTimesheet> list = new ArrayList<>();
+    public static ArrayList<AttendanceRecord> readExcel(String excelFilePath) throws IOException{
+    	ArrayList<AttendanceRecord> list = new ArrayList<>();
     	
     	InputStream inputStream = new FileInputStream(new File(excelFilePath));
     	
@@ -90,7 +90,7 @@ public class ImportTabController implements Initializable{
     		
     		Iterator<Cell> cellIterator = nextRow.cellIterator();
     		
-    		OfficerTimesheet officerTimesheet = new OfficerTimesheet();
+    		AttendanceRecord attendanceRecord = new AttendanceRecord();
     		while(cellIterator.hasNext()) {
     			Cell cell = cellIterator.next();
     			Object cellValue = getCellValue(cell);
@@ -100,28 +100,28 @@ public class ImportTabController implements Initializable{
                 int columnIndex = cell.getColumnIndex();
                 switch (columnIndex) {
                 case 0:
-                	officerTimesheet.setId(cellValue.toString().split("\\.")[0]);
+                	attendanceRecord.setId(cellValue.toString().split("\\.")[0]);
                 	break;
                 case 1:
-                    officerTimesheet.setDate(cellValue.toString());
+                    attendanceRecord.setDate(cellValue.toString());
                     break;
                 case 2:
-                    officerTimesheet.setMorning(cellValue.toString());
+                    attendanceRecord.setMorning(cellValue.toString());
                     break;
                 case 3:
-                    officerTimesheet.setAfternoon(cellValue.toString());
+                    attendanceRecord.setAfternoon(cellValue.toString());
                     break;
                 case 4:
-                    officerTimesheet.setLateHours(cellValue.toString());
+                    attendanceRecord.setLateHours(cellValue.toString());
                     break;
                 case 5:
-                    officerTimesheet.setSoonHours(cellValue.toString());
+                    attendanceRecord.setSoonHours(cellValue.toString());
                     break;
                 default:
                     break;
                 }
     		}
-    		list.add(officerTimesheet);
+    		list.add(attendanceRecord);
     	}
     	
     	return list;
@@ -135,28 +135,12 @@ public class ImportTabController implements Initializable{
     	File selectedFile = fileChooser.showOpenDialog(stage);
     	if(selectedFile!=null) {
     		if(!selectedFile.getName().split("\\.")[1].toUpperCase().equals("XLSX")) {
-    			Alert notification = new Alert(Alert.AlertType.INFORMATION);
-    	        notification.initStyle(StageStyle.DECORATED);
-    	        notification.setHeaderText(null);
-    	        notification.setContentText("Hãy chọn đúng loại file");
-    	        
-    	        Stage stage = (Stage) notification.getDialogPane().getScene().getWindow();
-    	        stage.setAlwaysOnTop(true);
-    	        
-    	        notification.showAndWait();
+    			showMsg("Hãy chọn đúng loại file");
     		}else {
     			try {
     				if(!API.IMPORT_DATA(readExcel(selectedFile.getAbsolutePath()))) {
-    					Alert notification = new Alert(Alert.AlertType.INFORMATION);
-    	    	        notification.initStyle(StageStyle.DECORATED);
-    	    	        notification.setHeaderText(null);
-    	    	        notification.setContentText("Dữ liệu bị trùng");
-    	    	        
-    	    	        Stage stage = (Stage) notification.getDialogPane().getScene().getWindow();
-    	    	        stage.setAlwaysOnTop(true);
-    	    	        
-    	    	        notification.showAndWait();
-    				}   				
+    					showMsg("Dữ liệu bị trùng");
+    				}else showMsg("Import thành công");  				
     				
     				
 				} catch (IOException e) {
@@ -287,4 +271,15 @@ public class ImportTabController implements Initializable{
         return cellValue;
     }
     
+	private void showMsg(String string) {
+		Alert notification = new Alert(Alert.AlertType.INFORMATION);
+        notification.initStyle(StageStyle.DECORATED);
+        notification.setHeaderText(null);
+        notification.setContentText(string);
+        
+        Stage stage = (Stage) notification.getDialogPane().getScene().getWindow();
+        stage.setAlwaysOnTop(true);
+        
+        notification.showAndWait();
+	}
 }

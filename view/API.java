@@ -69,9 +69,9 @@ public class API {
 		return null;
 	}
 	
-	public static boolean IMPORT_DATA(ArrayList<OfficerTimesheet> officerTimesheets) {
+	public static boolean IMPORT_DATA(ArrayList<AttendanceRecord> attendanceRecords) {
 		for (Unit unit : ALL_UNITS) {
-			if(!unit.importData(officerTimesheets))
+			if(!unit.importData(attendanceRecords))
 				return false;
 		}
 		return true;

@@ -1,14 +1,12 @@
 package view;
 
-public class OfficerTimesheet {
+public class AttendanceRecord {
 	private String id;
 	private String date;
 	private String morning;
 	private String afternoon;
 	private String lateHours;
 	private String earlyHours;
-	private String startTime;
-	private String endTime;
 	public String getDate() {
 		return date;
 	}
@@ -38,18 +36,6 @@ public class OfficerTimesheet {
 	}
 	public void setSoonHours(String soonHours) {
 		this.earlyHours = soonHours;
-	}
-	public String getStartTime() {
-		return startTime;
-	}
-	public void setStartTime(String startTime) {
-		this.startTime = startTime;
-	}
-	public String getEndTime() {
-		return endTime;
-	}
-	public void setEndTime(String endTime) {
-		this.endTime = endTime;
 	}
 	public String getId() {
 		return id;

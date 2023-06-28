@@ -95,6 +95,7 @@
                   </Text>
                </children>
             </HBox>
+            <Button fx:id="backButton" layoutX="33.0" layoutY="41.0" mnemonicParsing="false" text="Quay lại" />
          </children></AnchorPane>
    </children>
 </AnchorPane>

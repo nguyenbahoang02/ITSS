@@ -18,7 +18,7 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import view.Officer;
-import view.OfficerTimesheet;
+import view.AttendanceRecord;
 import view.detailTab.DetailTabController;
 import view.exportTab.ExportTabController;
 import view.homePage.HomePageController;
@@ -29,7 +29,7 @@ import view.overviewTab.OverviewTabController;
 public class EditScreenController implements Initializable{
 	private String userName = "Nguyễn Bá Hoàng";
 	private Stage stage;
-	private OfficerTimesheet officerTimesheet;
+	private AttendanceRecord attendanceRecord;
 	private Officer officer;
 	private String currentTime;
 	
@@ -120,11 +120,11 @@ public class EditScreenController implements Initializable{
 			showErrorMsg("Hãy nhập đúng định dạng giờ đi muộn");
 			return;
 		}
-    	officerTimesheet.setDate(dateText.getText());
-    	officerTimesheet.setLateHours(lateText.getText());
-    	officerTimesheet.setSoonHours(earlyText.getText());
-    	officerTimesheet.setMorning(morningText.getText());
-    	officerTimesheet.setAfternoon(afternoonText.getText());
+    	attendanceRecord.setDate(dateText.getText());
+    	attendanceRecord.setLateHours(lateText.getText());
+    	attendanceRecord.setSoonHours(earlyText.getText());
+    	attendanceRecord.setMorning(morningText.getText());
+    	attendanceRecord.setAfternoon(afternoonText.getText());
     }
     
     public void setTabSwitchinFunction() {
@@ -202,19 +202,19 @@ public class EditScreenController implements Initializable{
     	});
     }
 
-    public EditScreenController(Stage stage, OfficerTimesheet officerTimesheet, Officer officer, String currentTime) {
+    public EditScreenController(Stage stage, AttendanceRecord attendanceRecord, Officer officer, String currentTime) {
     	this.stage=stage;
-    	this.officerTimesheet=officerTimesheet;
+    	this.attendanceRecord=attendanceRecord;
     	this.officer=officer;
     	this.currentTime=currentTime;
     }
     
     private void setInitialText() {
-    	dateText.setText(officerTimesheet.getDate());
-		morningText.setText(officerTimesheet.getMorning());
-		afternoonText.setText(officerTimesheet.getAfternoon());
-		lateText.setText(officerTimesheet.getLateHours());
-		earlyText.setText(officerTimesheet.getSoonHours());
+    	dateText.setText(attendanceRecord.getDate());
+		morningText.setText(attendanceRecord.getMorning());
+		afternoonText.setText(attendanceRecord.getAfternoon());
+		lateText.setText(attendanceRecord.getLateHours());
+		earlyText.setText(attendanceRecord.getSoonHours());
     }
     
     private int countNumberOfChar(String string) {

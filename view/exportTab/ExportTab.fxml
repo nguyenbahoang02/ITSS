@@ -48,5 +48,6 @@
             <Font size="24.0" />
          </font>
       </Text>
+      <Button layoutX="1204.0" layoutY="642.0" mnemonicParsing="false" onMouseClicked="#exportClicked" text="Export" />
    </children>
 </AnchorPane>

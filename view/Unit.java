@@ -61,8 +61,8 @@ public class Unit {
 		}
 	}
 	
-	public boolean importData(ArrayList<OfficerTimesheet> officerTimesheet) {
-		for (OfficerTimesheet officerTimesheet2 : officerTimesheet) {
+	public boolean importData(ArrayList<AttendanceRecord> attendanceRecord) {
+		for (AttendanceRecord officerTimesheet2 : attendanceRecord) {
 			for (Officer officer : officers) {
 				if(officer.getId().equals(officerTimesheet2.getId())) {
 					if(!officer.getOfficerWorksDetail().importData(officerTimesheet2)) {

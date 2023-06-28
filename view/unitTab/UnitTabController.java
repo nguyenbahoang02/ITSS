@@ -21,6 +21,7 @@ import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import view.API;
@@ -74,6 +75,20 @@ public class UnitTabController implements Initializable{
     
     @FXML
     private TextField searchField;
+    
+    @FXML
+    void backClicked(MouseEvent event) {
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/listUnitTab/ListUnitTab.fxml"));
+		loader.setController(new ListUnitTabController(stage));
+		Parent root;
+		try {
+			root = loader.load();
+			Scene scene = new Scene(root);
+    		stage.setScene(scene);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
     
     public void setDataToTable(ArrayList<Officer> officers) {
     	ObservableList<Officer> data = FXCollections.observableArrayList();

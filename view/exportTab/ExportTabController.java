@@ -39,13 +39,14 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseButton;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import view.API;
 import view.Officer;
-import view.OfficerTimesheet;
+import view.AttendanceRecord;
 import view.Unit;
 import view.detailTab.DetailTabController;
 import view.homePage.HomePageController;
@@ -95,6 +96,17 @@ public class ExportTabController implements Initializable{
     
     @FXML
     private TextField searchField;
+    
+    @FXML
+    void exportClicked(MouseEvent event) {
+    	ArrayList<AttendanceRecord> attendanceRecords = new ArrayList<>();
+    	for (Unit unit : API.GET_ALL_UNITS()) {
+			for (Officer officer : unit.getOfficers()) {
+				attendanceRecords.addAll(officer.getOfficerWorksDetail().getOfficerTimesheet());
+			}
+		}
+    	EXPORT(attendanceRecords, stage, userName);
+    }
     
     public void setSearchFunction() {
     	searchField.textProperty().addListener(new ChangeListener<String>() {
@@ -230,7 +242,7 @@ public class ExportTabController implements Initializable{
 		});
     }
     
-    public static void EXPORT(ArrayList<OfficerTimesheet> officerTimesheets, Stage stage, String id) {
+    public static void EXPORT(ArrayList<AttendanceRecord> attendanceRecords, Stage stage, String id) {
     	DirectoryChooser directoryChooser = new DirectoryChooser();
     	directoryChooser.setTitle("Chọn thư mục để lưu file");
     	
@@ -245,7 +257,7 @@ public class ExportTabController implements Initializable{
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent() && !result.get().isEmpty()) {
                 String fileName = result.get();
-                WRITE_EXCEL(officerTimesheets, selectedDirectory.getAbsolutePath() +"\\" + fileName + ".xlsx", id);
+                WRITE_EXCEL(attendanceRecords, selectedDirectory.getAbsolutePath() +"\\" + fileName + ".xlsx", id);
 
             } else {
             	Alert notification = new Alert(Alert.AlertType.INFORMATION);
@@ -259,7 +271,7 @@ public class ExportTabController implements Initializable{
     	
     }
     
-    private static void WRITE_EXCEL(ArrayList<OfficerTimesheet> officerTimesheets, String excelFilePath, String id) {
+    private static void WRITE_EXCEL(ArrayList<AttendanceRecord> attendanceRecords, String excelFilePath, String id) {
     	Workbook workbook = new XSSFWorkbook();
     	
     	Sheet sheet = workbook.createSheet("Sheet");
@@ -269,11 +281,11 @@ public class ExportTabController implements Initializable{
     	WRITE_HEADER(sheet, rowIndex);
     	
     	rowIndex++;
-    	for(OfficerTimesheet officerTimesheet : officerTimesheets) {
+    	for(AttendanceRecord attendanceRecord : attendanceRecords) {
     		
     		Row row = sheet.createRow(rowIndex);
     		
-    		WRITE_DATA(officerTimesheet, row, id);
+    		WRITE_DATA(attendanceRecord, row, id);
     		rowIndex++;
     	}
     	
@@ -342,25 +354,25 @@ public class ExportTabController implements Initializable{
         cell.setCellValue("Về sớm");
     }
     
-    private static void WRITE_DATA(OfficerTimesheet officerTimesheet, Row row, String id){    
+    private static void WRITE_DATA(AttendanceRecord attendanceRecord, Row row, String id){    
          
         Cell cell = row.createCell(0);
         cell.setCellValue(id);
  
         cell = row.createCell(1);
-        cell.setCellValue(officerTimesheet.getDate());
+        cell.setCellValue(attendanceRecord.getDate());
  
         cell = row.createCell(2);
-        cell.setCellValue(officerTimesheet.getMorning());
+        cell.setCellValue(attendanceRecord.getMorning());
  
         cell = row.createCell(3);
-        cell.setCellValue(officerTimesheet.getAfternoon());
+        cell.setCellValue(attendanceRecord.getAfternoon());
         
         cell = row.createCell(4);
-        cell.setCellValue(officerTimesheet.getLateHours());
+        cell.setCellValue(attendanceRecord.getLateHours());
         
         cell = row.createCell(5);
-        cell.setCellValue(officerTimesheet.getSoonHours());
+        cell.setCellValue(attendanceRecord.getSoonHours());
         
     }
     

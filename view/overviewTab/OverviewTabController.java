@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -27,6 +29,7 @@ public class OverviewTabController implements Initializable{
 	private String userName = "Nguyễn Bá Hoàng";
 	private Stage stage;
 	private Officer user;
+	private boolean backButtonHide;
 	
 	@FXML
 	private Text officerName;
@@ -66,6 +69,9 @@ public class OverviewTabController implements Initializable{
     
     @FXML
     private Text earlyHours;
+    
+    @FXML
+    private Button backButton;
     
     @FXML
     void nextClicked(MouseEvent event) {
@@ -261,11 +267,31 @@ public class OverviewTabController implements Initializable{
     public OverviewTabController(Stage stage) {
     	this.stage=stage;
     	this.user=API.GET_USER();
+    	backButtonHide=true;
     }
     
     public OverviewTabController(Stage stage, Officer user) {
     	this.stage=stage;
     	this.user=user;
+    	backButtonHide=false;
+    }
+    
+    private void setBackButtonFunction() {
+    	backButton.setOnMouseClicked(new EventHandler<Event>() {
+			@Override
+			public void handle(Event arg0) {
+				FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/unitTab/UnitTab.fxml"));
+				loader.setController(new UnitTabController(stage,API.GET_UNIT(user.getUnitId())));
+				Parent root;
+				try {
+					root = loader.load();
+					Scene scene = new Scene(root);
+					stage.setScene(scene);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			}
+		});
     }
     
 	@Override
@@ -275,6 +301,8 @@ public class OverviewTabController implements Initializable{
 		monthClicked(null);
 		officerId.setText("Id: " + user.getId());
 		officerName.setText("Tên: " + user.getName());
+		if(backButtonHide==true) backButton.setVisible(false);
+		else setBackButtonFunction();
 	}
     
 }

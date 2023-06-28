@@ -14,18 +14,18 @@ import com.google.gson.reflect.TypeToken;
 
 public class OfficerWorksDetail {
 	
-	private ArrayList<OfficerTimesheet> officerTimesheet = new ArrayList<>();
+	private ArrayList<AttendanceRecord> attendanceRecord = new ArrayList<>();
 
-	public ArrayList<OfficerTimesheet> getOfficerTimesheet() {
-		return officerTimesheet;
+	public ArrayList<AttendanceRecord> getOfficerTimesheet() {
+		return attendanceRecord;
 	}
 
-	public boolean importData(OfficerTimesheet importedData) {
+	public boolean importData(AttendanceRecord importedData) {
 		String date = importedData.getDate();
 		int day = Integer.parseInt(date.split("/")[0]);
 		int month = Integer.parseInt(date.split("/")[1]);
 		int year = Integer.parseInt(date.split("/")[2]);
-		for (OfficerTimesheet officerTimesheet2 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet2 : attendanceRecord) {
 			String date1 = officerTimesheet2.getDate();
 			int day1 = Integer.parseInt(date1.split("/")[0]);
 			int month1 = Integer.parseInt(date1.split("/")[1]);
@@ -35,22 +35,22 @@ public class OfficerWorksDetail {
 				return false;			
 			}
 		}
-		officerTimesheet.add(importedData);
+		attendanceRecord.add(importedData);
 		return true;
 	}
 	
-	public void setOfficerTimesheet(ArrayList<OfficerTimesheet> officerTimesheet) {
-		this.officerTimesheet = officerTimesheet;
+	public void setOfficerTimesheet(ArrayList<AttendanceRecord> attendanceRecord) {
+		this.attendanceRecord = attendanceRecord;
 	}
 	
 	public void getDataFromFile() {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get("src\\view\\officerTimeSheet.json"));
-			List<OfficerTimesheet> list = new Gson().fromJson(reader,
-					new TypeToken<List<OfficerTimesheet>>() {
+			List<AttendanceRecord> list = new Gson().fromJson(reader,
+					new TypeToken<List<AttendanceRecord>>() {
 					}.getType());
 			reader.close();
-			officerTimesheet.addAll(list);
+			attendanceRecord.addAll(list);
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}
@@ -62,7 +62,7 @@ public class OfficerWorksDetail {
 		int totalShift = 0;
 		String month = time.split("/")[0];
 		String year = time.split("/")[1];
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			String monthString = officerTimesheet1.getDate().split("/")[1];
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(month.equals(monthString)&&year.equals(yearString)) {
@@ -83,7 +83,7 @@ public class OfficerWorksDetail {
 		float lateHours = 0;
 		String month = time.split("/")[0];
 		String year = time.split("/")[1];
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			String monthString = officerTimesheet1.getDate().split("/")[1];
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(month.equals(monthString)&&year.equals(yearString)) {
@@ -99,7 +99,7 @@ public class OfficerWorksDetail {
 		float earlyHours = 0;
 		String month = time.split("/")[0];
 		String year = time.split("/")[1];
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			String monthString = officerTimesheet1.getDate().split("/")[1];
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(month.equals(monthString)&&year.equals(yearString)) {
@@ -113,7 +113,7 @@ public class OfficerWorksDetail {
 	public String getTotalShiftByYear(String time) {
 		StringBuffer stringBuffer = new StringBuffer("");
 		int totalShift = 0;
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(yearString.equals(time)) {
 				if(officerTimesheet1.getMorning().equals("có")) {
@@ -131,7 +131,7 @@ public class OfficerWorksDetail {
 	public String getLateHoursByYear(String time) {
 		StringBuffer stringBuffer = new StringBuffer("");
 		float lateHours = 0;
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(yearString.equals(time)) {
 				lateHours+=Float.parseFloat(officerTimesheet1.getLateHours());
@@ -144,7 +144,7 @@ public class OfficerWorksDetail {
 	public String getEarlyHoursByYear(String time) {
 		StringBuffer stringBuffer = new StringBuffer("");
 		float earlyHours = 0;
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(yearString.equals(time)) {
 				earlyHours+=Float.parseFloat(officerTimesheet1.getSoonHours());
@@ -159,7 +159,7 @@ public class OfficerWorksDetail {
 		int totalShift = 0;
 		int quy = Integer.parseInt(time.split(" ")[1]);
 		String year = time.split(" ")[2]; 
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			int monthInt = Integer.parseInt(officerTimesheet1.getDate().split("/")[1]);
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(monthInt<=quy*3 && monthInt >= quy*3-2 && year.equals(yearString)) {
@@ -180,7 +180,7 @@ public class OfficerWorksDetail {
 		float lateHours = 0;
 		int quy = Integer.parseInt(time.split(" ")[1]);
 		String year = time.split(" ")[2]; 
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			int monthInt = Integer.parseInt(officerTimesheet1.getDate().split("/")[1]);
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(monthInt<=quy*3 && monthInt >= quy*3-2 && year.equals(yearString)) {
@@ -196,7 +196,7 @@ public class OfficerWorksDetail {
 		float earlyHours = 0;
 		int quy = Integer.parseInt(time.split(" ")[1]);
 		String year = time.split(" ")[2]; 
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			int monthInt = Integer.parseInt(officerTimesheet1.getDate().split("/")[1]);
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(monthInt<=quy*3 && monthInt >= quy*3-2 && year.equals(yearString)) {
@@ -207,11 +207,11 @@ public class OfficerWorksDetail {
 		return stringBuffer.toString() + earlyHours;
 	}
 	
-	public ArrayList<OfficerTimesheet> getTimesheetByMonth(String time){
-		ArrayList<OfficerTimesheet> list = new ArrayList<>();
+	public ArrayList<AttendanceRecord> getTimesheetByMonth(String time){
+		ArrayList<AttendanceRecord> list = new ArrayList<>();
 		String month = time.split("/")[0];
 		String year = time.split("/")[1];
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			String monthString = officerTimesheet1.getDate().split("/")[1];
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(month.equals(monthString)&&year.equals(yearString)) {
@@ -221,9 +221,9 @@ public class OfficerWorksDetail {
 		return sortTimesheets(list);
 	}
 	
-	public ArrayList<OfficerTimesheet> getTimesheetByYear(String time){
-		ArrayList<OfficerTimesheet> list = new ArrayList<>();
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+	public ArrayList<AttendanceRecord> getTimesheetByYear(String time){
+		ArrayList<AttendanceRecord> list = new ArrayList<>();
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(time.equals(yearString)) {
 				list.add(officerTimesheet1);
@@ -233,11 +233,11 @@ public class OfficerWorksDetail {
 		return sortTimesheets(list);
 	}
 	
-	public ArrayList<OfficerTimesheet> getTimesheetByQuarter(String time){
-		ArrayList<OfficerTimesheet> list = new ArrayList<>();
+	public ArrayList<AttendanceRecord> getTimesheetByQuarter(String time){
+		ArrayList<AttendanceRecord> list = new ArrayList<>();
 		int quy = Integer.parseInt(time.split(" ")[1]);
 		String year = time.split(" ")[2]; 
-		for (OfficerTimesheet officerTimesheet1 : officerTimesheet) {
+		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			int monthInt = Integer.parseInt(officerTimesheet1.getDate().split("/")[1]);
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(monthInt<=quy*3 && monthInt >= quy*3-2 && year.equals(yearString)) {
@@ -248,11 +248,11 @@ public class OfficerWorksDetail {
 		return sortTimesheets(list);
 	}
 	
-	private ArrayList<OfficerTimesheet> sortTimesheets(ArrayList<OfficerTimesheet> officerTimesheets){
-		Collections.sort(officerTimesheets, new Comparator<OfficerTimesheet>() {
+	private ArrayList<AttendanceRecord> sortTimesheets(ArrayList<AttendanceRecord> attendanceRecords){
+		Collections.sort(attendanceRecords, new Comparator<AttendanceRecord>() {
 
 			@Override
-			public int compare(OfficerTimesheet o1, OfficerTimesheet o2) {
+			public int compare(AttendanceRecord o1, AttendanceRecord o2) {
 				int o1Day = Integer.parseInt(o1.getDate().split("/")[0]);
 				int o1Month = Integer.parseInt(o1.getDate().split("/")[1]);
 				int o1Year = Integer.parseInt(o1.getDate().split("/")[2]);
@@ -270,7 +270,7 @@ public class OfficerWorksDetail {
 			
 		});
 		
-		return officerTimesheets;
+		return attendanceRecords;
 	}
 }
 
