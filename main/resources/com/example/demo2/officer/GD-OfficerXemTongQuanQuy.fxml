@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TextField?>
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/20.0.1" fx:controller="com.example.demo2.officer.GDOfficerXemTongQuanQuyController">
+    <children>
+        <AnchorPane layoutY="34.0" prefHeight="50.0" prefWidth="1280.0">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="5.0" prefHeight="40.0" prefWidth="140.0" style="-fx-border-style: solid;" text="Logo" textAlignment="CENTER">
+                    <font>
+                        <Font size="25.0" />
+                    </font>
+                </Label>
+                <Button layoutX="1124.0" layoutY="5.0" mnemonicParsing="false" onAction="#switchToLoginView" prefHeight="40.0" prefWidth="115.0" style="-fx-border-style: solid;" text="Log out" />
+            </children>
+        </AnchorPane>
+        <Line endX="1114.199951171875" layoutX="123.0" layoutY="85.0" startX="-100.0" />
+        <AnchorPane layoutX="23.0" layoutY="85.0" prefHeight="634.0" prefWidth="1215.0">
+            <children>
+                <AnchorPane layoutX="275.0" layoutY="97.0" prefHeight="40.0" prefWidth="926.0">
+                    <children>
+                        <ChoiceBox fx:id="choiceBoxYear" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: white; -fx-border-style: solid;" />
+                        <ButtonBar layoutX="363.0" prefHeight="40.0" prefWidth="200.0" />
+                        <Button layoutX="590.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToMonthView" prefHeight="35.0" prefWidth="83.0" text="Tháng" />
+                        <Button layoutX="842.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToCustomView" prefHeight="35.0" prefWidth="83.0" text="Tùy chọn" />
+                        <Button layoutX="758.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToYearView" prefHeight="35.0" prefWidth="83.0" text="Năm" />
+                        <Button layoutX="674.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToQuarterView" prefHeight="35.0" prefWidth="83.0" text="Qúy" />
+                    </children>
+                </AnchorPane>
+                <TableView fx:id="table" layoutX="275.0" layoutY="149.0" prefHeight="448.0" prefWidth="925.0">
+                    <columns>
+                        <TableColumn fx:id="monthCol" prefWidth="308.33" text="Qúy" />
+                        <TableColumn fx:id="shiftCount" prefWidth="308.33" text="Tổng số ca làm việc" />
+                        <TableColumn fx:id="lateSoonHours" prefWidth="308.33" text="Tổng số giờ đi muộn, về sớm" />
+                    </columns>
+                </TableView>
+                <Label layoutX="46.0" layoutY="14.0" prefHeight="63.0" prefWidth="290.0" text="Báo cáo chấm công">
+                    <font>
+                        <Font name="System Bold" size="25.0" />
+                    </font>
+                </Label>
+                <Button layoutX="1099.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleOpenRequestPopup" prefHeight="40.0" prefWidth="115.0" style="-fx-border-style: solid;" text="Request" />
+                <AnchorPane fx:id="sidebar" layoutX="14.0" layoutY="97.0" prefHeight="503.0" prefWidth="231.0" style="-fx-border-style: solid; -fx-background-color: white;">
+                    <children>
+                        <Circle fill="DODGERBLUE" layoutX="117.0" layoutY="72.0" radius="48.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Text fx:id="userName" layoutX="20.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nguyễn Văn A" textAlignment="CENTER" wrappingWidth="180.79999847412137">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Text>
+                        <Text fx:id="roleLabel" layoutX="16.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhân viên văn phòng" textAlignment="CENTER" wrappingWidth="200.80000305175787">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Text>
+                        <ImageView fx:id="menuIcon" fitHeight="35.0" fitWidth="35.0" layoutX="192.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../imgs/menu-icon.png" />
+                            </image>
+                        </ImageView>
+                        <VBox fx:id="unitLeaderVbox" alignment="CENTER" layoutX="2.0" layoutY="252.0" prefHeight="200.0" prefWidth="231.0" visible="false">
+                            <children>
+                                <Button mnemonicParsing="false" onAction="#switchToCurrentView" prefHeight="38.0" prefWidth="231.0" text="Chấm công cá nhân" />
+                                <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="231.0" text="Yêu cầu sửa chấm công" />
+                                <Button mnemonicParsing="false" onAction="#switchToListEmployeeView" prefHeight="38.0" prefWidth="231.0" text="Chấm công đơn vi" />
+                            </children>
+                        </VBox>
+                        <Line endX="130.0" layoutX="102.0" layoutY="232.0" startX="-100.0" style="-fx-stroke-dash-array: 3;" />
+                        <VBox fx:id="managerVbox" alignment="CENTER" layoutX="2.0" layoutY="252.0" prefHeight="200.0" prefWidth="231.0" visible="false">
+                            <children>
+                                <Button mnemonicParsing="false" onAction="#switchToCurrentView" prefHeight="38.0" prefWidth="231.0" text="Chấm công cá nhân" />
+                                <Button mnemonicParsing="false" onAction="#switchToListUnit" prefHeight="38.0" prefWidth="231.0" text="Chấm công doanh nghiệp" />
+                                <Button mnemonicParsing="false" onAction="#switchToRequestView" prefHeight="38.0" prefWidth="231.0" text="Request sửa thông tin chấm công" />
+                            </children>
+                        </VBox>
+                        <Label fx:id="unitName" alignment="CENTER" layoutX="15.0" layoutY="206.0" prefHeight="18.0" prefWidth="201.0">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Label>
+                    </children>
+                </AnchorPane>
+                <ImageView fx:id="menuIcon2" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                    <image>
+                        <Image url="@../imgs/menu-icon.png" />
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+        <Label fx:id="closeApp" alignment="CENTER" layoutX="1253.0" layoutY="1.0" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: white;" text="X" textAlignment="CENTER" />
+        <AnchorPane fx:id="clonePage" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" visible="false" />
+        <AnchorPane fx:id="requestPopup" layoutX="365.0" layoutY="160.0" prefHeight="400.0" prefWidth="550.0" style="-fx-background-color: white; -fx-border-style: solid;" visible="false">
+            <children>
+                <Button layoutX="452.0" layoutY="340.0" mnemonicParsing="false" onAction="#handleOpenCreateRequestPopup" style="-fx-border-style: solid;" text="Tạo request" />
+                <Label layoutX="227.0" layoutY="39.0" text="Request" textAlignment="CENTER">
+                    <font>
+                        <Font name="System Bold" size="25.0" />
+                    </font>
+                </Label>
+                <Label fx:id="closeRequest" layoutX="527.0" layoutY="14.0" text="X" />
+                <TableView fx:id="tableRequest" layoutX="18.0" layoutY="100.0" prefHeight="230.0" prefWidth="514.0">
+                    <columns>
+                        <TableColumn fx:id="dateSendCol" minWidth="257.0" prefWidth="75.0" text="Ngày gửi" />
+                        <TableColumn fx:id="statusCol" prefWidth="257.0" text="Trạng thái" />
+                        <TableColumn fx:id="idRequestCol" prefWidth="75.0" text="id" />
+                    </columns>
+                </TableView>
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="createRequest" layoutX="471.0" layoutY="231.0" prefHeight="258.0" prefWidth="338.0" style="-fx-background-color: white; -fx-border-style: solid;" visible="false">
+            <children>
+                <DatePicker fx:id="datePicker" layoutX="24.0" layoutY="20.0" />
+                <TextField fx:id="messageTextField" alignment="TOP_LEFT" layoutX="24.0" layoutY="57.0" prefHeight="144.0" prefWidth="290.0" />
+                <Button layoutX="270.0" layoutY="217.0" mnemonicParsing="false" onAction="#handleSubmitCreateRequest" prefHeight="26.0" prefWidth="44.0" style="-fx-border-style: solid;" text="Gửi" />
+                <Label fx:id="closeCreate" layoutX="320.0" layoutY="11.0" text="X" />
+            </children>
+        </AnchorPane>
+        <AnchorPane fx:id="clonePage2" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" visible="false" />
+        <AnchorPane fx:id="requestDetail" layoutX="365.0" layoutY="160.0" prefHeight="400.0" prefWidth="550.0" style="-fx-background-color: white; -fx-border-style: solid;" visible="false">
+            <children>
+                <Label fx:id="dateSendLabel" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="235.0" text="08/05/2023">
+                    <font>
+                        <Font name="System Bold" size="18.0" />
+                    </font>
+                </Label>
+                <Label layoutX="23.0" layoutY="60.0" prefHeight="20.0" prefWidth="106.0" text="Người gửi:">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="23.0" layoutY="89.0" prefHeight="20.0" prefWidth="106.0" text="Đơn vị">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label layoutX="23.0" layoutY="124.0" prefHeight="20.0" prefWidth="106.0" text="Ngày yêu cầu">
+                    <font>
+                        <Font size="14.0" />
+                    </font>
+                </Label>
+                <Label fx:id="senderNameLabel" layoutX="157.0" layoutY="60.0" prefHeight="20.0" prefWidth="153.0" text="8:00">
+                    <font>
+                        <Font size="14.0" />
+                    </font></Label>
+                <Label fx:id="unitNameLabel" layoutX="157.0" layoutY="89.0" prefHeight="20.0" prefWidth="140.0" text="18:00">
+                    <font>
+                        <Font size="14.0" />
+                    </font></Label>
+                <Label fx:id="dateLabel" layoutX="157.0" layoutY="124.0" prefHeight="20.0" prefWidth="153.0" text="0.5">
+                    <font>
+                        <Font size="14.0" />
+                    </font></Label>
+                <Label fx:id="closeRequestPopup" layoutX="532.0" layoutY="5.0" text="X" />
+                <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="21.0" layoutY="154.0" prefHeight="172.0" prefWidth="509.0" style="-fx-border-style: solid;" text="Label" />
+            </children>
+        </AnchorPane>
+    </children>
+</AnchorPane>

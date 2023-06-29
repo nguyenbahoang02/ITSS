@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ButtonBar?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.officer.GDOfficerXemTongQuanController">
+    <children>
+        <AnchorPane layoutY="34.0" prefHeight="50.0" prefWidth="1280.0">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="24.0" layoutY="5.0" prefHeight="40.0" prefWidth="140.0" style="-fx-border-style: solid;" text="Logo" textAlignment="CENTER">
+                    <font>
+                        <Font size="25.0" />
+                    </font>
+                </Label>
+                <Button layoutX="1124.0" layoutY="5.0" mnemonicParsing="false" onAction="#switchToLoginView" prefHeight="40.0" prefWidth="115.0" style="-fx-border-style: solid;" text="Log out" />
+            </children>
+        </AnchorPane>
+        <Line endX="1114.199951171875" layoutX="123.0" layoutY="85.0" startX="-100.0" />
+        <AnchorPane layoutX="23.0" layoutY="85.0" prefHeight="634.0" prefWidth="1215.0">
+            <children>
+            <AnchorPane layoutX="276.0" layoutY="148.0" prefHeight="40.0" prefWidth="926.0">
+               <children>
+                      <ChoiceBox fx:id="choiceBoxYear" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: white; -fx-border-style: solid;" />
+                  <ButtonBar layoutX="363.0" prefHeight="40.0" prefWidth="200.0" />
+                  <Button layoutX="590.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToMonthView" prefHeight="35.0" prefWidth="83.0" text="Tháng" />
+                  <Button layoutX="842.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToCustomView" prefHeight="35.0" prefWidth="83.0" text="Tùy chọn" />
+                  <Button layoutX="758.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToYearView" prefHeight="35.0" prefWidth="83.0" text="Năm" />
+                  <Button layoutX="674.0" layoutY="2.0" mnemonicParsing="false" onAction="#switchToQuarterView" prefHeight="35.0" prefWidth="83.0" text="Qúy" />
+               </children>
+            </AnchorPane>
+                <TableView fx:id="table" layoutX="275.0" layoutY="204.0" prefHeight="393.0" prefWidth="925.0">
+                    <columns>
+                        <TableColumn fx:id="monthCol" prefWidth="174.08895874023438" text="Quý" />
+                        <TableColumn fx:id="shiftCount" prefWidth="215.94461059570312" text="Số giờ làm việc (Ca 1, ca 2)" />
+                        <TableColumn fx:id="lateSoonHours" prefWidth="288.27349853515625" text="Số giờ tăng ca (Ca 3)" />
+                  <TableColumn fx:id="lateSoonHours1" prefWidth="245.72650146484375" text="Số ngày nghỉ" />
+                    </columns>
+                </TableView>
+                <Label layoutX="60.0" layoutY="19.0" prefHeight="63.0" prefWidth="439.0" text="Thông tin chấm công tổng quan cá nhân">
+                    <font>
+                        <Font name="System Bold" size="25.0" />
+                    </font>
+                </Label>
+                <Button layoutX="1099.0" layoutY="14.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="115.0" style="-fx-border-style: solid;" text="Gửi request" />
+                <AnchorPane fx:id="sidebar" layoutX="14.0" layoutY="97.0" prefHeight="503.0" prefWidth="231.0" style="-fx-border-style: solid; -fx-background-color: white;">
+                    <children>
+                        <Circle fill="DODGERBLUE" layoutX="116.0" layoutY="77.0" radius="48.0" stroke="BLACK" strokeType="INSIDE" />
+                        <Text layoutX="20.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nguyễn Văn A" textAlignment="CENTER" wrappingWidth="180.79999847412137">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Text>
+                        <Text layoutX="16.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nhân viên văn phòng" textAlignment="CENTER" wrappingWidth="200.80000305175787">
+                            <font>
+                                <Font size="14.0" />
+                            </font>
+                        </Text>
+                        <ImageView fx:id="menuIcon" fitHeight="35.0" fitWidth="35.0" layoutX="192.0" layoutY="-1.0" pickOnBounds="true" preserveRatio="true">
+                            <image>
+                                <Image url="@../imgs/menu-icon.png" />
+                            </image>
+                        </ImageView>
+                        <VBox fx:id="unitLeaderVbox" alignment="CENTER" layoutX="2.0" layoutY="252.0" prefHeight="200.0" prefWidth="231.0" visible="false">
+                            <children>
+                                <Button mnemonicParsing="false" onAction="#switchToCurrentView" prefHeight="38.0" prefWidth="231.0" text="Chấm công cá nhân" />
+                                <Button mnemonicParsing="false" prefHeight="38.0" prefWidth="231.0" text="Yêu cầu sửa chấm công" />
+                                <Button mnemonicParsing="false" onAction="#switchToListEmployeeView" prefHeight="38.0" prefWidth="231.0" text="Chấm công đơn vi" />
+                            </children>
+                        </VBox>
+                        <Line endX="130.0" layoutX="102.0" layoutY="232.0" startX="-100.0" style="-fx-stroke-dash-array: 3;" />
+                        <VBox fx:id="managerVbox" alignment="CENTER" layoutX="2.0" layoutY="252.0" prefHeight="200.0" prefWidth="231.0">
+                            <children>
+                                <Button mnemonicParsing="false" onAction="#switchToCurrentView" prefHeight="38.0" prefWidth="231.0" text="Chấm công cá nhân" />
+                                <Button mnemonicParsing="false" onAction="#switchToListUnit" prefHeight="38.0" prefWidth="231.0" text="Chấm công doanh nghiệp" />
+                                <Button mnemonicParsing="false" onAction="#switchToRequestView" prefHeight="38.0" prefWidth="231.0" text="Sửa thông tin chấm công" />
+                            </children>
+                        </VBox>
+                    </children>
+                </AnchorPane>
+                <ImageView fx:id="menuIcon2" fitHeight="35.0" fitWidth="35.0" layoutX="14.0" layoutY="97.0" pickOnBounds="true" preserveRatio="true" visible="false">
+                    <image>
+                        <Image url="@../imgs/menu-icon.png" />
+                    </image>
+                </ImageView>
+            <Label contentDisplay="CENTER" layoutX="275.0" layoutY="96.0" prefHeight="37.0" prefWidth="404.0" style="-fx-border-style: solid;" text="      Họ và tên: Lê Thị Nguyệt                              Mã số nhân viên: MA001">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+            </children>
+        </AnchorPane>
+        <Label fx:id="closeApp" alignment="CENTER" layoutX="1253.0" layoutY="1.0" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: white;" text="X" textAlignment="CENTER" />
+    </children>
+</AnchorPane>
