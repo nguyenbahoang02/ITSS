@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import java.io.Reader;
 import java.nio.file.Files;
@@ -40,7 +40,7 @@ public class Unit {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public void getEmployees(String path) {
+	public void getFakeEmployees(String path) {
 		try {
 			Reader reader = Files.newBufferedReader(Paths.get(path));
 			List<Officer> list = new Gson().fromJson(reader,
@@ -54,7 +54,7 @@ public class Unit {
 
 	}
 	
-	public void getEmployeesWorksData() {
+	public void getFakeEmployeesWorksData() {
 		for (Officer officer : officers) {
 			officer.setOfficerWorksDetail(new OfficerWorksDetail());
 			officer.getOfficerWorksDetail().getDataFromFile();

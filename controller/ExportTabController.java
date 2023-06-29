@@ -1,4 +1,4 @@
-package view.exportTab;
+package controller;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -21,6 +21,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import api.API;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -44,16 +45,9 @@ import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import view.API;
-import view.Officer;
-import view.AttendanceRecord;
-import view.Unit;
-import view.detailTab.DetailTabController;
-import view.homePage.HomePageController;
-import view.importTab.ImportTabController;
-import view.listUnitTab.ListUnitTabController;
-import view.overviewTab.OverviewTabController;
-import view.unitTab.UnitTabController;
+import model.AttendanceRecord;
+import model.Officer;
+import model.Unit;
 
 public class ExportTabController implements Initializable{
 	private String userName = "Nguyễn Bá Hoàng";

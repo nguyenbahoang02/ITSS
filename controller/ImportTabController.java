@@ -1,4 +1,4 @@
-package view.importTab;
+package controller;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -19,6 +19,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import api.API;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -34,14 +35,8 @@ import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import view.API;
-import view.Officer;
-import view.AttendanceRecord;
-import view.detailTab.DetailTabController;
-import view.exportTab.ExportTabController;
-import view.homePage.HomePageController;
-import view.listUnitTab.ListUnitTabController;
-import view.overviewTab.OverviewTabController;
+import model.AttendanceRecord;
+import model.Officer;
 
 public class ImportTabController implements Initializable{
 	private String userName = "Nguyễn Bá Hoàng";

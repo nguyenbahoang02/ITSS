@@ -1,4 +1,4 @@
-package view;
+package model;
 
 public class AttendanceRecord {
 	private String id;

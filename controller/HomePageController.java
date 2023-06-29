@@ -1,13 +1,10 @@
-package view.listUnitTab;
+package controller;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+import api.API;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -15,25 +12,13 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseButton;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import view.API;
-import view.Officer;
-import view.Unit;
-import view.detailTab.DetailTabController;
-import view.exportTab.ExportTabController;
-import view.homePage.HomePageController;
-import view.importTab.ImportTabController;
-import view.overviewTab.OverviewTabController;
-import view.unitTab.UnitTabController;
+import model.Employee;
+import model.Officer;
 
-public class ListUnitTabController implements Initializable{
-	private String userName = "Nguyễn Bá Hoàng";
+public class HomePageController implements Initializable{
+
 	private Stage stage;
 	private Officer user;
 	
@@ -59,44 +44,19 @@ public class ListUnitTabController implements Initializable{
     private MenuButton userSettings;
 
     @FXML
-    private Text unitId;
-    
+    private Text userEmail;
+
     @FXML
-    private TableView<Unit> table;
-    
-    @FXML 
-    private TableColumn<Unit, String> idCol;
-    
+    private Text userName;
+
     @FXML
-    private TableColumn<Unit, String> nameCol;
-    
+    private Text userPhoneNumber;
+
     @FXML
-    private TextField searchField;
-    
-    public void setDataToTable() {
-    	ObservableList<Unit> data = FXCollections.observableArrayList();
-    	idCol.setCellValueFactory(new PropertyValueFactory<Unit, String>("id"));
-    	nameCol.setCellValueFactory(new PropertyValueFactory<Unit, String>("name"));
-    	data.addAll(API.GET_ALL_UNITS());
-    	table.setItems(data);
-    	table.setOnMouseClicked(event -> {
-			if(event.getButton() == MouseButton.PRIMARY && event.getClickCount()==2) {
-				Unit selectedItem = table.getSelectionModel().getSelectedItem();
-				if(selectedItem!=null) {
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/unitTab/UnitTab.fxml"));
-					loader.setController(new UnitTabController(stage,selectedItem));
-					Parent root;
-					try {
-						root = loader.load();
-						Scene scene = new Scene(root);
-						stage.setScene(scene);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-    }
+    private Text userGender;
+
+    @FXML
+    private Text userUnit;
     
     public void setTabSwitchinFunction() {
     	homePage.setOnMouseClicked(event ->{
@@ -173,43 +133,24 @@ public class ListUnitTabController implements Initializable{
     	});
     }
     
-    public ListUnitTabController(Stage stage) {
+    public HomePageController(Stage stage) {
     	this.stage=stage;
     	this.user=API.GET_USER();
     }
     
-    
-    public void setSearchFunction() {
-    	searchField.textProperty().addListener(new ChangeListener<String>() {
-
-			@Override
-			public void changed(ObservableValue<? extends String> arg0, String arg1, String text) {
-				if(text.length()!=0) {
-					if(text.charAt(0)!= ' ') {
-						ObservableList<Unit> list = FXCollections.observableArrayList();
-						for (Unit unit : API.GET_ALL_UNITS()) {
-							if(unit.getName().toUpperCase().contains(text.toUpperCase())||unit.getId().toUpperCase().contains(text.toUpperCase())) {
-								list.add(unit);
-							}
-						}
-						table.setItems(list);
-						
-					}else searchField.setText("");
-				}else setDataToTable();
-				
-			}
-    		
-		});
+    public void setUserInfo() {
+    	userName.setText("Họ và tên: " + user.getName());
+    	userEmail.setText("Email: " + "nguyenbahoang02@gmail.com");
+    	userPhoneNumber.setText("Số điện thoại: " + "0912164656");
+    	userGender.setText("Giới tính: " + "nam");
+    	userUnit.setText("Đơn vị: " + user.getUnitId());
     }
     
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
-		userSettings.setText(userName);
+		userSettings.setText(user.getName());
 		setTabSwitchinFunction();
-		unitId.setText("Danh sách đơn vị");
-		setDataToTable();
-		setSearchFunction();
-		
+		setUserInfo();
 	}
     
 }

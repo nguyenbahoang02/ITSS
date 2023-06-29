@@ -1,9 +1,10 @@
-package view.overviewTab;
+package controller;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
+import api.API;
 import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -16,14 +17,7 @@ import javafx.scene.control.MenuButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import view.API;
-import view.Officer;
-import view.detailTab.DetailTabController;
-import view.exportTab.ExportTabController;
-import view.homePage.HomePageController;
-import view.importTab.ImportTabController;
-import view.listUnitTab.ListUnitTabController;
-import view.unitTab.UnitTabController;
+import model.Officer;
 
 public class OverviewTabController implements Initializable{
 	private String userName = "Nguyễn Bá Hoàng";

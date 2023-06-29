@@ -1,4 +1,4 @@
-package view;
+package model;
 
 import java.io.Reader;
 import java.nio.file.Files;
@@ -45,7 +45,7 @@ public class OfficerWorksDetail {
 	
 	public void getDataFromFile() {
 		try {
-			Reader reader = Files.newBufferedReader(Paths.get("src\\view\\officerTimeSheet.json"));
+			Reader reader = Files.newBufferedReader(Paths.get("src\\data\\officerTimeSheet.json"));
 			List<AttendanceRecord> list = new Gson().fromJson(reader,
 					new TypeToken<List<AttendanceRecord>>() {
 					}.getType());

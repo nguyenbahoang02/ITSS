@@ -1,10 +1,11 @@
-package view.detailTab;
+package controller;
 
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
+import api.API;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
@@ -24,33 +25,18 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
-import view.API;
-import view.Officer;
-import view.AttendanceRecord;
-import view.Unit;
-import view.editScreen.EditScreenController;
-import view.exportTab.ExportTabController;
-import view.homePage.HomePageController;
-import view.importTab.ImportTabController;
-import view.listUnitTab.ListUnitTabController;
-import view.overviewTab.OverviewTabController;
-import view.unitTab.UnitTabController;
+import model.Officer;
+import model.Unit;
 
-public class DetailTabController implements Initializable{
+public class UnitTabController implements Initializable{
 	private String userName = "Nguyễn Bá Hoàng";
 	private Stage stage;
 	private Officer user;
-	private String time;
-	
-	@FXML
-	private Text officerId;
-	
-	@FXML
-	private Text officerName;
+	private Unit unit;
 	
     @FXML
     private Text homePage;
-	
+	  
     @FXML
     private Button detailTab;
     
@@ -70,40 +56,39 @@ public class DetailTabController implements Initializable{
     private MenuButton userSettings;
 
     @FXML
+    private Text unitId;
+    
+    @FXML
+    private TableView<Officer> table;
+    
+    @FXML 
+    private TableColumn<Officer, String> idCol;
+    
+    @FXML
+    private TableColumn<Officer, String> nameCol;
+    
+    @FXML
     private TextField searchField;
     
     @FXML
-    private Text currentTime = new Text();
-    
-    @FXML 
-    private TableView<AttendanceRecord> table = new TableView<>();
+    private Text shiftCount;
     
     @FXML
-    private TableColumn<AttendanceRecord, String> dayCol = new TableColumn<AttendanceRecord, String>();
+    private Text numberOfEmployee;
     
     @FXML
-    private TableColumn<AttendanceRecord, String> morningCol= new TableColumn<AttendanceRecord, String>();;
+    private Text lateHours;
     
     @FXML
-    private TableColumn<AttendanceRecord, String> afternoonCol= new TableColumn<AttendanceRecord, String>();;
+    private Text earlyHours;
     
     @FXML
-    private TableColumn<AttendanceRecord, String> lateCol= new TableColumn<AttendanceRecord, String>();;
-    
-    @FXML
-    private TableColumn<AttendanceRecord, String> earlyCol= new TableColumn<AttendanceRecord, String>();;
-    
-    @FXML
-    void exportClicked(MouseEvent event) {
-    	ArrayList<AttendanceRecord> exportData = new ArrayList<>();
-    	exportData.addAll(table.getItems());
-    	ExportTabController.EXPORT(exportData,stage,user.getId());
-    }
+    private Text currentTime;
     
     @FXML
     void backClicked(MouseEvent event) {
-    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/overviewTab/OverviewTab.fxml"));
-		loader.setController(new OverviewTabController(stage,user));
+    	FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/listUnitTab/ListUnitTab.fxml"));
+		loader.setController(new ListUnitTabController(stage));
 		Parent root;
 		try {
 			root = loader.load();
@@ -126,13 +111,13 @@ public class DetailTabController implements Initializable{
     		
     		if(month>=10) currentTime.setText(month + "/" + year);
     		else currentTime.setText("0" + month + "/" + year);
-    		setDataToTable(user.getOfficerWorksDetail().getTimesheetByMonth(currentTime.getText()));
+    		setInfoMonth();
     	}
     	else if(currentTime.getText().length()==4) {
     		int year = Integer.parseInt(currentTime.getText());
     		year++;
     		currentTime.setText("" + year);
-    		setDataToTable(user.getOfficerWorksDetail().getTimesheetByYear(currentTime.getText()));
+    		setInfoYear();
     	}
     	else if(currentTime.getText().length()==10) {
     		int quy = Integer.parseInt(currentTime.getText().split(" ")[1]);
@@ -142,10 +127,10 @@ public class DetailTabController implements Initializable{
     			year++;
     		}else quy++;
     		currentTime.setText("Quý " + quy + " " + year);
-    		setDataToTable(user.getOfficerWorksDetail().getTimesheetByQuarter(currentTime.getText()));
+    		setInfoQuarter();
     	}
     }
-    
+
     @FXML
     void prevClicked(MouseEvent event) {
     	if(currentTime.getText().length()==7) {
@@ -159,13 +144,13 @@ public class DetailTabController implements Initializable{
     		}
     		if(month>=10) currentTime.setText(month + "/" + year);
     		else currentTime.setText("0" + month + "/" + year);
-    		setDataToTable(user.getOfficerWorksDetail().getTimesheetByMonth(currentTime.getText()));
+    		setInfoMonth();
     	}
     	else if(currentTime.getText().length()==4) {
     		int year = Integer.parseInt(currentTime.getText());
     		year--;
     		currentTime.setText("" + year);
-    		setDataToTable(user.getOfficerWorksDetail().getTimesheetByYear(currentTime.getText()));
+    		setInfoYear();
     	}
     	else if(currentTime.getText().length()==10) {
     		int quy = Integer.parseInt(currentTime.getText().split(" ")[1]);
@@ -175,26 +160,94 @@ public class DetailTabController implements Initializable{
     			year--;
     		}else quy--;
     		currentTime.setText("Quý " + quy + " " + year);
-    		setDataToTable(user.getOfficerWorksDetail().getTimesheetByQuarter(currentTime.getText()));
+    		setInfoQuarter();
     	}
     }
     
     @FXML
     void monthClicked(MouseEvent event) {
     	currentTime.setText("06/2023");
-    	setDataToTable(user.getOfficerWorksDetail().getTimesheetByMonth(currentTime.getText()));
+    	setInfoMonth();
     }
 
     @FXML
     void quarterClicked(MouseEvent event) {
     	currentTime.setText("Quý 2 2023");
-    	setDataToTable(user.getOfficerWorksDetail().getTimesheetByQuarter(currentTime.getText()));
+    	setInfoQuarter();
+    	
     }
 
     @FXML
-    void yearClicked(MouseEvent event) {
+    void yearClicked(MouseEvent event) {  	
     	currentTime.setText("2023");
-    	setDataToTable(user.getOfficerWorksDetail().getTimesheetByYear(currentTime.getText()));
+    	setInfoYear();
+    }
+    
+    private void setInfoMonth() {
+    	int shift=0;
+    	float late=0f;
+    	float early=0f;
+    	for (Officer officer : unit.getOfficers()) {
+			shift+=Integer.parseInt(officer.getOfficerWorksDetail().getTotalShiftByMonth(currentTime.getText()));
+			late+=Float.parseFloat(officer.getOfficerWorksDetail().getLateHoursByMonth(currentTime.getText()));
+			early+=Float.parseFloat(officer.getOfficerWorksDetail().getEarlyHoursByMonth(currentTime.getText()));
+		}
+    	shiftCount.setText("Tổng số buổi đi làm: " + shift);
+    	lateHours.setText("Tổng số giờ đi muộn: " + late);
+    	earlyHours.setText("Tổng số giờ về sớm: " + early);
+    }
+    
+    private void setInfoYear() {
+    	int shift=0;
+    	float late=0f;
+    	float early=0f;
+    	for (Officer officer : unit.getOfficers()) {
+			shift+=Integer.parseInt(officer.getOfficerWorksDetail().getTotalShiftByYear(currentTime.getText()));
+			late+=Float.parseFloat(officer.getOfficerWorksDetail().getLateHoursByYear(currentTime.getText()));
+			early+=Float.parseFloat(officer.getOfficerWorksDetail().getLateHoursByYear(currentTime.getText()));
+		}
+    	shiftCount.setText("Tổng số buổi đi làm: " + shift);
+    	lateHours.setText("Tổng số giờ đi muộn: " + late);
+    	earlyHours.setText("Tổng số giờ về sớm: " + early);
+    }
+    
+    private void setInfoQuarter() {
+    	int shift=0;
+    	float late=0f;
+    	float early=0f;
+    	for (Officer officer : unit.getOfficers()) {
+			shift+=Integer.parseInt(officer.getOfficerWorksDetail().getTotalShiftByQuarter(currentTime.getText()));
+			late+=Float.parseFloat(officer.getOfficerWorksDetail().getLateHoursByQuarter(currentTime.getText()));
+			early+=Float.parseFloat(officer.getOfficerWorksDetail().getEarlyHoursByQuarter(currentTime.getText()));
+		}
+    	shiftCount.setText("Tổng số buổi đi làm: " + shift);
+    	lateHours.setText("Tổng số giờ đi muộn: " + late);
+    	earlyHours.setText("Tổng số giờ về sớm: " + early);
+    }
+    
+    public void setDataToTable(ArrayList<Officer> officers) {
+    	ObservableList<Officer> data = FXCollections.observableArrayList();
+    	idCol.setCellValueFactory(new PropertyValueFactory<Officer, String>("id"));
+    	nameCol.setCellValueFactory(new PropertyValueFactory<Officer, String>("name"));
+    	data.addAll(officers);
+    	table.setItems(data);
+    	table.setOnMouseClicked(event -> {
+			if(event.getButton() == MouseButton.PRIMARY && event.getClickCount()==2) {
+				Officer selectedItem = table.getSelectionModel().getSelectedItem();
+				if(selectedItem!=null) {
+					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/overviewTab/OverviewTab.fxml"));
+					loader.setController(new OverviewTabController(stage,selectedItem));
+					Parent root;
+					try {
+						root = loader.load();
+						Scene scene = new Scene(root);
+						stage.setScene(scene);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+			}
+		});
     }
     
     public void setTabSwitchinFunction() {
@@ -272,88 +325,44 @@ public class DetailTabController implements Initializable{
     	});
     }
     
+    public UnitTabController(Stage stage, Unit unit) {
+    	this.stage=stage;
+    	this.user=API.GET_USER();
+    	this.unit=unit;
+    }
+    
     public void setSearchFunction() {
     	searchField.textProperty().addListener(new ChangeListener<String>() {
+
 			@Override
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String text) {
 				if(text.length()!=0) {
 					if(text.charAt(0)!= ' ') {
-						ObservableList<AttendanceRecord> list = FXCollections.observableArrayList();
-						for (AttendanceRecord attendanceRecord : table.getItems()) {
-							if(attendanceRecord.getDate().contains(searchField.getText())) {
-								list.add(attendanceRecord);
+						ObservableList<Officer> list = FXCollections.observableArrayList();
+						for (Officer officer : unit.getOfficers()) {
+							if(officer.getName().toUpperCase().contains(text.toUpperCase())||officer.getId().toUpperCase().contains(text.toUpperCase())) {
+								list.add(officer);
 							}
 						}
 						table.setItems(list);
 						
 					}else searchField.setText("");
-				}else if(currentTime.getText().length()==4) {
-					setDataToTable(user.getOfficerWorksDetail().getTimesheetByYear(currentTime.getText()));
-				}else if(currentTime.getText().length()==7) {
-					setDataToTable(user.getOfficerWorksDetail().getTimesheetByMonth(currentTime.getText()));
-				}else setDataToTable(user.getOfficerWorksDetail().getTimesheetByQuarter(currentTime.getText()));
+				}else setDataToTable(unit.getOfficers());
 				
 			}
     		
 		});
     }
     
-    public void setDataToTable(ArrayList<AttendanceRecord> data) {
-    	ObservableList<AttendanceRecord> list = FXCollections.observableArrayList();
-    	list.addAll(data);
-    	
-    	dayCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("date"));
-    	morningCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("morning"));
-    	afternoonCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("afternoon"));
-    	lateCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("lateHours"));
-        earlyCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("soonHours"));
-        
-    	table.setItems(list);
-    	table.setOnMouseClicked(event -> {
-			if(event.getButton() == MouseButton.PRIMARY && event.getClickCount()==2) {
-				AttendanceRecord selectedItem = table.getSelectionModel().getSelectedItem();
-				if(selectedItem!=null) {
-					FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/editScreen/EditScreen.fxml"));
-					loader.setController(new EditScreenController(stage,selectedItem,user,currentTime.getText()));
-					Parent root;
-					try {
-						root = loader.load();
-						Scene scene = new Scene(root);
-						stage.setScene(scene);
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-				}
-			}
-		});
-    }
-    
-    public DetailTabController(Stage stage) {
-    	this.stage=stage;
-    	this.user=API.GET_USER();
-    	time="06/2023";
-    }
-    
-    public DetailTabController(Stage stage, Officer user, String currentTime) {
-    	this.stage=stage;
-    	this.user=user;
-    	this.time=currentTime;
-    }
-    
 	@Override
 	public void initialize(URL arg0, ResourceBundle arg1) {
 		userSettings.setText(userName);
 		setTabSwitchinFunction();
-		currentTime.setText(time);
-		officerName.setText("Tên: " + user.getName());
-		officerId.setText("Id: " + user.getId());
-		if(currentTime.getText().length()==4) {
-			setDataToTable(user.getOfficerWorksDetail().getTimesheetByYear(this.currentTime.getText()));
-		}else if(currentTime.getText().length()==7) {
-			setDataToTable(user.getOfficerWorksDetail().getTimesheetByMonth(this.currentTime.getText()));
-		}else setDataToTable(user.getOfficerWorksDetail().getTimesheetByQuarter(this.currentTime.getText()));
-		setSearchFunction();	
-		
+		unitId.setText(unit.getId());
+		setDataToTable(unit.getOfficers());
+		setSearchFunction();
+		numberOfEmployee.setText("Số nhân viên: " + unit.getOfficers().size());
+		monthClicked(null);
 	}
     
 }

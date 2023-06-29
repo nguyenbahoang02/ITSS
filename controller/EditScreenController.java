@@ -1,4 +1,4 @@
-package view.editScreen;
+package controller;
 
 import java.io.IOException;
 import java.net.URL;
@@ -17,14 +17,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import view.Officer;
-import view.AttendanceRecord;
-import view.detailTab.DetailTabController;
-import view.exportTab.ExportTabController;
-import view.homePage.HomePageController;
-import view.importTab.ImportTabController;
-import view.listUnitTab.ListUnitTabController;
-import view.overviewTab.OverviewTabController;
+import model.AttendanceRecord;
+import model.Officer;
 
 public class EditScreenController implements Initializable{
 	private String userName = "Nguyễn Bá Hoàng";

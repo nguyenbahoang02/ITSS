@@ -1,6 +1,10 @@
-package view;
+package api;
 
 import java.util.ArrayList;
+
+import model.AttendanceRecord;
+import model.Officer;
+import model.Unit;
 
 public class API {
 	private static Officer USER;
@@ -8,35 +12,35 @@ public class API {
 	
 	public static void CREATE_UNIT() {
 		Unit unit = new Unit("Đơn vị 1","1");
-    	unit.getEmployees("src\\data\\employeesUnit1.json");
-    	unit.getEmployeesWorksData();
+    	unit.getFakeEmployees("src\\data\\employeesUnit1.json");
+    	unit.getFakeEmployeesWorksData();
     	Unit unit1 = new Unit("Đơn vị 2","2");
-    	unit1.getEmployees("src\\data\\employeesUnit2.json");
-    	unit1.getEmployeesWorksData();
+    	unit1.getFakeEmployees("src\\data\\employeesUnit2.json");
+    	unit1.getFakeEmployeesWorksData();
     	Unit unit2 = new Unit("Đơn vị 3","3");
-    	unit2.getEmployees("src\\data\\employeesUnit3.json");
-    	unit2.getEmployeesWorksData();
+    	unit2.getFakeEmployees("src\\data\\employeesUnit3.json");
+    	unit2.getFakeEmployeesWorksData();
     	Unit unit3 = new Unit("Đơn vị 4","4");
-    	unit3.getEmployees("src\\data\\employeesUnit4.json");
-    	unit3.getEmployeesWorksData();
+    	unit3.getFakeEmployees("src\\data\\employeesUnit4.json");
+    	unit3.getFakeEmployeesWorksData();
     	Unit unit4 = new Unit("Đơn vị 5","5");
-    	unit4.getEmployees("src\\data\\employeesUnit5.json");
-    	unit4.getEmployeesWorksData();
+    	unit4.getFakeEmployees("src\\data\\employeesUnit5.json");
+    	unit4.getFakeEmployeesWorksData();
     	Unit unit5 = new Unit("Đơn vị 6","6");
-    	unit5.getEmployees("src\\data\\employeesUnit6.json");
-    	unit5.getEmployeesWorksData();
+    	unit5.getFakeEmployees("src\\data\\employeesUnit6.json");
+    	unit5.getFakeEmployeesWorksData();
     	Unit unit6 = new Unit("Đơn vị 7","7");
-    	unit6.getEmployees("src\\data\\employeesUnit7.json");
-    	unit6.getEmployeesWorksData();
+    	unit6.getFakeEmployees("src\\data\\employeesUnit7.json");
+    	unit6.getFakeEmployeesWorksData();
     	Unit unit7 = new Unit("Đơn vị 8","8");
-    	unit7.getEmployees("src\\data\\employeesUnit8.json");
-    	unit7.getEmployeesWorksData();
+    	unit7.getFakeEmployees("src\\data\\employeesUnit8.json");
+    	unit7.getFakeEmployeesWorksData();
     	Unit unit8 = new Unit("Đơn vị 9","9");
-    	unit8.getEmployees("src\\data\\employeesUnit9.json");
-    	unit8.getEmployeesWorksData();
+    	unit8.getFakeEmployees("src\\data\\employeesUnit9.json");
+    	unit8.getFakeEmployeesWorksData();
     	Unit unit9 = new Unit("Đơn vị 10","10");
-    	unit9.getEmployees("src\\data\\employeesUnit10.json");
-    	unit9.getEmployeesWorksData();
+    	unit9.getFakeEmployees("src\\data\\employeesUnit10.json");
+    	unit9.getFakeEmployeesWorksData();
     	ALL_UNITS.add(unit);
     	ALL_UNITS.add(unit1);
     	ALL_UNITS.add(unit2);
