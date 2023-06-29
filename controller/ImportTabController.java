@@ -82,7 +82,6 @@ public class ImportTabController implements Initializable{
     		if(nextRow.getRowNum() == 0) {
     			continue;
     		}
-    		
     		Iterator<Cell> cellIterator = nextRow.cellIterator();
     		
     		AttendanceRecord attendanceRecord = new AttendanceRecord();
@@ -98,27 +97,33 @@ public class ImportTabController implements Initializable{
                 	attendanceRecord.setId(cellValue.toString().split("\\.")[0]);
                 	break;
                 case 1:
-                    attendanceRecord.setDate(cellValue.toString());
+                    attendanceRecord.setDate(cellValue.toString().trim());
                     break;
                 case 2:
-                    attendanceRecord.setMorning(cellValue.toString());
+                    attendanceRecord.setMorning(cellValue.toString().trim());
                     break;
                 case 3:
-                    attendanceRecord.setAfternoon(cellValue.toString());
+                    attendanceRecord.setAfternoon(cellValue.toString().trim());
                     break;
                 case 4:
-                    attendanceRecord.setLateHours(cellValue.toString());
+                    attendanceRecord.setLateHours(cellValue.toString().trim());
                     break;
                 case 5:
-                    attendanceRecord.setSoonHours(cellValue.toString());
+                    attendanceRecord.setEarlyHours(cellValue.toString().trim());
                     break;
                 default:
                     break;
                 }
     		}
+    		if(attendanceRecord.getDate()==null) break;
+    		if(attendanceRecord.getEarlyHours().split("\\.")[1].equals("0")) {
+    			attendanceRecord.setEarlyHours(attendanceRecord.getEarlyHours().split("\\.")[0]);
+    		}
+    		if(attendanceRecord.getLateHours().split("\\.")[1].equals("0")) {
+    			attendanceRecord.setLateHours(attendanceRecord.getLateHours().split("\\.")[0]);
+    		}
     		list.add(attendanceRecord);
     	}
-    	
     	return list;
     }
     

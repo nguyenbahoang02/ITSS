@@ -31,10 +31,10 @@ public class AttendanceRecord {
 	public void setLateHours(String lateHours) {
 		this.lateHours = lateHours;
 	}
-	public String getSoonHours() {
+	public String getEarlyHours() {
 		return earlyHours;
 	}
-	public void setSoonHours(String soonHours) {
+	public void setEarlyHours(String soonHours) {
 		this.earlyHours = soonHours;
 	}
 	public String getId() {
@@ -42,6 +42,20 @@ public class AttendanceRecord {
 	}
 	public void setId(String id) {
 		this.id = id;
+	}
+	public AttendanceRecord(String id, String date, String morning, String afternoon, String lateHours,
+			String earlyHours) {
+		super();
+		this.id = id;
+		this.date = date;
+		this.morning = morning;
+		this.afternoon = afternoon;
+		this.lateHours = lateHours;
+		this.earlyHours = earlyHours;
+	}
+	
+	public AttendanceRecord() {
+		
 	}
 	
 }

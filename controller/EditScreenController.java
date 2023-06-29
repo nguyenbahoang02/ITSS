@@ -85,20 +85,15 @@ public class EditScreenController implements Initializable{
 
     @FXML
     void saveClicked(MouseEvent event) {
-    	if(dateText.getText().length()!=10||countNumberOfChar(dateText.getText())!=2) {
+    	if(!CHECK_DATE_FORMAT(dateText.getText())) {
     		showErrorMsg("Hãy nhập đúng định dạng ngày");
     		return;
     	}
-    	if(dateText.getText().split("/")[0].length()!=2||dateText.getText().split("/")[1].length()!=2||dateText.getText().split("/")[2].length()!=4){
-    		showErrorMsg("Hãy nhập đúng định dạng ngày");
-    		return;
-    	}
-    	if(!morningText.getText().equals("có")&&!morningText.getText().equals("không")) {
+    	if(!CHECK_MORNING_AFTERNOON_FORMAT(morningText.getText())) {
     		showErrorMsg("Hãy nhập đúng định dạng ca chấm công sáng");
-    		System.out.println(morningText.getText());
     		return;
     	}
-    	if(!afternoonText.getText().equals("có")&&!afternoonText.getText().equals("không")) {
+    	if(!CHECK_MORNING_AFTERNOON_FORMAT(afternoonText.getText())) {
     		showErrorMsg("Hãy nhập đúng định dạng ca chấm công chiều");
     		return;
     	}
@@ -116,9 +111,28 @@ public class EditScreenController implements Initializable{
 		}
     	attendanceRecord.setDate(dateText.getText());
     	attendanceRecord.setLateHours(lateText.getText());
-    	attendanceRecord.setSoonHours(earlyText.getText());
+    	attendanceRecord.setEarlyHours(earlyText.getText());
     	attendanceRecord.setMorning(morningText.getText());
     	attendanceRecord.setAfternoon(afternoonText.getText());
+    }
+    
+    public static boolean CHECK_MORNING_AFTERNOON_FORMAT(String string) {
+    	if(!string.trim().equals("có")&&!string.trim().equals("không")) {
+    		return false;
+    	}
+    	return true;
+    }
+    
+    public static boolean CHECK_DATE_FORMAT(String string) {
+    	if(string.length()!=10||countNumberOfChar(string)!=2) {
+    		return false;
+    	}
+    	if(string.split("/")[0].length()!=2||
+    		string.split("/")[1].length()!=2||
+    		string.split("/")[2].length()!=4) {
+    		return false;
+    	}
+    	return true;
     }
     
     public void setTabSwitchinFunction() {
@@ -208,10 +222,10 @@ public class EditScreenController implements Initializable{
 		morningText.setText(attendanceRecord.getMorning());
 		afternoonText.setText(attendanceRecord.getAfternoon());
 		lateText.setText(attendanceRecord.getLateHours());
-		earlyText.setText(attendanceRecord.getSoonHours());
+		earlyText.setText(attendanceRecord.getEarlyHours());
     }
     
-    private int countNumberOfChar(String string) {
+    private static int countNumberOfChar(String string) {
     	int count = 0;
     	 for (char c : string.toCharArray()) {
              // Check if the character matches the target character

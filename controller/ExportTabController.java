@@ -348,7 +348,7 @@ public class ExportTabController implements Initializable{
         cell.setCellValue("Về sớm");
     }
     
-    private static void WRITE_DATA(AttendanceRecord attendanceRecord, Row row, String id){    
+    public static void WRITE_DATA(AttendanceRecord attendanceRecord, Row row, String id){    
          
         Cell cell = row.createCell(0);
         cell.setCellValue(id);
@@ -366,7 +366,7 @@ public class ExportTabController implements Initializable{
         cell.setCellValue(attendanceRecord.getLateHours());
         
         cell = row.createCell(5);
-        cell.setCellValue(attendanceRecord.getSoonHours());
+        cell.setCellValue(attendanceRecord.getEarlyHours());
         
     }
     

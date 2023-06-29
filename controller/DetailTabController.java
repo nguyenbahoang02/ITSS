@@ -271,13 +271,7 @@ public class DetailTabController implements Initializable{
 			public void changed(ObservableValue<? extends String> arg0, String arg1, String text) {
 				if(text.length()!=0) {
 					if(text.charAt(0)!= ' ') {
-						ObservableList<AttendanceRecord> list = FXCollections.observableArrayList();
-						for (AttendanceRecord attendanceRecord : table.getItems()) {
-							if(attendanceRecord.getDate().contains(searchField.getText())) {
-								list.add(attendanceRecord);
-							}
-						}
-						table.setItems(list);
+						table.setItems(SEARCH_ATTENDANCE_RECORD(table.getItems(), text));
 						
 					}else searchField.setText("");
 				}else if(currentTime.getText().length()==4) {
@@ -291,6 +285,18 @@ public class DetailTabController implements Initializable{
 		});
     }
     
+    public static ObservableList<AttendanceRecord> SEARCH_ATTENDANCE_RECORD(ObservableList<AttendanceRecord> attendanceRecords, String string){
+    	ObservableList<AttendanceRecord> list = FXCollections.observableArrayList();
+    	
+    	for (AttendanceRecord attendanceRecord : attendanceRecords) {
+			if(attendanceRecord.getDate().contains(string)) {
+				list.add(attendanceRecord);
+			}
+		}
+    	
+    	return list;
+    }
+    
     public void setDataToTable(ArrayList<AttendanceRecord> data) {
     	ObservableList<AttendanceRecord> list = FXCollections.observableArrayList();
     	list.addAll(data);
@@ -299,7 +305,7 @@ public class DetailTabController implements Initializable{
     	morningCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("morning"));
     	afternoonCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("afternoon"));
     	lateCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("lateHours"));
-        earlyCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("soonHours"));
+        earlyCol.setCellValueFactory(new PropertyValueFactory<AttendanceRecord, String>("earlyHours"));
         
     	table.setItems(list);
     	table.setOnMouseClicked(event -> {

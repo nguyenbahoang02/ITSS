@@ -339,12 +339,8 @@ public class UnitTabController implements Initializable{
 				if(text.length()!=0) {
 					if(text.charAt(0)!= ' ') {
 						ObservableList<Officer> list = FXCollections.observableArrayList();
-						for (Officer officer : unit.getOfficers()) {
-							if(officer.getName().toUpperCase().contains(text.toUpperCase())||officer.getId().toUpperCase().contains(text.toUpperCase())) {
-								list.add(officer);
-							}
-						}
-						table.setItems(list);
+						list.addAll(unit.getOfficers());
+						table.setItems(SEARCH_OFFICER(list, text));
 						
 					}else searchField.setText("");
 				}else setDataToTable(unit.getOfficers());
@@ -352,6 +348,16 @@ public class UnitTabController implements Initializable{
 			}
     		
 		});
+    }
+    
+    public static ObservableList<Officer> SEARCH_OFFICER(ObservableList<Officer> officers, String string){
+    	ObservableList<Officer> list = FXCollections.observableArrayList();
+		for (Officer officer : officers) {
+			if(officer.getName().toUpperCase().contains(string.toUpperCase())||officer.getId().toUpperCase().contains(string.toUpperCase())) {
+				list.add(officer);
+			}
+		}
+		return list;
     }
     
 	@Override

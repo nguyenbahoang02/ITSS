@@ -103,7 +103,7 @@ public class OfficerWorksDetail {
 			String monthString = officerTimesheet1.getDate().split("/")[1];
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(month.equals(monthString)&&year.equals(yearString)) {
-				earlyHours+=Float.parseFloat(officerTimesheet1.getSoonHours());
+				earlyHours+=Float.parseFloat(officerTimesheet1.getEarlyHours());
 			}
 		}
 		
@@ -147,7 +147,7 @@ public class OfficerWorksDetail {
 		for (AttendanceRecord officerTimesheet1 : attendanceRecord) {
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(yearString.equals(time)) {
-				earlyHours+=Float.parseFloat(officerTimesheet1.getSoonHours());
+				earlyHours+=Float.parseFloat(officerTimesheet1.getEarlyHours());
 			}
 		}
 		
@@ -200,7 +200,7 @@ public class OfficerWorksDetail {
 			int monthInt = Integer.parseInt(officerTimesheet1.getDate().split("/")[1]);
 			String yearString = officerTimesheet1.getDate().split("/")[2];
 			if(monthInt<=quy*3 && monthInt >= quy*3-2 && year.equals(yearString)) {
-				earlyHours+=Float.parseFloat(officerTimesheet1.getSoonHours());
+				earlyHours+=Float.parseFloat(officerTimesheet1.getEarlyHours());
 			}
 		}
 		
