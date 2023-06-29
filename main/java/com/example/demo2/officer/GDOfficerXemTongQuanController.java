@@ -92,7 +92,7 @@ public class GDOfficerXemTongQuanController implements Initializable {
     private ObservableList<OfficerTimeSheet> officerTimeSheetsList;
     private ObservableList<OfficerTimeSheetMonth> officerTimeSheetMonthsList;
 
-    private List<OfficerTimeSheetMonth> createTimeSheetOfYear(int year){
+    public List<OfficerTimeSheetMonth> createTimeSheetOfYear(int year){
         List<OfficerTimeSheetMonth> officerTimeSheetMonths = new ArrayList<>();
         for (int i = 1; i <= 12; i++){
             officerTimeSheetMonths.add(new OfficerTimeSheetMonth(year, i,0,0));

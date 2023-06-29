@@ -50,7 +50,7 @@ public class GDListEmployeeOfUnitController implements Initializable {
     @FXML private VBox managerVbox;
     @FXML private Text userName;
     @FXML private Label unitName;
-    @FXML private Text roleLabel;
+    @FXML public Text roleLabel;
     private Stage stage;
     private Scene scene;
     private ObservableList<Employee> employeeObservableList;
@@ -64,7 +64,7 @@ public class GDListEmployeeOfUnitController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
-    private void setSidebarInformation() {
+    public void setSidebarInformation() {
         Employee currentEmployee = CurrentUser.getCurrentEmployee();
         userName.setText(currentEmployee.getName());
         for (Unit u : GetData.getUnitToFile())
