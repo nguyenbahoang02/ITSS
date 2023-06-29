@@ -1,4 +1,4 @@
-package com.example.demo2.entity;
+package com.example.demo2.Model;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -6,6 +6,11 @@ public class Employee implements Comparable<Employee> {
     private int id;
     private String name;
     private String unitId;
+
+    public Employee(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Employee(int id, String name, String unitId) {
         this.id = id;

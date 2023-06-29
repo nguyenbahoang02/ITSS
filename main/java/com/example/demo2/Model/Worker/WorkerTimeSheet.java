@@ -1,4 +1,4 @@
-package com.example.demo2.entity;
+package com.example.demo2.Model.Worker;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -1,4 +1,4 @@
-package com.example.demo2.entity;
+package com.example.demo2.Model.Officer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.util.Date;

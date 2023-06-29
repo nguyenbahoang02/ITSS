@@ -1,12 +1,12 @@
-package com.example.demo2.unitLeader;
+package com.example.demo2.manager;
 
+import com.example.demo2.Model.Officer.Officer;
 import com.example.demo2.Model.Worker.Worker;
 import com.example.demo2.configure.UnitIdTable;
 import com.example.demo2.configure.UserIdCurrent;
 import com.example.demo2.configure.UserIdTable;
 import com.example.demo2.configure.configureController.CurrentUser;
 import com.example.demo2.Model.*;
-import com.example.demo2.Model.Officer.Officer;
 import com.example.demo2.fileJSON.fileController.GetData;
 import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
@@ -28,24 +28,25 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
-import java.io.*;
-
-public class GDListEmployeeOfUnitController implements Initializable {
+public class GDListUnitViewController implements Initializable {
     @FXML
-    private TableView<Employee> table;
+    private TableView<Unit> table;
+    @FXML private TableColumn<Unit, String> indexCol;
+    @FXML private TableColumn<Unit, String> unitCol;
+    @FXML private TableColumn<Unit, String> roleCol;
+    @FXML private TableColumn<Unit, String> employeeCountCol;
+    @FXML private TableColumn<Unit, String> unitLeaderCol;
     @FXML
     private ImageView menuIcon;
     @FXML
-    private  ImageView menuIcon2;
+    private ImageView menuIcon2;
     @FXML
     private AnchorPane sidebar;
-    @FXML private TableColumn<Employee, String> indexCol;
-    @FXML private TableColumn<Employee, String> userIdCol;
-    @FXML private TableColumn<Employee, String> nameCol;
-    @FXML private TextField searchInput;
+    @FXML private TextField searchTextField;
     @FXML private VBox unitLeaderVbox;
     @FXML private VBox managerVbox;
     @FXML private Text userName;
@@ -53,7 +54,8 @@ public class GDListEmployeeOfUnitController implements Initializable {
     @FXML private Text roleLabel;
     private Stage stage;
     private Scene scene;
-    private ObservableList<Employee> employeeObservableList;
+
+    private ObservableList<Unit> unitObservableList;
 
     private void switchUrl(String url, ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(url + ".fxml"));
@@ -83,7 +85,6 @@ public class GDListEmployeeOfUnitController implements Initializable {
             roleLabel.setText("Nhân viên văn phòng");
         }
     }
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setSidebarInformation();
@@ -93,67 +94,57 @@ public class GDListEmployeeOfUnitController implements Initializable {
         else if(CurrentUser.getCurrentEmployee() instanceof UnitLeaderOfficer || CurrentUser.getCurrentEmployee() instanceof UnitLeaderWorker) {
             unitLeaderVbox.setVisible(true);
         }
+        List<Unit> unitList = GetData.getUnitToFile();
+        Collections.sort(unitList);
         List<Employee> employeeList = GetData.getEmployeeToFile();
-        Collections.sort(employeeList);
-        List<Employee> employeeListFilterUnit = new ArrayList<>();
-        for (Employee employee : employeeList){
-            if (employee.getUnitId() != null && employee.getUnitId().equals(UnitIdTable.getUnitId())) employeeListFilterUnit.add(employee);
+        for (Unit oneUnit : unitList) {
+            for (Employee oneEmployee : employeeList){
+                if (oneEmployee.getUnitId() != null && oneEmployee.getUnitId().equals(oneUnit.getId()))
+                    oneUnit.setEmployeeCount(oneUnit.getEmployeeCount()+1);
+                if (oneEmployee.getId() == oneUnit.getLeaderId()) oneUnit.setLeaderName(oneEmployee.getName());
+            }
         }
-        employeeObservableList = FXCollections.observableArrayList(employeeListFilterUnit);
-        table.setItems(employeeObservableList);
-        indexCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
-        userIdCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("id"));
-        nameCol.setCellValueFactory(new PropertyValueFactory<Employee, String>("name"));
+        unitObservableList = FXCollections.observableArrayList(
+                unitList
+        );
+        table.setItems(unitObservableList);
+        indexCol.setCellValueFactory(new PropertyValueFactory<Unit, String>("id"));
+        unitCol.setCellValueFactory(new PropertyValueFactory<Unit, String>("name"));
+        roleCol.setCellValueFactory(new PropertyValueFactory<Unit, String>("role"));
+        employeeCountCol.setCellValueFactory(new PropertyValueFactory<Unit, String>("employeeCount"));
+        unitLeaderCol.setCellValueFactory(new PropertyValueFactory<Unit, String>("leaderName"));
         menuIcon.setOnMouseClicked(event -> {
-            animationSidebar(-300, -200, 66.67);
+            animationSidebar(-300, -200, 40);
             menuIcon2.setVisible(true);
         });
         menuIcon2.setOnMouseClicked(event -> {
             menuIcon2.setVisible(false);
-            animationSidebar(300, 200, -66.67);
-        });
-        searchInput.setOnAction(event -> {
-            List<Employee> employeeListNew = new ArrayList<>();
-            for(Employee employee : employeeListFilterUnit){
-                if(employee.getName().toLowerCase().contains(searchInput.getText().toLowerCase())){
-                    employeeListNew.add(employee);
-                }
-            }
-            employeeObservableList = FXCollections.observableArrayList(employeeListNew);
-            table.setItems(employeeObservableList);
+            animationSidebar(300, 200, -40);
         });
         table.setRowFactory(tv -> {
-            TableRow<Employee> row = new TableRow<>();
+            TableRow<Unit> row = new TableRow<>();
             row.setOnMouseClicked(event -> {
                 if (! row.isEmpty() && event.getButton()== MouseButton.PRIMARY
                         && event.getClickCount() == 2) {
-                    Employee clickedRow = row.getItem();
-                    UserIdTable.setUserId(clickedRow.getId());
-                    Employee employee = null;
-                    for (Employee e : employeeList){
-                        if (e.getId() == clickedRow.getId()) employee = e;
+                    Unit clickedRow = row.getItem();
+                    UnitIdTable.setUnitId(clickedRow.getId());
+                    Parent root = null;
+                    try {
+                        root = FXMLLoader.load(getClass().getResource("/com/example/demo2/unitLeader/GD-ListEmployeeOfUnit.fxml"));
+                    } catch (IOException e) {
+                        throw new RuntimeException(e);
                     }
-                    if (employee instanceof Officer){
-                        Parent root = null;
-                        try {
-                            root = FXMLLoader.load(getClass().getResource("/com/example/demo2/officer/GD-OfficerXemTongQuan.fxml"));
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
-                        String css = this.getClass().getResource("/com/example/demo2/officer/GD-OfficerXemTongQuan.css").toExternalForm();
-                        root.getStylesheets().add(css);
-                        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                        scene = new Scene(root);
-                        stage.setScene(scene);
-                        stage.show();
-                    }
+                    String css = this.getClass().getResource("/com/example/demo2/unitLeader/GD-ListEmployeeOfUnit.css").toExternalForm();
+                    root.getStylesheets().add(css);
+                    stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                    scene = new Scene(root);
+                    stage.setScene(scene);
+                    stage.show();
                 }
             });
             return row;
         });
-
     }
-
     private void animationSidebar(double translateXSidebar, double translateXItem, double tableColumnWidth) {
         TranslateTransition translateTransition = new TranslateTransition(Duration.seconds(0.5), sidebar);
         TranslateTransition translateTransitionTable = new TranslateTransition(Duration.seconds(0.5), table);
@@ -161,15 +152,27 @@ public class GDListEmployeeOfUnitController implements Initializable {
         translateTransition.setByX(translateXSidebar);
         translateTransitionTable.setByX(translateXItem);
         table.setPrefWidth(table.getPrefWidth() - translateXItem);
-
-        indexCol.setPrefWidth(indexCol.getPrefWidth() + tableColumnWidth);
-        userIdCol.setPrefWidth(userIdCol.getPrefWidth() + tableColumnWidth);
-        nameCol.setPrefWidth(nameCol.getPrefWidth() + tableColumnWidth);
-
-
+//        lateSoonHours.setPrefWidth(lateSoonHours.getPrefWidth() + tableColumnWidth);
         translateTransition.play();
         translateTransitionTable.play();
+    }
 
+    public void switchToMonthView(ActionEvent event) throws IOException {
+        String url = "GD-OfficerXemTongQuan";
+        switchUrl(url, event);
+    }
+    public void switchToQuarterView(ActionEvent event) throws IOException {
+        String url = "GD-OfficerXemTongQuanQuy";
+        switchUrl(url, event);
+    }
+    public void switchToYearView(ActionEvent event) throws IOException {
+        String url = "GD-OfficerXemTongQuanNam";
+        switchUrl(url, event);
+    }
+
+    public void switchToCustomView(ActionEvent event) throws IOException {
+        String url = "GD-OfficerXemTongQuanTuyChon";
+        switchUrl(url, event);
     }
     public void switchToListEmployeeView(ActionEvent event) throws IOException {
         String url = "/com/example/demo2/unitLeader/GD-ListEmployeeOfUnit";

@@ -1,17 +1,17 @@
-.table-row-cell{
+#table .table-row-cell{
     -fx-pref-height: 56px;
     -fx-font-size: 14px;
 }
 
-.table-view .table-cell{
+#table .table-cell{
     -fx-alignment: center;
 }
 
-.table-view .table-column{
+#table .table-column{
     -fx-pref-height: 56px;
 }
 
-.table-view .scroll-bar * {
+#table .scroll-bar * {
     -fx-min-width: 0;
     -fx-pref-width: 0;
     -fx-max-width: 0;
@@ -39,4 +39,22 @@
     -fx-background-color: #1e90ff;
     -fx-border-color: #1fbdff;
     -fx-text-fill: white;
+}
+
+#tableRequest .table-row-cell{
+    -fx-pref-height: 25px;
+    -fx-font-size: 14px;
+}
+
+#tableRequest .table-cell{
+    -fx-alignment: center;
+}
+
+#tableRequest .table-column{
+    -fx-pref-height: 25px;
+}
+#tableRequest .scroll-bar * {
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
 }

@@ -1,4 +1,4 @@
-package com.example.demo2.entity;
+package com.example.demo2.Model.Officer;
 
 public class OfficerTimeSheetYear {
     private int year;

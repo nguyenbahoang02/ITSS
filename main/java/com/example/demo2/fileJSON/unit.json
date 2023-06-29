@@ -1,0 +1,72 @@
+[
+	{
+		"name": "Cras Vehicula Limited",
+		"id": 1,
+		"leaderId": 108,
+		"role": "officer",
+		"employeeCount": 0
+	},
+	{
+		"name": "Morbi Tristique LLC",
+		"id": 2,
+		"leaderId": 108,
+		"role": "officer",
+		"employeeCount": 0
+	},
+	{
+		"name": "Nibh Sit Associates",
+		"id": 3,
+		"leaderId": 104,
+		"role": "officer",
+		"employeeCount": 0
+	},
+	{
+		"name": "Magna Praesent PC",
+		"id": 4,
+		"leaderId": 109,
+		"role": "worker",
+		"employeeCount": 0
+	},
+	{
+		"name": "Nam Consulting",
+		"id": 5,
+		"leaderId": 103,
+		"role": "worker",
+		"employeeCount": 0
+	},
+	{
+		"name": "Vehicula Aliquet Foundation",
+		"id": 6,
+		"leaderId": 104,
+		"role": "worker",
+		"employeeCount": 0
+	},
+	{
+		"name": "Adipiscing Company",
+		"id": 1,
+		"leaderId": 101,
+		"role": "officer",
+		"employeeCount": 0
+	},
+	{
+		"name": "Rutrum Foundation",
+		"id": 8,
+		"leaderId": 105,
+		"role": "officer",
+		"employeeCount": 0
+	},
+	{
+		"name": "Lectus Ante Dictum Inc.",
+		"id": 9,
+		"leaderId": 108,
+		"role": "worker",
+		"employeeCount": 0
+	},
+	{
+		"name": "Natoque Penatibus Inc.",
+		"id": 10,
+		"leaderId": 106,
+		"role": "officer",
+		"employeeCount": 0
+	}
+]

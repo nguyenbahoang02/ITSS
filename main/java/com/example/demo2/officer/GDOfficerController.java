@@ -1,11 +1,15 @@
 package com.example.demo2.officer;
 
+import com.example.demo2.Model.Officer.Officer;
+import com.example.demo2.Model.Worker.Worker;
 import com.example.demo2.configure.RangeTimeView;
 import com.example.demo2.configure.UserIdCurrent;
 import com.example.demo2.configure.UserIdTable;
 import com.example.demo2.configure.configureController.CurrentUser;
-import com.example.demo2.entity.*;
-import com.google.gson.reflect.TypeToken;
+import com.example.demo2.Model.*;
+import com.example.demo2.Model.Officer.OfficerTimeSheet;
+import com.example.demo2.fileJSON.fileController.GetData;
+import com.example.demo2.fileJSON.fileController.SetData;
 import javafx.animation.FadeTransition;
 import javafx.animation.TranslateTransition;
 import javafx.collections.FXCollections;
@@ -24,16 +28,16 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.shape.Polygon;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.*;
-import com.google.gson.*;
 import java.io.*;
-import java.nio.file.*;
 
 public class GDOfficerController implements Initializable {
     @FXML
@@ -54,8 +58,10 @@ public class GDOfficerController implements Initializable {
     private ChoiceBox<String> choiceBoxYear;
     @FXML
     private Label closeApp;
-    @FXML
-    private ImageView menuIcon;
+    @FXML private Text userName;
+    @FXML private Label unitName;
+    @FXML private Text roleLabel;
+    @FXML private ImageView menuIcon;
     @FXML
     private ImageView menuIcon2;
     @FXML
@@ -75,6 +81,27 @@ public class GDOfficerController implements Initializable {
     @FXML private Label closePopup;
     @FXML private VBox unitLeaderVbox;
     @FXML private VBox managerVbox;
+    // Request
+    @FXML private AnchorPane requestPopup;
+    @FXML private AnchorPane createRequest;
+    @FXML private Label closeRequest;
+    @FXML private Label closeCreate;
+    @FXML private DatePicker datePicker;
+    @FXML private TableView<Request> tableRequest;
+    @FXML private TableColumn<Request, String> dateSendCol;
+    @FXML private TableColumn<Request, String> statusCol;
+    @FXML private TableColumn<Request, String> idRequestCol;
+    @FXML private TextField messageTextField;
+
+    @FXML private Label dateSendLabel;
+    @FXML private Label senderNameLabel;
+    @FXML private Label unitNameLabel;
+    @FXML private Label dateLabel;
+    @FXML private Label descriptionLabel;
+    @FXML private AnchorPane requestDetail;
+    @FXML private AnchorPane clonePage2;
+    @FXML private Label closeRequestPopup;
+
 
     private Stage stage;
     private Scene scene;
@@ -85,26 +112,6 @@ public class GDOfficerController implements Initializable {
 
     private ObservableList<OfficerTimeSheet> officerTimeSheets;
 
-    public List<OfficerTimeSheet> getDataToFile() {
-        try {
-            Gson gson = new Gson();
-            Reader reader = Files.newBufferedReader(Paths.get("src\\main\\java\\com\\example\\demo2\\fileJSON\\officerTimeSheet.json"));
-            List<OfficerTimeSheet> officerTimeSheetList = new Gson().fromJson(reader, new TypeToken<List<OfficerTimeSheet>>() {
-            }.getType());
-            List<OfficerTimeSheet> officerTimeSheetListFilter = new ArrayList<>();
-            for (OfficerTimeSheet oneDay : officerTimeSheetList){
-                if (oneDay.getOfficerId() == UserIdTable.getUserId()){
-                    officerTimeSheetListFilter.add(oneDay);
-                }
-            }
-            reader.close();
-            return officerTimeSheetListFilter;
-
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return null;
-    }
     private void switchUrl(String url, ActionEvent event) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource(url + ".fxml"));
         String css = this.getClass().getResource(url + ".css").toExternalForm();
@@ -114,9 +121,29 @@ public class GDOfficerController implements Initializable {
         stage.setScene(scene);
         stage.show();
     }
+    private void setSidebarInformation() {
+        Employee currentEmployee = CurrentUser.getCurrentEmployee();
+        userName.setText(currentEmployee.getName());
+        for (Unit u : GetData.getUnitToFile())
+            if (u.getId().equals(currentEmployee.getUnitId()))
+                unitName.setText(u.getName());
+        if (currentEmployee instanceof Manager) {
+            roleLabel.setText("Người quản lý");
+        }
+        else if (currentEmployee instanceof UnitLeaderOfficer || currentEmployee instanceof UnitLeaderWorker){
+            roleLabel.setText("Trưởng đơn vị");
+        }
+        else if (currentEmployee instanceof Worker) {
+            roleLabel.setText("Công nhân");
+        }
+        else if (currentEmployee instanceof Officer) {
+            roleLabel.setText("Nhân viên văn phòng");
+        }
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        setSidebarInformation();
         if (CurrentUser.getCurrentEmployee() instanceof Manager){
             managerVbox.setVisible(true);
         }
@@ -126,7 +153,7 @@ public class GDOfficerController implements Initializable {
         closeApp.setOnMouseClicked(event -> {
             System.exit(0);
         });
-        List<OfficerTimeSheet> officerTimeSheetList = this.getDataToFile();
+        List<OfficerTimeSheet> officerTimeSheetList = GetData.getOfficerTimeSheetToFile();
         Collections.sort(officerTimeSheetList);
         List<OfficerTimeSheet> officerTimeSheetOfRangeTime = new ArrayList<>();
         for (OfficerTimeSheet oneDay : officerTimeSheetList) {
@@ -227,10 +254,19 @@ public class GDOfficerController implements Initializable {
         clonePage.setOnMouseClicked(mouseEvent -> {
             clonePage.setVisible(false);
             popup.setVisible(false);
+            requestPopup.setVisible(false);
+            createRequest.setVisible(false);
         });
         closePopup.setOnMouseClicked(mouseEvent -> {
             clonePage.setVisible(false);
             popup.setVisible(false);
+        });
+        closeRequest.setOnMouseClicked(mouseEvent -> {
+            clonePage.setVisible(false);
+            requestPopup.setVisible(false);
+        });
+        closeCreate.setOnMouseClicked(mouseEvent -> {
+            createRequest.setVisible(false);
         });
     }
 
@@ -278,5 +314,122 @@ public class GDOfficerController implements Initializable {
         UserIdTable.setUserId(UserIdCurrent.getUserId());
         String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
         switchUrl(url, event);
+    }
+    public void switchToLoginView(ActionEvent event) throws IOException {
+        String url = "/com/example/demo2/login-view";
+        switchUrl(url, event);
+    }
+    public void switchToListUnit(ActionEvent event) throws IOException{
+        String url = "/com/example/demo2/manager/GD-ListUnitView";
+        switchUrl(url, event);
+    }
+    public void switchToRequestView(ActionEvent event) throws IOException{
+        String url = "/com/example/demo2/manager/GD-ListRequestView";
+        switchUrl(url, event);
+    }
+
+    public void handleOpenRequestPopup(ActionEvent event) throws IOException{
+        clonePage.setVisible(true);
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.2),clonePage);
+        fadeTransition.setFromValue(0);
+        fadeTransition.setToValue(0.15);
+        fadeTransition.play();
+        requestPopup.setVisible(true);
+        FadeTransition fadeTransition1 = new FadeTransition(Duration.seconds(0.2),requestPopup);
+        fadeTransition1.setFromValue(0);
+        fadeTransition1.setToValue(1);
+        fadeTransition1.play();
+
+        List<Request> requestList = GetData.getRequestToFile();
+        Collections.sort(requestList);
+        List<Request> requestListFilter = new ArrayList<>();
+        for (Request oneRequest : requestList) {
+            if (oneRequest.getSenderId() == UserIdCurrent.getUserId()) requestListFilter.add(oneRequest);
+        }
+        ObservableList<Request> requestObservableList = FXCollections.observableArrayList(requestListFilter);
+        tableRequest.setItems(requestObservableList);
+        dateSendCol.setCellValueFactory(new PropertyValueFactory<Request, String>("dateSend"));
+        statusCol.setCellValueFactory(new PropertyValueFactory<Request, String>("status"));
+        idRequestCol.setCellValueFactory(new PropertyValueFactory<Request, String>("id"));
+        tableRequest.setRowFactory(tv -> {
+            TableRow<Request> row = new TableRow<>();
+            row.setOnMouseClicked(event2 -> {
+                if (! row.isEmpty() && event2.getButton()== MouseButton.PRIMARY
+                        && event2.getClickCount() == 2) {
+                    Request clickedRow = row.getItem();
+                    dateSendLabel.setText(clickedRow.getDateSend());
+                    for (Employee e : GetData.getEmployeeToFile()) {
+                        if (e.getId() == clickedRow.getSenderId()){
+                            senderNameLabel.setText(e.getName());
+                            for (Unit u : GetData.getUnitToFile()) {
+                                if (u.getId().equals(e.getUnitId())) unitNameLabel.setText(u.getName());
+                            }
+                        }
+                    }
+                    dateLabel.setText(clickedRow.getDate());
+                    descriptionLabel.setText(clickedRow.getMessage());
+                    clonePage2.setVisible(true);
+                    FadeTransition fadeTransition3 = new FadeTransition(Duration.seconds(0.2),clonePage2);
+                    fadeTransition3.setFromValue(0);
+                    fadeTransition3.setToValue(0.15);
+                    fadeTransition3.play();
+                    requestDetail.setVisible(true);
+                    FadeTransition fadeTransition4 = new FadeTransition(Duration.seconds(0.2),requestDetail);
+                    fadeTransition4.setFromValue(0);
+                    fadeTransition4.setToValue(1);
+                    fadeTransition4.play();
+                    closeRequestPopup.setOnMouseClicked(mouseEvent -> {
+                        requestDetail.setVisible(false);
+                        clonePage2.setVisible(false);
+                    });
+                    clonePage2.setOnMouseClicked(mouseEvent -> {
+                        requestDetail.setVisible(false);
+                        clonePage2.setVisible(false);
+                    });
+                }
+            });
+            return row;
+        });
+    }
+    public void handleOpenCreateRequestPopup(ActionEvent event) throws IOException{
+        clonePage.setVisible(true);
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.2),clonePage);
+        fadeTransition.setFromValue(0);
+        fadeTransition.setToValue(0.15);
+        fadeTransition.play();
+        createRequest.setVisible(true);
+        FadeTransition fadeTransition1 = new FadeTransition(Duration.seconds(0.2),createRequest);
+        fadeTransition1.setFromValue(0);
+        fadeTransition1.setToValue(1);
+        fadeTransition1.play();
+    }
+    public void handleSubmitCreateRequest(ActionEvent event) throws IOException{
+        String datePickerValue = datePicker.getValue().toString();
+        LocalDate currentDate = LocalDate.now();
+        SimpleDateFormat inputFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat outputFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Date date = inputFormat.parse(datePickerValue);
+            String datePickerFormat = outputFormat.format(date);
+            Date date2 = inputFormat.parse(currentDate.toString());
+            String currentDateFormat = outputFormat.format(date2);
+            Request requestNew = new Request(UserIdCurrent.getUserId(),datePickerFormat, messageTextField.getText(), "Chưa duyệt", currentDateFormat);
+            List<Request> requestList = GetData.getRequestToFile();
+            List<Request> requestListClone = new ArrayList<>();
+            for (Request oneRequest : requestList) {
+                requestListClone.add(new Request(oneRequest.getSenderId(), oneRequest.getDate(), oneRequest.getMessage(), oneRequest.getStatus(), oneRequest.getDateSend()));
+            }
+            requestListClone.add(requestNew);
+            SetData.writeRequestToFile(requestListClone);
+
+            ObservableList<Request> requestObservableList = FXCollections.observableArrayList(requestListClone);
+            tableRequest.setItems(requestObservableList);
+            createRequest.setVisible(false);
+            requestPopup.setVisible(false);
+            clonePage.setVisible(false);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
     }
 }
