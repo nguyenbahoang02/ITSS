@@ -1,0 +1,60 @@
+#table .table-row-cell{
+    -fx-pref-height: 56px;
+    -fx-font-size: 14px;
+}
+
+#table .table-cell{
+    -fx-alignment: center;
+}
+
+#table .table-column{
+    -fx-pref-height: 56px;
+}
+
+#table .scroll-bar * {
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+
+.choice-box .menu-item {
+    -fx-pref-height: 40px;
+    -fx-pref-width: 126px;
+}
+
+#leftTriangle:hover, #rightTriangle:hover{
+    -fx-fill: #1e90ff;
+    -fx-stroke: #1fbdff;
+}
+
+.button{
+    -fx-background-color: white;
+}
+
+.button:hover{
+    -fx-background-color: #1e90ff;
+    -fx-border-color: #1fbdff;
+    -fx-text-fill: white;
+}
+
+#tableRequest .table-row-cell{
+    -fx-pref-height: 25px;
+    -fx-font-size: 14px;
+}
+
+#tableRequest .table-cell{
+    -fx-alignment: center;
+}
+
+#tableRequest .table-column{
+    -fx-pref-height: 25px;
+}
+#tableRequest .scroll-bar * {
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}

@@ -1,0 +1,34 @@
+#table .table-row-cell{
+    -fx-pref-height: 34px;
+    -fx-font-size: 14px;
+}
+
+#table .table-cell{
+    -fx-alignment: center;
+}
+
+#table .table-column{
+    -fx-pref-height: 34px;
+}
+
+#table .scroll-bar * {
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+
+.choice-box .menu-item {
+    -fx-pref-height: 40px;
+    -fx-pref-width: 126px;
+}
+
+.button{
+    -fx-background-color: white;
+}
+
+.button:hover{
+    -fx-background-color: #1e90ff;
+    -fx-border-color: #1fbdff;
+    -fx-text-fill: white;
+}
+

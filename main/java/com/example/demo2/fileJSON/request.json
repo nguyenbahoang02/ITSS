@@ -1,0 +1,51 @@
+[
+{
+  "id": 1,
+  "senderId": 1,
+  "dateSend": "29/06/2023",
+  "date": "07/06/2023",
+  "message": "em có đi làm ca sáng",
+  "status": "Đồng ý"
+},
+{
+  "id": 2,
+  "senderId": 1,
+  "dateSend": "29/06/2023",
+  "date": "14/06/2023",
+  "message": "A check lại giúp em ca chiều",
+  "status": "Từ chối"
+},
+{
+  "id": 3,
+  "senderId": 101,
+  "dateSend": "29/06/2023",
+  "date": "01/06/2023",
+  "message": "Em đi làm từ 2-4h",
+  "status": "Chưa duyệt"
+},
+{
+  "id": 4,
+  "senderId": 1001,
+  "dateSend": "29/06/2023",
+  "date": "14/06/2023",
+  "message": "abc",
+  "status": "Đồng ý"
+},
+{
+  "id": 5,
+  "senderId": 1001,
+  "dateSend": "29/06/2023",
+  "date": "30/05/2023",
+  "message": "ádfadsfadsf",
+  "status": "Từ chối"
+},
+{
+  "id": 0,
+  "senderId": 1,
+  "dateSend": "29/06/2023",
+  "date": "03/06/2023",
+  "message": "Kiểm tra lại ",
+  "status": "Đồng ý"
+}
+
+]
