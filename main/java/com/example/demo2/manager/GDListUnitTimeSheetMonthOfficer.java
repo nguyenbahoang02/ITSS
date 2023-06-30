@@ -129,7 +129,7 @@ public class GDListUnitTimeSheetMonthOfficer implements Initializable {
         setSidebarInformation();
         List<OfficerTimeSheet> officerTimeSheetList = GetData.getAllOfficerTimeSheetToFile();
         Collections.sort(officerTimeSheetList);
-        List<UnitTimeSheetMonthOfficer> UnitTimeSheetMonthOfficers = createTimeSheetOfYear(choiceBoxYear.getValue());
+        List<UnitTimeSheetMonthOfficer> UnitTimeSheetMonthOfficers = createTimeSheetOfYear(year);
         for (OfficerTimeSheet oneDay : officerTimeSheetList){
             for (UnitTimeSheetMonthOfficer oneMonth : UnitTimeSheetMonthOfficers){
                 Date dateParse= null;
@@ -142,7 +142,7 @@ public class GDListUnitTimeSheetMonthOfficer implements Initializable {
                 for (Employee e : GetData.getEmployeeToFile()){
                     if (e.getId() == oneDay.getOfficerId()) userOneDay = e;
                 }
-                if (UnitIdTable.getUnitId().equals(userOneDay.getUnitId()) && (dateParse.getYear() + 1900) == choiceBoxYear.getValue() && (dateParse.getMonth() + 1) == oneMonth.getMonth()){
+                if (UnitIdTable.getUnitId().equals(userOneDay.getUnitId()) && (dateParse.getYear() + 1900) == year && (dateParse.getMonth() + 1) == oneMonth.getMonth()){
                     if(oneDay.getMorning().equals("có")) oneMonth.setShiftCount(oneMonth.getShiftCount()+1);
                     if(oneDay.getAfternoon().equals("có")) oneMonth.setShiftCount(oneMonth.getShiftCount()+1);
                     oneMonth.setLateSoonHours(oneMonth.getLateSoonHours() + oneDay.getLateHours() + oneDay.getSoonHours());
