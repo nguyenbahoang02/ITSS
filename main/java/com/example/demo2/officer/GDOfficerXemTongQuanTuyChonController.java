@@ -292,8 +292,14 @@ public class GDOfficerXemTongQuanTuyChonController implements Initializable {
     }
     public void switchToCurrentView(ActionEvent event) throws IOException {
         UserIdTable.setUserId(UserIdCurrent.getUserId());
-        String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
-        switchUrl(url, event);
+        Employee currentUser = CurrentUser.getCurrentEmployee();
+        if (currentUser instanceof Worker ){
+            String url = "/com/example/demo2/worker/GD-WorkerXemTongQuan";
+            switchUrl(url, event);
+        } else {
+            String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
+            switchUrl(url, event);
+        }
     }
     public void switchToLoginView(ActionEvent event) throws IOException {
         String url = "/com/example/demo2/login-view";

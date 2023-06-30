@@ -8,6 +8,7 @@ import com.example.demo2.configure.configureController.CurrentUser;
 import com.example.demo2.Model.*;
 import com.example.demo2.Model.Officer.OfficerTimeSheet;
 import com.example.demo2.Model.Officer.OfficerTimeSheetYear;
+import com.example.demo2.configure.configureController.UserTableToView;
 import com.example.demo2.fileJSON.fileController.GetData;
 import com.example.demo2.fileJSON.fileController.SetData;
 import javafx.animation.FadeTransition;
@@ -81,13 +82,12 @@ public class GDOfficerXemTongQuanNamController implements Initializable {
     @FXML private Text userName;
     @FXML private Label unitName;
     @FXML private Text roleLabel;
+    @FXML private Label userNameTable;
+    @FXML private Label userIdTable;
     private Stage stage;
     private Scene scene;
 
     private  int[] years = {2020, 2021, 2022, 2023};
-    private boolean isOpen = true;
-
-    private ObservableList<OfficerTimeSheet> officerTimeSheetsList;
     private ObservableList<OfficerTimeSheetYear> officerTimeSheetYearObservableList;
 
     private void switchUrl(String url, ActionEvent event) throws IOException {
@@ -123,6 +123,10 @@ public class GDOfficerXemTongQuanNamController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setSidebarInformation();
+        userIdTable.setText("     Mã nhân viên: "+UserIdTable.getUserId());
+        userNameTable.setText("     Họ và tên: " + UserTableToView.getEmployee().getName());
+        userIdTable.setText("     Mã nhân viên: "+UserIdTable.getUserId());
+        userNameTable.setText("     Họ và tên: " + UserTableToView.getEmployee().getName());
         if (CurrentUser.getCurrentEmployee() instanceof Manager){
             managerVbox.setVisible(true);
         }
@@ -165,12 +169,10 @@ public class GDOfficerXemTongQuanNamController implements Initializable {
         menuIcon.setOnMouseClicked(event -> {
             animationSidebar(-300, -200, 66.67);
             menuIcon2.setVisible(true);
-            isOpen = false;
         });
         menuIcon2.setOnMouseClicked(event -> {
             menuIcon2.setVisible(false);
             animationSidebar(300, 200, -66.67);
-            isOpen = true;
         });
         clonePage.setOnMouseClicked(mouseEvent -> {
             clonePage.setVisible(false);
@@ -223,8 +225,14 @@ public class GDOfficerXemTongQuanNamController implements Initializable {
     }
     public void switchToCurrentView(ActionEvent event) throws IOException {
         UserIdTable.setUserId(UserIdCurrent.getUserId());
-        String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
-        switchUrl(url, event);
+        Employee currentUser = CurrentUser.getCurrentEmployee();
+        if (currentUser instanceof Worker ){
+            String url = "/com/example/demo2/worker/GD-WorkerXemTongQuan";
+            switchUrl(url, event);
+        } else {
+            String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
+            switchUrl(url, event);
+        }
     }
     public void switchToLoginView(ActionEvent event) throws IOException {
         String url = "/com/example/demo2/login-view";

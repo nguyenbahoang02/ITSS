@@ -1,20 +1,19 @@
 package com.example.demo2.Model.Worker;
 
-import com.example.demo2.Model.Officer.OfficerTimeSheetMonth;
+import com.example.demo2.Model.Officer.UnitTimeSheetMonthOfficer;
 
-public class WorkerTimeSheetMonth implements Comparable<WorkerTimeSheetMonth> {
+public class UnitTimeSheetMonthWorker implements Comparable<UnitTimeSheetMonthWorker> {
     private int year;
     private int month;
     private double workHours;
     private double overtimeHours;
 
-    public WorkerTimeSheetMonth( int year, int month, double workHours, double overtimeHours) {
+    public UnitTimeSheetMonthWorker(int year, int month, double workHours, double overtimeHours) {
         this.year = year;
         this.month = month;
         this.workHours = workHours;
         this.overtimeHours = overtimeHours;
     }
-
 
     public int getYear() {
         return year;
@@ -48,7 +47,7 @@ public class WorkerTimeSheetMonth implements Comparable<WorkerTimeSheetMonth> {
         this.overtimeHours = overtimeHours;
     }
     @Override
-    public int compareTo(WorkerTimeSheetMonth other) {
+    public int compareTo(UnitTimeSheetMonthWorker other) {
         return Integer.compare(this.month, other.month);
     }
 }

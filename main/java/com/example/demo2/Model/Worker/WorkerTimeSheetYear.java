@@ -1,24 +1,14 @@
 package com.example.demo2.Model.Worker;
 
 public class WorkerTimeSheetYear {
-    private int workerId;
     private int year;
     private double workHours;
     private double overtimeHours;
 
-    public WorkerTimeSheetYear(int workerId, int year, double workHours, double overtimeHours) {
-        this.workerId = workerId;
+    public WorkerTimeSheetYear(int year, double workHours, double overtimeHours) {
         this.year = year;
         this.workHours = workHours;
         this.overtimeHours = overtimeHours;
-    }
-
-    public int getWorkerId() {
-        return workerId;
-    }
-
-    public void setWorkerId(int workerId) {
-        this.workerId = workerId;
     }
 
     public int getYear() {

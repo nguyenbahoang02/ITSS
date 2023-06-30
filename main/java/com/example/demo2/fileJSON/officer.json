@@ -152,52 +152,52 @@
 	{
 		"id": 31,
 		"name": "Sybil Đinh",
-		"unitId": 4
+		"unitId": 7
 	},
 	{
 		"id": 32,
 		"name": "Lael Vĩnh",
-		"unitId": 4
+		"unitId": 7
 	},
 	{
 		"id": 33,
 		"name": "Selma Nguyễn",
-		"unitId": 4
+		"unitId": 7
 	},
 	{
 		"id": 34,
 		"name": "Kibo Nguyễn",
-		"unitId": 4
+		"unitId": 7
 	},
 	{
 		"id": 35,
 		"name": "Elvis Nguyễn",
-		"unitId": 4
+		"unitId": 7
 	},
 	{
 		"id": 36,
 		"name": "Winter Nguyễn",
-		"unitId": 4
+		"unitId": 7
 	},
 	{
 		"id": 37,
 		"name": "Octavia Nguyễn",
-		"unitId": 4
+		"unitId": 7
 	},
 	{
 		"id": 38,
 		"name": "Irma Thiện",
-		"unitId": 4
+		"unitId": 7
 	},
 	{
 		"id": 39,
 		"name": "Alexandra Nguyễn",
-		"unitId": 4
+		"unitId": 7
 	},
 	{
 		"id": 40,
 		"name": "Hashim Hoạn",
-		"unitId": 4
+		"unitId": 7
 	},
 	{
 		"id": 41,
@@ -248,255 +248,5 @@
 		"id": 50,
 		"name": "Erin Nguyễn",
 		"unitId": 5
-	},
-	{
-		"id": 51,
-		"name": "Walker Nguyễn",
-		"unitId": 6
-	},
-	{
-		"id": 52,
-		"name": "Tamekah Nguyễn",
-		"unitId": 6
-	},
-	{
-		"id": 53,
-		"name": "Ezra Lãnh",
-		"unitId": 6
-	},
-	{
-		"id": 54,
-		"name": "Wayne Nguyễn",
-		"unitId": 6
-	},
-	{
-		"id": 55,
-		"name": "Clare Nguyễn",
-		"unitId": 6
-	},
-	{
-		"id": 56,
-		"name": "Tamara Nguyễn",
-		"unitId": 6
-	},
-	{
-		"id": 57,
-		"name": "Linda Nguyễn",
-		"unitId": 6
-	},
-	{
-		"id": 58,
-		"name": "Linus Tiết",
-		"unitId": 6
-	},
-	{
-		"id": 59,
-		"name": "Roth Nguyễn",
-		"unitId": 6
-	},
-	{
-		"id": 60,
-		"name": "Cynthia Nguyễn",
-		"unitId": 6
-	},
-	{
-		"id": 61,
-		"name": "Kasper Nguyễn",
-		"unitId": 7
-	},
-	{
-		"id": 62,
-		"name": "Zeph Nguyễn",
-		"unitId": 7
-	},
-	{
-		"id": 63,
-		"name": "Eric Nguyễn",
-		"unitId": 7
-	},
-	{
-		"id": 64,
-		"name": "Elmo Mai",
-		"unitId": 7
-	},
-	{
-		"id": 65,
-		"name": "Simon Nguyễn",
-		"unitId": 7
-	},
-	{
-		"id": 66,
-		"name": "Joan Nguyễn",
-		"unitId": 7
-	},
-	{
-		"id": 67,
-		"name": "Channing Nguyễn",
-		"unitId": 7
-	},
-	{
-		"id": 68,
-		"name": "Daniel Hướng",
-		"unitId": 7
-	},
-	{
-		"id": 69,
-		"name": "Autumn Vương",
-		"unitId": 7
-	},
-	{
-		"id": 70,
-		"name": "Xanthus Sầm",
-		"unitId": 7
-	},
-	{
-		"id": 71,
-		"name": "Kim Nguyễn",
-		"unitId": 8
-	},
-	{
-		"id": 72,
-		"name": "Len Nguyễn",
-		"unitId": 8
-	},
-	{
-		"id": 73,
-		"name": "Marvin Nguyễn",
-		"unitId": 8
-	},
-	{
-		"id": 74,
-		"name": "Eliana Nguyễn",
-		"unitId": 8
-	},
-	{
-		"id": 75,
-		"name": "Yvette Nguyễn",
-		"unitId": 8
-	},
-	{
-		"id": 76,
-		"name": "Xena Nguyễn",
-		"unitId": 8
-	},
-	{
-		"id": 77,
-		"name": "Cally Mạch",
-		"unitId": 8
-	},
-	{
-		"id": 78,
-		"name": "Karleigh Nguyễn",
-		"unitId": 8
-	},
-	{
-		"id": 79,
-		"name": "Lester Nguyễn",
-		"unitId": 8
-	},
-	{
-		"id": 80,
-		"name": "Julian Dữu",
-		"unitId": 8
-	},
-	{
-		"id": 81,
-		"name": "Stella Nguyễn",
-		"unitId": 9
-	},
-	{
-		"id": 82,
-		"name": "Nadine Vương",
-		"unitId": 9
-	},
-	{
-		"id": 83,
-		"name": "Edan Nguyễn",
-		"unitId": 9
-	},
-	{
-		"id": 84,
-		"name": "Damian Nguyễn",
-		"unitId": 9
-	},
-	{
-		"id": 85,
-		"name": "Hamilton Hoắc",
-		"unitId": 9
-	},
-	{
-		"id": 86,
-		"name": "Ashton Nguyễn",
-		"unitId": 9
-	},
-	{
-		"id": 87,
-		"name": "Chancellor Nguyễn",
-		"unitId": 9
-	},
-	{
-		"id": 88,
-		"name": "Oleg Nguyễn",
-		"unitId": 9
-	},
-	{
-		"id": 89,
-		"name": "Kamal Nguyễn",
-		"unitId": 9
-	},
-	{
-		"id": 90,
-		"name": "Fredericka Nguyễn",
-		"unitId": 9
-	},
-	{
-		"id": 91,
-		"name": "Lucius Nguyễn",
-		"unitId": 10
-	},
-	{
-		"id": 92,
-		"name": "Armand Nguyễn",
-		"unitId": 10
-	},
-	{
-		"id": 93,
-		"name": "Kuame Nguyễn",
-		"unitId": 10
-	},
-	{
-		"id": 94,
-		"name": "Galvin Nguyễn",
-		"unitId": 10
-	},
-	{
-		"id": 95,
-		"name": "Sylvia Nguyễn",
-		"unitId": 10
-	},
-	{
-		"id": 96,
-		"name": "Charissa Nguyễn",
-		"unitId": 10
-	},
-	{
-		"id": 97,
-		"name": "Ella Nguyễn",
-		"unitId": 10
-	},
-	{
-		"id": 98,
-		"name": "Alexandra Nguyễn",
-		"unitId": 10
-	},
-	{
-		"id": 99,
-		"name": "Wallace Nguyễn",
-		"unitId": 10
-	},
-	{
-		"id": 100,
-		"name": "Camilla Nguyễn",
-		"unitId": 10
 	}
 ]

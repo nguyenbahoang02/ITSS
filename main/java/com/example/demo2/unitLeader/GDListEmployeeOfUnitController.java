@@ -146,6 +146,19 @@ public class GDListEmployeeOfUnitController implements Initializable {
                         scene = new Scene(root);
                         stage.setScene(scene);
                         stage.show();
+                    } else {
+                        Parent root = null;
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("/com/example/demo2/worker/GD-WorkerXemTongQuan.fxml"));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        String css = this.getClass().getResource("/com/example/demo2/worker/GD-WorkerXemTongQuan.css").toExternalForm();
+                        root.getStylesheets().add(css);
+                        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                        scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.show();
                     }
                 }
             });
@@ -177,8 +190,14 @@ public class GDListEmployeeOfUnitController implements Initializable {
     }
     public void switchToCurrentView(ActionEvent event) throws IOException {
         UserIdTable.setUserId(UserIdCurrent.getUserId());
-        String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
-        switchUrl(url, event);
+        Employee currentUser = CurrentUser.getCurrentEmployee();
+        if (currentUser instanceof Worker ){
+            String url = "/com/example/demo2/worker/GD-WorkerXemTongQuan";
+            switchUrl(url, event);
+        } else {
+            String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
+            switchUrl(url, event);
+        }
     }
     public void switchToLoginView(ActionEvent event) throws IOException {
         String url = "/com/example/demo2/login-view";

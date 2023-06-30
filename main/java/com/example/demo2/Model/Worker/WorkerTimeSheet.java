@@ -1,9 +1,14 @@
 package com.example.demo2.Model.Worker;
 
+import com.example.demo2.Model.Officer.OfficerTimeSheet;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-public class WorkerTimeSheet {
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class WorkerTimeSheet implements Comparable<WorkerTimeSheet> {
     private int workerId;
     private String date;
     private double workHoursShift1;
@@ -62,5 +67,18 @@ public class WorkerTimeSheet {
     public String toString() {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         return gson.toJson(this);
+    }
+    public int compareTo(WorkerTimeSheet other) {
+        return parseDate(this.date).compareTo(parseDate(other.date));
+    }
+
+    private static Date parseDate(String dateStr) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            return dateFormat.parse(dateStr);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }

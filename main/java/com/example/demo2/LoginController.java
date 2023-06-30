@@ -38,6 +38,9 @@ public class LoginController {
         if(CurrentUser.getCurrentEmployee() instanceof Officer || CurrentUser.getCurrentEmployee() instanceof UnitLeaderOfficer || CurrentUser.getCurrentEmployee() instanceof  Manager){
             String url = "officer/GD-OfficerXemTongQuan";
             switchUrl(url, event);
+        } else {
+            String url = "worker/GD-WorkerXemTongQuan";
+            switchUrl(url, event);
         }
     }
 }

@@ -3,11 +3,9 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ButtonBar?>
 <?import javafx.scene.control.ChoiceBox?>
-<?import javafx.scene.control.DatePicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -17,7 +15,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.worker.GDWorkerXemTongQuanQuyController">
+<AnchorPane prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/20.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.demo2.manager.GDListUnitTimeSheetMonthWorker">
     <children>
         <AnchorPane layoutY="34.0" prefHeight="50.0" prefWidth="1280.0">
             <children>
@@ -32,7 +30,6 @@
         <Line endX="1114.199951171875" layoutX="123.0" layoutY="85.0" startX="-100.0" />
         <AnchorPane layoutX="23.0" layoutY="85.0" prefHeight="634.0" prefWidth="1215.0">
             <children>
-                <Button layoutX="1099.0" layoutY="14.0" mnemonicParsing="false" onAction="#handleOpenRequestPopup" prefHeight="40.0" prefWidth="115.0" style="-fx-border-style: solid;" text="Request" />
                 <AnchorPane layoutX="276.0" layoutY="148.0" prefHeight="40.0" prefWidth="926.0">
                     <children>
                         <ChoiceBox fx:id="choiceBoxYear" prefHeight="40.0" prefWidth="126.0" style="-fx-background-color: white; -fx-border-style: solid;" />
@@ -45,12 +42,12 @@
                 </AnchorPane>
                 <TableView fx:id="table" layoutX="275.0" layoutY="204.0" prefHeight="393.0" prefWidth="925.0">
                     <columns>
-                        <TableColumn fx:id="quarterCol" prefWidth="308.33" text="Qúy" />
-                        <TableColumn fx:id="workHoursCol" prefWidth="308.33" text="Số giờ làm việc (Ca 1, ca 2)" />
-                        <TableColumn fx:id="overtimeHoursCol" prefWidth="308.33" text="Số giờ tăng ca (Ca 3)" />
+                        <TableColumn fx:id="monthCol" prefWidth="308.33" text="Tháng" />
+                        <TableColumn fx:id="shiftCol" prefWidth="308.33" text="Tổng số ca đi làm" />
+                        <TableColumn fx:id="lateSoonHoursCol" prefWidth="308.33" text="Tổng số giờ đi muộn, về sớm" />
                     </columns>
                 </TableView>
-                <Label layoutX="60.0" layoutY="19.0" prefHeight="63.0" prefWidth="439.0" text="Thông tin chấm công tổng quan cá nhân">
+                <Label layoutX="60.0" layoutY="14.0" prefHeight="40.0" prefWidth="734.0" text="Thông tin chấm công theo từng đơn vị">
                     <font>
                         <Font name="System Bold" size="25.0" />
                     </font>
@@ -100,84 +97,43 @@
                         <Image url="@../imgs/menu-icon.png" />
                     </image>
                 </ImageView>
-                <Label fx:id="userNameTable" contentDisplay="CENTER" layoutX="275.0" layoutY="96.0" prefHeight="38.0" prefWidth="200.0" style="-fx-border-style: solid;" text="      Họ và tên: Lê Thị Nguyệt  ">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <Label fx:id="userIdTable" contentDisplay="CENTER" layoutX="499.0" layoutY="96.0" prefHeight="38.0" prefWidth="242.0" style="-fx-border-style: solid;" text="      Mã nhân viên: ">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
+                <Button layoutX="966.0" layoutY="57.0" mnemonicParsing="false" onAction="#switchToListEmployeeView" prefHeight="26.0" prefWidth="154.0" style="-fx-border-style: solid;" text="Chi tiết nhân viên" />
+                <AnchorPane fx:id="information" layoutX="275.0" layoutY="57.0" prefHeight="74.0" prefWidth="510.0" style="-fx-border-style: solid;">
+                    <children>
+                        <Text fx:id="unitNameText" layoutX="20.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Đơn vị A">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Text>
+                        <Text layoutX="20.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Trưởng đơn vị: ">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Text>
+                        <Text fx:id="unitLeaderText" layoutX="130.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nguyễn văn A">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Text>
+                        <Text fx:id="roleText" layoutX="348.0" layoutY="27.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Officer">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Text>
+                        <Text layoutX="348.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tổng nhân viên: ">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Text>
+                        <Text fx:id="employeeCountText" layoutX="458.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="100">
+                            <font>
+                                <Font name="System Bold" size="14.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </AnchorPane>
             </children>
         </AnchorPane>
         <Label fx:id="closeApp" alignment="CENTER" layoutX="1253.0" layoutY="1.0" prefHeight="26.0" prefWidth="26.0" style="-fx-background-color: white;" text="X" textAlignment="CENTER" />
-        <AnchorPane fx:id="clonePage" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" visible="false" />
-        <AnchorPane fx:id="requestPopup" layoutX="365.0" layoutY="160.0" prefHeight="400.0" prefWidth="550.0" style="-fx-background-color: white; -fx-border-style: solid;" visible="false">
-            <children>
-                <Button layoutX="452.0" layoutY="340.0" mnemonicParsing="false" onAction="#handleOpenCreateRequestPopup" style="-fx-border-style: solid;" text="Tạo request" />
-                <Label layoutX="227.0" layoutY="39.0" text="Request" textAlignment="CENTER">
-                    <font>
-                        <Font name="System Bold" size="25.0" />
-                    </font>
-                </Label>
-                <Label fx:id="closeRequest" layoutX="527.0" layoutY="14.0" text="X" />
-                <TableView fx:id="tableRequest" layoutX="18.0" layoutY="100.0" prefHeight="230.0" prefWidth="514.0">
-                    <columns>
-                        <TableColumn fx:id="dateSendCol" minWidth="257.0" prefWidth="75.0" text="Ngày gửi" />
-                        <TableColumn fx:id="statusCol" prefWidth="257.0" text="Trạng thái" />
-                        <TableColumn fx:id="idRequestCol" prefWidth="75.0" text="id" />
-                    </columns>
-                </TableView>
-            </children>
-        </AnchorPane>
-        <AnchorPane fx:id="createRequest" layoutX="471.0" layoutY="231.0" prefHeight="258.0" prefWidth="338.0" style="-fx-background-color: white; -fx-border-style: solid;" visible="false">
-            <children>
-                <DatePicker fx:id="datePicker" layoutX="24.0" layoutY="20.0" />
-                <TextField fx:id="messageTextField" alignment="TOP_LEFT" layoutX="24.0" layoutY="57.0" prefHeight="144.0" prefWidth="290.0" />
-                <Button layoutX="270.0" layoutY="217.0" mnemonicParsing="false" onAction="#handleSubmitCreateRequest" prefHeight="26.0" prefWidth="44.0" style="-fx-border-style: solid;" text="Gửi" />
-                <Label fx:id="closeCreate" layoutX="320.0" layoutY="11.0" text="X" />
-            </children>
-        </AnchorPane>
-        <AnchorPane fx:id="clonePage2" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: black;" visible="false" />
-        <AnchorPane fx:id="requestDetail" layoutX="365.0" layoutY="160.0" prefHeight="400.0" prefWidth="550.0" style="-fx-background-color: white; -fx-border-style: solid;" visible="false">
-            <children>
-                <Label fx:id="dateSendLabel" layoutX="14.0" layoutY="14.0" prefHeight="27.0" prefWidth="235.0" text="08/05/2023">
-                    <font>
-                        <Font name="System Bold" size="18.0" />
-                    </font>
-                </Label>
-                <Label layoutX="23.0" layoutY="60.0" prefHeight="20.0" prefWidth="106.0" text="Người gửi:">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <Label layoutX="23.0" layoutY="89.0" prefHeight="20.0" prefWidth="106.0" text="Đơn vị">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <Label layoutX="23.0" layoutY="124.0" prefHeight="20.0" prefWidth="106.0" text="Ngày yêu cầu">
-                    <font>
-                        <Font size="14.0" />
-                    </font>
-                </Label>
-                <Label fx:id="senderNameLabel" layoutX="157.0" layoutY="60.0" prefHeight="20.0" prefWidth="153.0" text="8:00">
-                    <font>
-                        <Font size="14.0" />
-                    </font></Label>
-                <Label fx:id="unitNameLabel" layoutX="157.0" layoutY="89.0" prefHeight="20.0" prefWidth="140.0" text="18:00">
-                    <font>
-                        <Font size="14.0" />
-                    </font></Label>
-                <Label fx:id="dateLabel" layoutX="157.0" layoutY="124.0" prefHeight="20.0" prefWidth="153.0" text="0.5">
-                    <font>
-                        <Font size="14.0" />
-                    </font></Label>
-                <Label fx:id="closeRequestPopup" layoutX="532.0" layoutY="5.0" text="X" />
-                <Label fx:id="descriptionLabel" alignment="TOP_LEFT" layoutX="21.0" layoutY="154.0" prefHeight="172.0" prefWidth="509.0" style="-fx-border-style: solid;" text="Label" />
-            </children>
-        </AnchorPane>
     </children>
 </AnchorPane>

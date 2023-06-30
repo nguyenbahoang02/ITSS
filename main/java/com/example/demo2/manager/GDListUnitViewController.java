@@ -96,14 +96,6 @@ public class GDListUnitViewController implements Initializable {
         }
         List<Unit> unitList = GetData.getUnitToFile();
         Collections.sort(unitList);
-        List<Employee> employeeList = GetData.getEmployeeToFile();
-        for (Unit oneUnit : unitList) {
-            for (Employee oneEmployee : employeeList){
-                if (oneEmployee.getUnitId() != null && oneEmployee.getUnitId().equals(oneUnit.getId()))
-                    oneUnit.setEmployeeCount(oneUnit.getEmployeeCount()+1);
-                if (oneEmployee.getId() == oneUnit.getLeaderId()) oneUnit.setLeaderName(oneEmployee.getName());
-            }
-        }
         unitObservableList = FXCollections.observableArrayList(
                 unitList
         );
@@ -129,17 +121,32 @@ public class GDListUnitViewController implements Initializable {
                     Unit clickedRow = row.getItem();
                     UnitIdTable.setUnitId(clickedRow.getId());
                     Parent root = null;
-                    try {
-                        root = FXMLLoader.load(getClass().getResource("/com/example/demo2/unitLeader/GD-ListEmployeeOfUnit.fxml"));
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
+                    if (clickedRow.getRole().equals("worker")){
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("/com/example/demo2/manager/GD-ListUnitTimeSheetMonthWorker.fxml"));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        String css = this.getClass().getResource("/com/example/demo2/manager/GD-ListUnitTimeSheetMonthWorker.css").toExternalForm();
+                        root.getStylesheets().add(css);
+                        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                        scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.show();
+                    } else {
+                        try {
+                            root = FXMLLoader.load(getClass().getResource("/com/example/demo2/manager/GD-ListUnitTimeSheetMonthOfficer.fxml"));
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                        String css = this.getClass().getResource("/com/example/demo2/manager/GD-ListUnitTimeSheetMonthOfficer.css").toExternalForm();
+                        root.getStylesheets().add(css);
+                        stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
+                        scene = new Scene(root);
+                        stage.setScene(scene);
+                        stage.show();
                     }
-                    String css = this.getClass().getResource("/com/example/demo2/unitLeader/GD-ListEmployeeOfUnit.css").toExternalForm();
-                    root.getStylesheets().add(css);
-                    stage = (Stage) ((Node)event.getSource()).getScene().getWindow();
-                    scene = new Scene(root);
-                    stage.setScene(scene);
-                    stage.show();
+
                 }
             });
             return row;
@@ -180,8 +187,14 @@ public class GDListUnitViewController implements Initializable {
     }
     public void switchToCurrentView(ActionEvent event) throws IOException {
         UserIdTable.setUserId(UserIdCurrent.getUserId());
-        String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
-        switchUrl(url, event);
+        Employee currentUser = CurrentUser.getCurrentEmployee();
+        if (currentUser instanceof Worker ){
+            String url = "/com/example/demo2/worker/GD-WorkerXemTongQuan";
+            switchUrl(url, event);
+        } else {
+            String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
+            switchUrl(url, event);
+        }
     }
     public void switchToLoginView(ActionEvent event) throws IOException {
         String url = "/com/example/demo2/login-view";

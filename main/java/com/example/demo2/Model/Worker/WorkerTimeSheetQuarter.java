@@ -1,26 +1,18 @@
 package com.example.demo2.Model.Worker;
 
-public class WorkerTimeSheetQuarter {
-    private int workerId;
+import com.example.demo2.Model.Officer.OfficerTimeSheetQuarter;
+
+public class WorkerTimeSheetQuarter implements Comparable<WorkerTimeSheetQuarter> {
     private int year;
     private int quarterCount;
     private double workHours;
     private double overtimeHours;
 
-    public WorkerTimeSheetQuarter(int workerId, int year, int quarterCount, double workHours, double overtimeHours) {
-        this.workerId = workerId;
+    public WorkerTimeSheetQuarter( int year, int quarterCount, double workHours, double overtimeHours) {
         this.year = year;
         this.quarterCount = quarterCount;
         this.workHours = workHours;
         this.overtimeHours = overtimeHours;
-    }
-
-    public int getWorkerId() {
-        return workerId;
-    }
-
-    public void setWorkerId(int workerId) {
-        this.workerId = workerId;
     }
 
     public int getYear() {
@@ -53,5 +45,9 @@ public class WorkerTimeSheetQuarter {
 
     public void setOvertimeHours(double overtimeHours) {
         this.overtimeHours = overtimeHours;
+    }
+    @Override
+    public int compareTo(WorkerTimeSheetQuarter other) {
+        return Integer.compare(this.quarterCount, other.quarterCount);
     }
 }
