@@ -1,0 +1,37 @@
+.table-row-cell{
+    -fx-pref-height: 30px;
+    -fx-font-size: 14px;
+}
+
+.table-view .table-cell{
+    -fx-alignment: center;
+}
+
+.table-view .table-column{
+    -fx-pref-height: 30px;
+}
+
+.table-view .scroll-bar * {
+    -fx-min-width: 0;
+    -fx-pref-width: 0;
+    -fx-max-width: 0;
+
+    -fx-min-height: 0;
+    -fx-pref-height: 0;
+    -fx-max-height: 0;
+}
+
+.choice-box .menu-item {
+    -fx-pref-height: 40px;
+    -fx-pref-width: 126px;
+}
+
+.button{
+    -fx-background-color: white;
+}
+
+.button:hover{
+    -fx-background-color: #1e90ff;
+    -fx-border-color: #1fbdff;
+    -fx-text-fill: white;
+}

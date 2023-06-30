@@ -1,7 +1,10 @@
 package com.example.demo2.manager;
 
 import com.example.demo2.Model.Officer.Officer;
+import com.example.demo2.Model.Officer.OfficerTimeSheet;
 import com.example.demo2.Model.Worker.Worker;
+import com.example.demo2.Model.Worker.WorkerTimeSheet;
+import com.example.demo2.Model.Worker.WorkerTimeSheetYear;
 import com.example.demo2.configure.UserIdCurrent;
 import com.example.demo2.configure.UserIdTable;
 import com.example.demo2.configure.configureController.CurrentUser;
@@ -69,6 +72,36 @@ public class GDListRequestController implements Initializable {
     @FXML private Label unitName;
     @FXML private Text roleLabel;
     // Request
+    @FXML private Button updateBtn;
+    //update Officer
+    @FXML private Label dateSendLabel1;
+    @FXML private Label userIdUpdate;
+    @FXML private Label unitIdUpdate;
+    @FXML private Label userNameUpdate;
+    @FXML private Label unitNameUpdate;
+    @FXML private Label roleUpdate;
+    @FXML private CheckBox isMorning;
+    @FXML private CheckBox isAfternoon;
+    @FXML private TextField startTimeUpdate;
+    @FXML private TextField endTimeUpdate;
+    @FXML private TextField lateHoursUpdate;
+    @FXML private TextField soonHoursUpdate;
+    @FXML private AnchorPane updateOfficer;
+// worker
+    @FXML private AnchorPane updateWorker;
+    @FXML private Label workerIdUpdate;
+    @FXML private Label unitWokerIdUpdate;
+    @FXML private Label workerNameUpdate;
+    @FXML private Label unitWorkerNameUpdate;
+    @FXML private Label roleUpdate2;
+    @FXML private TextField shift1LabelUpdate;
+    @FXML private TextField shift2LabelUpdate;
+    @FXML private TextField shift3LabelUpdate;
+    @FXML private Label dateSendLabel11;
+
+    @FXML private AnchorPane clonePage1;
+
+
     private Stage stage;
     private Scene scene;
     private  String[] month = {"tháng 1","tháng 2", "tháng 3", "tháng 4", "tháng 5", "tháng 6", "tháng 7", "tháng 8", "tháng 9", "tháng 10", "tháng 11", "tháng 12"};
@@ -105,6 +138,21 @@ public class GDListRequestController implements Initializable {
         }
     }
 
+    private OfficerTimeSheet getOfficerTimeSheetOfDate(String date, int officerId){
+        for(OfficerTimeSheet officerTimeSheet : GetData.getAllOfficerTimeSheetToFile()){
+            if (officerTimeSheet.getDate().equals(date) && officerTimeSheet.getOfficerId() == officerId)
+                return officerTimeSheet;
+        }
+        return null;
+    }
+    private WorkerTimeSheet getWorkerTimeSheetOfDate(String date, int officerId){
+        for(WorkerTimeSheet workerTimeSheet : GetData.getAllWorkerTimeSheetToFile()){
+            if (workerTimeSheet.getDate().equals(date) && workerTimeSheet.getWorkerId() == officerId)
+                return workerTimeSheet;
+        }
+        return null;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         setSidebarInformation();
@@ -125,7 +173,7 @@ public class GDListRequestController implements Initializable {
         table.setItems(requestObservableList);
         dateCol.setCellValueFactory(new PropertyValueFactory<Request, String>("dateSend"));
         statusCol.setCellValueFactory(new PropertyValueFactory<Request, String>("status"));
-        senderIdCol.setCellValueFactory(new PropertyValueFactory<Request, String>("id"));
+        senderIdCol.setCellValueFactory(new PropertyValueFactory<Request, String>("senderId"));
 
         menuIcon.setOnMouseClicked(event -> {
             animationSidebar(-300, -200, 40);
@@ -147,17 +195,58 @@ public class GDListRequestController implements Initializable {
                     if (!clickedRow.getStatus().equals("Chưa duyệt")){
                         acceptRequestBtn.setVisible(false);
                         rejectRequestBtn.setVisible(false);
+                        updateBtn.setVisible(false);
                     }
                     else {
                         acceptRequestBtn.setVisible(true);
                         rejectRequestBtn.setVisible(true);
+                        updateBtn.setVisible(true);
                     }
-                    dateSendLabel.setText(clickedRow.getDateSend());
+                    dateSendLabel1.setText(clickedRow.getDate());
+                    dateSendLabel.setText(clickedRow.getDate());
+                    dateSendLabel11.setText(clickedRow.getDate());
+
                     for (Employee e : GetData.getEmployeeToFile()) {
                         if (e.getId() == clickedRow.getSenderId()){
                             senderNameLabel.setText(e.getName());
                             for (Unit u : GetData.getUnitToFile()) {
-                                if (u.getId().equals(e.getUnitId())) unitNameLabel.setText(u.getName());
+                                if (u.getId().equals(e.getUnitId())) {
+                                    unitNameLabel.setText(u.getName());
+                                    unitNameUpdate.setText(u.getName());
+                                    unitWokerIdUpdate.setText(u.getName());
+                                    if (e instanceof Worker){
+                                        workerIdUpdate.setText(e.getId()+"");
+                                        workerNameUpdate.setText(e.getName());
+                                        roleUpdate2.setText("Công nhân");
+                                        unitWorkerNameUpdate.setText(u.getName());
+                                        unitWokerIdUpdate.setText(u.getId());
+                                        WorkerTimeSheet sheetUpdate = getWorkerTimeSheetOfDate(clickedRow.getDate(), clickedRow.getSenderId());
+                                        if (sheetUpdate != null){
+                                            shift1LabelUpdate.setText(sheetUpdate.getWorkHoursShift1()+"");
+                                            shift2LabelUpdate.setText(sheetUpdate.getWorkHoursShift2()+"");
+                                            shift3LabelUpdate.setText(sheetUpdate.getWorkHoursShift3()+"");
+                                        }
+                                    }
+                                    else {
+                                        userIdUpdate.setText(e.getId()+"");
+                                        userNameUpdate.setText(e.getName());
+                                        roleUpdate.setText("Nhân viên văn phòng");
+                                        unitNameLabel.setText(u.getName());
+                                        unitIdUpdate.setText(u.getId());
+                                        OfficerTimeSheet sheetUpdate = getOfficerTimeSheetOfDate(clickedRow.getDate(), clickedRow.getSenderId());
+                                        if(sheetUpdate != null){
+                                            if (sheetUpdate.getAfternoon().equals("có")) isAfternoon.setSelected(true);
+                                            else isAfternoon.setIndeterminate(false);
+                                            if (sheetUpdate.getMorning().equals("có")) isMorning.setSelected(true);
+                                            else isAfternoon.setIndeterminate(false);
+                                            startTimeUpdate.setText(sheetUpdate.getStartTime());
+                                            endTimeUpdate.setText(sheetUpdate.getEndTime());
+                                            lateHoursUpdate.setText(sheetUpdate.getLateHours()+"");
+                                            soonHoursUpdate.setText(sheetUpdate.getSoonHours()+"");
+                                        }
+
+                                    }
+                                }
                             }
                         }
                     }
@@ -209,6 +298,11 @@ public class GDListRequestController implements Initializable {
             clonePage.setVisible(false);
             popup.setVisible(false);
         });
+        clonePage1.setOnMouseClicked(mouseEvent -> {
+            clonePage1.setVisible(false);
+            updateOfficer.setVisible(false);
+            updateWorker.setVisible(false);
+        });
     }
 
     private void animationSidebar(double translateXSidebar, double translateXItem, double tableColumnWidth) {
@@ -229,18 +323,20 @@ public class GDListRequestController implements Initializable {
 
     }
 
-    public void switchToMonthView(ActionEvent event) throws IOException {
-        String url = "GD-OfficerXemTongQuan";
-        switchUrl(url, event);
-    }
     public void switchToListEmployeeView(ActionEvent event) throws IOException {
         String url = "/com/example/demo2/unitLeader/GD-ListEmployeeOfUnit";
         switchUrl(url, event);
     }
     public void switchToCurrentView(ActionEvent event) throws IOException {
         UserIdTable.setUserId(UserIdCurrent.getUserId());
-        String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
-        switchUrl(url, event);
+        Employee currentUser = CurrentUser.getCurrentEmployee();
+        if (currentUser instanceof Worker ){
+            String url = "/com/example/demo2/worker/GD-WorkerXemTongQuan";
+            switchUrl(url, event);
+        } else {
+            String url = "/com/example/demo2/officer/GD-OfficerXemTongQuan";
+            switchUrl(url, event);
+        }
     }
     public void switchToLoginView(ActionEvent event) throws IOException {
         String url = "/com/example/demo2/login-view";
@@ -253,6 +349,74 @@ public class GDListRequestController implements Initializable {
     public void switchToRequestView(ActionEvent event) throws IOException{
         String url = "/com/example/demo2/manager/GD-ListRequestView";
         switchUrl(url, event);
+    }
+    public void handleSubmitOfficer(ActionEvent event) throws  IOException {
+        int id = Integer.parseInt(userIdUpdate.getText());
+        List<OfficerTimeSheet> officerTimeSheetList = GetData.getAllOfficerTimeSheetToFile();
+        List<OfficerTimeSheet> timeSheetsClone = new ArrayList<>();
+        OfficerTimeSheet officerTimeSheet = getOfficerTimeSheetOfDate(dateSendLabel.getText(), id);
+        if (officerTimeSheet == null){
+            OfficerTimeSheet newTimeSheet = new OfficerTimeSheet(dateSendLabel.getText(), "không","không",Double.parseDouble(lateHoursUpdate.getText()), Double.parseDouble(soonHoursUpdate.getText()), startTimeUpdate.getText(), endTimeUpdate.getText(), id);
+            if (isAfternoon.isSelected()) newTimeSheet.setAfternoon("có");
+            else  newTimeSheet.setAfternoon("không");
+            if (isMorning.isSelected()) newTimeSheet.setMorning("có");
+            else  newTimeSheet.setMorning("không");
+            officerTimeSheetList.add(newTimeSheet);
+            SetData.writeOfficerTimeSheetToFile(officerTimeSheetList);
+        }
+        else {
+            for (OfficerTimeSheet oneDay : officerTimeSheetList){
+                if (oneDay.getDate().equals(dateSendLabel1.getText()) && id == oneDay.getOfficerId()){
+                    if (isAfternoon.isSelected()) oneDay.setAfternoon("có");
+                    else  oneDay.setAfternoon("không");
+                    if (isMorning.isSelected()) oneDay.setMorning("có");
+                    else  oneDay.setMorning("không");
+                    oneDay.setEndTime(endTimeUpdate.getText());
+                    oneDay.setStartTime(startTimeUpdate.getText());
+                    oneDay.setLateHours(Double.parseDouble(lateHoursUpdate.getText()));
+                    oneDay.setSoonHours(Double.parseDouble(soonHoursUpdate.getText()));
+                }
+                timeSheetsClone.add(oneDay);
+            }
+        }
+        SetData.writeOfficerTimeSheetToFile(timeSheetsClone);
+        clonePage1.setVisible(false);
+        updateOfficer.setVisible(false);
+    }
+    public void handleSubmitWorker(ActionEvent event) throws IOException {
+        int id = Integer.parseInt(workerIdUpdate.getText());
+        WorkerTimeSheet workerTimeSheet = getWorkerTimeSheetOfDate(dateSendLabel.getText(), id);
+        List<WorkerTimeSheet> timeSheetsClone = new ArrayList<>();
+        if (workerTimeSheet == null){
+            WorkerTimeSheet newTimeSheet = new WorkerTimeSheet(id, dateSendLabel.getText(), Double.parseDouble(shift1LabelUpdate.getText()), Double.parseDouble(shift2LabelUpdate.getText()), Double.parseDouble(shift3LabelUpdate.getText()));
+            timeSheetsClone = GetData.getAllWorkerTimeSheetToFile();
+            timeSheetsClone.add(newTimeSheet);
+        }
+        else {
+            for (WorkerTimeSheet oneDay : GetData.getAllWorkerTimeSheetToFile()){
+                if (oneDay.getDate().equals(dateSendLabel1.getText()) && id == oneDay.getWorkerId()){
+                    oneDay.setWorkHoursShift1(Double.parseDouble(shift1LabelUpdate.getText()));
+                    oneDay.setWorkHoursShift2(Double.parseDouble(shift2LabelUpdate.getText()));
+                    oneDay.setWorkHoursShift3(Double.parseDouble(shift3LabelUpdate.getText()));
+                }
+                timeSheetsClone.add(oneDay);
+            }
+        }
+        SetData.writeWorkerTimeSheetToFile(timeSheetsClone);
+        clonePage1.setVisible(false);
+        updateOfficer.setVisible(false);
+    }
+    public void handleOpenUpdate(ActionEvent event) throws IOException{
+        clonePage1.setVisible(true);
+        FadeTransition fadeTransition = new FadeTransition(Duration.seconds(0.2),clonePage1);
+        fadeTransition.setFromValue(0);
+        fadeTransition.setToValue(0.15);
+        fadeTransition.play();
+        if (roleUpdate2.getText().equals("Công nhân")){
+            updateWorker.setVisible(true);
+        }else {
+            updateOfficer.setVisible(true);
+        }
     }
 
 }

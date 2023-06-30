@@ -16,4 +16,6 @@ module com.example.demo2 {
     opens com.example.demo2.Model.Officer to com.google.gson, javafx.fxml;
     exports com.example.demo2.Model.Worker;
     opens com.example.demo2.Model.Worker to com.google.gson, javafx.fxml;
+    exports com.example.demo2.worker;
+    opens com.example.demo2.worker to com.google.gson, javafx.fxml;
 }
