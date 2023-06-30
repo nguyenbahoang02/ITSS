@@ -195,10 +195,12 @@ public class GDListRequestController implements Initializable {
                     if (!clickedRow.getStatus().equals("Chưa duyệt")){
                         acceptRequestBtn.setVisible(false);
                         rejectRequestBtn.setVisible(false);
+                        updateBtn.setVisible(false);
                     }
                     else {
                         acceptRequestBtn.setVisible(true);
                         rejectRequestBtn.setVisible(true);
+                        updateBtn.setVisible(true);
                     }
                     dateSendLabel1.setText(clickedRow.getDate());
                     dateSendLabel.setText(clickedRow.getDate());
@@ -352,18 +354,30 @@ public class GDListRequestController implements Initializable {
         int id = Integer.parseInt(userIdUpdate.getText());
         List<OfficerTimeSheet> officerTimeSheetList = GetData.getAllOfficerTimeSheetToFile();
         List<OfficerTimeSheet> timeSheetsClone = new ArrayList<>();
-        for (OfficerTimeSheet oneDay : officerTimeSheetList){
-            if (oneDay.getDate().equals(dateSendLabel1.getText()) && id == oneDay.getOfficerId()){
-                if (isAfternoon.isSelected()) oneDay.setAfternoon("có");
-                else  oneDay.setAfternoon("không");
-                if (isMorning.isSelected()) oneDay.setMorning("có");
-                else  oneDay.setMorning("không");
-                oneDay.setEndTime(endTimeUpdate.getText());
-                oneDay.setStartTime(startTimeUpdate.getText());
-                oneDay.setLateHours(Double.parseDouble(lateHoursUpdate.getText()));
-                oneDay.setSoonHours(Double.parseDouble(soonHoursUpdate.getText()));
+        OfficerTimeSheet officerTimeSheet = getOfficerTimeSheetOfDate(dateSendLabel.getText(), id);
+        if (officerTimeSheet == null){
+            OfficerTimeSheet newTimeSheet = new OfficerTimeSheet(dateSendLabel.getText(), "không","không",Double.parseDouble(lateHoursUpdate.getText()), Double.parseDouble(soonHoursUpdate.getText()), startTimeUpdate.getText(), endTimeUpdate.getText(), id);
+            if (isAfternoon.isSelected()) newTimeSheet.setAfternoon("có");
+            else  newTimeSheet.setAfternoon("không");
+            if (isMorning.isSelected()) newTimeSheet.setMorning("có");
+            else  newTimeSheet.setMorning("không");
+            officerTimeSheetList.add(newTimeSheet);
+            SetData.writeOfficerTimeSheetToFile(officerTimeSheetList);
+        }
+        else {
+            for (OfficerTimeSheet oneDay : officerTimeSheetList){
+                if (oneDay.getDate().equals(dateSendLabel1.getText()) && id == oneDay.getOfficerId()){
+                    if (isAfternoon.isSelected()) oneDay.setAfternoon("có");
+                    else  oneDay.setAfternoon("không");
+                    if (isMorning.isSelected()) oneDay.setMorning("có");
+                    else  oneDay.setMorning("không");
+                    oneDay.setEndTime(endTimeUpdate.getText());
+                    oneDay.setStartTime(startTimeUpdate.getText());
+                    oneDay.setLateHours(Double.parseDouble(lateHoursUpdate.getText()));
+                    oneDay.setSoonHours(Double.parseDouble(soonHoursUpdate.getText()));
+                }
+                timeSheetsClone.add(oneDay);
             }
-            timeSheetsClone.add(oneDay);
         }
         SetData.writeOfficerTimeSheetToFile(timeSheetsClone);
         clonePage1.setVisible(false);
@@ -371,14 +385,22 @@ public class GDListRequestController implements Initializable {
     }
     public void handleSubmitWorker(ActionEvent event) throws IOException {
         int id = Integer.parseInt(workerIdUpdate.getText());
+        WorkerTimeSheet workerTimeSheet = getWorkerTimeSheetOfDate(dateSendLabel.getText(), id);
         List<WorkerTimeSheet> timeSheetsClone = new ArrayList<>();
-        for (WorkerTimeSheet oneDay : GetData.getAllWorkerTimeSheetToFile()){
-            if (oneDay.getDate().equals(dateSendLabel1.getText()) && id == oneDay.getWorkerId()){
-                oneDay.setWorkHoursShift1(Double.parseDouble(shift1LabelUpdate.getText()));
-                oneDay.setWorkHoursShift2(Double.parseDouble(shift2LabelUpdate.getText()));
-                oneDay.setWorkHoursShift3(Double.parseDouble(shift3LabelUpdate.getText()));
+        if (workerTimeSheet == null){
+            WorkerTimeSheet newTimeSheet = new WorkerTimeSheet(id, dateSendLabel.getText(), Double.parseDouble(shift1LabelUpdate.getText()), Double.parseDouble(shift2LabelUpdate.getText()), Double.parseDouble(shift3LabelUpdate.getText()));
+            timeSheetsClone = GetData.getAllWorkerTimeSheetToFile();
+            timeSheetsClone.add(newTimeSheet);
+        }
+        else {
+            for (WorkerTimeSheet oneDay : GetData.getAllWorkerTimeSheetToFile()){
+                if (oneDay.getDate().equals(dateSendLabel1.getText()) && id == oneDay.getWorkerId()){
+                    oneDay.setWorkHoursShift1(Double.parseDouble(shift1LabelUpdate.getText()));
+                    oneDay.setWorkHoursShift2(Double.parseDouble(shift2LabelUpdate.getText()));
+                    oneDay.setWorkHoursShift3(Double.parseDouble(shift3LabelUpdate.getText()));
+                }
+                timeSheetsClone.add(oneDay);
             }
-            timeSheetsClone.add(oneDay);
         }
         SetData.writeWorkerTimeSheetToFile(timeSheetsClone);
         clonePage1.setVisible(false);
