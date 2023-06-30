@@ -122,7 +122,7 @@ public class GDOfficerXemTongQuanController implements Initializable {
         setSidebarInformation();
         List<OfficerTimeSheet> officerTimeSheetList = GetData.getOfficerTimeSheetToFile();
         Collections.sort(officerTimeSheetList);
-        List<OfficerTimeSheetMonth> officerTimeSheetMonths = createTimeSheetOfYear(choiceBoxYear.getValue());
+        List<OfficerTimeSheetMonth> officerTimeSheetMonths = createTimeSheetOfYear(year);
         for (OfficerTimeSheet oneDay : officerTimeSheetList){
             for (OfficerTimeSheetMonth oneMonth : officerTimeSheetMonths){
                 Date dateParse= null;
@@ -131,7 +131,7 @@ public class GDOfficerXemTongQuanController implements Initializable {
                 } catch (ParseException e) {
                     throw new RuntimeException(e);
                 }
-                if ((dateParse.getYear() + 1900) == choiceBoxYear.getValue() && (dateParse.getMonth() + 1) == oneMonth.getMonth()){
+                if ((dateParse.getYear() + 1900) == year && (dateParse.getMonth() + 1) == oneMonth.getMonth()){
                     if(oneDay.getMorning().equals("có")) oneMonth.setShiftCount(oneMonth.getShiftCount()+1);
                     if(oneDay.getAfternoon().equals("có")) oneMonth.setShiftCount(oneMonth.getShiftCount()+1);
                     oneMonth.setLateSoonHours(oneMonth.getLateSoonHours() + oneDay.getLateHours() + oneDay.getSoonHours());
